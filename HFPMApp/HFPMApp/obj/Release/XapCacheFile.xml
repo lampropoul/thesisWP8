@@ -1,0 +1,15 @@
+﻿<xapCache source="C:\Users\Basilis\Documents\Visual Studio 2012\Projects\HFPMApp\HFPMApp\Bin\Release\HFPMApp_Release_AnyCPU.xap" wasSigned="False" wasTritonized="False" certificateThumbprint="" TimeStampUrl="" signKeyFile="" signKeyPassword="" lastWriteTime="23/06/2013 18:18:46">
+  <file source="C:\Users\Basilis\Documents\Visual Studio 2012\Projects\HFPMApp\HFPMApp\obj\Release\HFPMApp.dll" archivePath="HFPMApp.dll" lastWriteTime="23/06/2013 18:18:45" />
+  <file source="C:\Users\Basilis\Documents\Visual Studio 2012\Projects\HFPMApp\HFPMApp\Assets\AlignmentGrid.png" archivePath="Assets\AlignmentGrid.png" lastWriteTime="07/04/2013 12:59:49" />
+  <file source="C:\Users\Basilis\Documents\Visual Studio 2012\Projects\HFPMApp\HFPMApp\Assets\Tiles\FlipCycleTileLarge.png" archivePath="Assets\Tiles\FlipCycleTileLarge.png" lastWriteTime="07/04/2013 12:59:49" />
+  <file source="C:\Users\Basilis\Documents\Visual Studio 2012\Projects\HFPMApp\HFPMApp\Assets\Tiles\FlipCycleTileSmall.png" archivePath="Assets\Tiles\FlipCycleTileSmall.png" lastWriteTime="07/04/2013 12:59:49" />
+  <file source="C:\Users\Basilis\Documents\Visual Studio 2012\Projects\HFPMApp\HFPMApp\Assets\Tiles\IconicTileMediumLarge.png" archivePath="Assets\Tiles\IconicTileMediumLarge.png" lastWriteTime="07/04/2013 12:59:49" />
+  <file source="C:\Users\Basilis\Documents\Visual Studio 2012\Projects\HFPMApp\HFPMApp\Assets\Tiles\IconicTileSmall.png" archivePath="Assets\Tiles\IconicTileSmall.png" lastWriteTime="07/04/2013 12:59:49" />
+  <file source="C:\Users\Basilis\Documents\Visual Studio 2012\Projects\HFPMApp\HFPMApp\hospital.sdf" archivePath="hospital.sdf" lastWriteTime="24/04/2013 11:16:29" />
+  <file source="C:\Users\Basilis\Documents\Visual Studio 2012\Projects\HFPMApp\HFPMApp\SplashScreenImage.jpg" archivePath="SplashScreenImage.jpg" lastWriteTime="05/03/2013 12:13:32" />
+  <file source="C:\Users\Basilis\Documents\Visual Studio 2012\Projects\HFPMApp\HFPMApp\Bin\Release\AppManifest.xaml" archivePath="AppManifest.xaml" lastWriteTime="23/06/2013 18:18:46" />
+  <file source="C:\Users\Basilis\Documents\Visual Studio 2012\Projects\HFPMApp\HFPMApp\Bin\Release\Assets\ApplicationIcon.png" archivePath="Assets\ApplicationIcon.png" lastWriteTime="07/04/2013 12:59:49" />
+  <file source="C:\Users\Basilis\Documents\Visual Studio 2012\Projects\HFPMApp\HFPMApp\Bin\Release\Assets\Tiles\FlipCycleTileMedium.png" archivePath="Assets\Tiles\FlipCycleTileMedium.png" lastWriteTime="07/04/2013 12:59:49" />
+  <file source="C:\Program Files (x86)\Microsoft SDKs\Windows Phone\v8.0\Libraries\Microsoft.Phone.Controls.dll" archivePath="Microsoft.Phone.Controls.dll" lastWriteTime="03/03/2013 18:40:38" />
+  <file source="C:\Users\Basilis\Documents\Visual Studio 2012\Projects\HFPMApp\HFPMApp\Bin\Release\Properties\WMAppManifest.xml" archivePath="WMAppManifest.xml" lastWriteTime="23/06/2013 18:18:46" />
+</xapCache>

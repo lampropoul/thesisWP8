@@ -1,0 +1,5 @@
+C:\Users\Basilis\Documents\Visual Studio 2012\Projects\HFPMApp\HFPM_WS\bin\HFPM_WS.dll
+C:\Users\Basilis\Documents\Visual Studio 2012\Projects\HFPMApp\HFPM_WS\bin\HFPM_WS.pdb
+C:\Users\Basilis\Documents\Visual Studio 2012\Projects\HFPMApp\HFPM_WS\obj\Debug\HFPM_WS.csprojResolveAssemblyReference.cache
+C:\Users\Basilis\Documents\Visual Studio 2012\Projects\HFPMApp\HFPM_WS\obj\Debug\HFPM_WS.dll
+C:\Users\Basilis\Documents\Visual Studio 2012\Projects\HFPMApp\HFPM_WS\obj\Debug\HFPM_WS.pdb

@@ -1,0 +1,88 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="HFPMApp.RegisterPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d"
+    shell:SystemTray.IsVisible="True">
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--TitlePanel contains the name of the application and page title-->
+        <StackPanel Grid.Row="0" Margin="12,17,0,28">
+            <TextBlock x:Name="Title" Text="Health Facilities Personnel Management App" Style="{StaticResource PhoneTextNormalStyle}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock x:Name="Register" Text="Register" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </StackPanel>
+        <ScrollViewer Margin="14,133,10,10" Grid.RowSpan="2" RenderTransformOrigin="0.5,0.675">
+        	<Grid x:Name="ContentPanel" Height="984" Width="456">
+        		<TextBox x:Name="username" HorizontalAlignment="Right" Height="72" Margin="0,33,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="456"/>
+        		<PasswordBox x:Name="password1" HorizontalAlignment="Left" Margin="0,127,0,0" VerticalAlignment="Top" Width="456"/>
+                <PasswordBox x:Name="password2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,221,0,0" Width="456"/>
+        		<TextBox x:Name="userteam" HorizontalAlignment="Left" Height="72" Margin="0,508,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="456"/>
+        		<TextBox x:Name="name" HorizontalAlignment="Right" Height="72" Margin="0,313,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="456"/>
+        		<TextBox x:Name="surname" HorizontalAlignment="Left" Height="72" Margin="0,412,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="456"/>
+        		<TextBox x:Name="amka" HorizontalAlignment="Left" Height="72" Margin="0,598,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="456"/>
+        		<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Margin="10,105,0,0">
+        			<Run Text="Password"/>
+        			<LineBreak/>
+        			<Run/>
+        		</TextBlock>
+        		<TextBox x:Name="department" HorizontalAlignment="Left" Height="72" Margin="0,693,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="456"/>
+        		<TextBox x:Name="id" HorizontalAlignment="Left" Height="72" Margin="0,765,0,0" TextWrapping="Wrap" Text="ID&#xA;" VerticalAlignment="Top" Width="456"/>
+        		<Button x:Name="createUser" Click="createNewUser"  Content="Create account" HorizontalAlignment="Left" Margin="107,914,0,0" VerticalAlignment="Top" Width="249"/>
+        		<TextBox x:Name="errorbox" HorizontalAlignment="Left" Height="72" Margin="0,842,0,0" TextWrapping="Wrap" Text="message" VerticalAlignment="Top" Width="456"/>
+                <TextBlock x:Name="username_block" HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Margin="10,10,0,0">
+                	<Run Text="Username"/>
+                	<LineBreak/>
+                	<Run/>
+                </TextBlock>
+                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Margin="14,199,0,0">
+                	<Run Text="Password Again"/>
+                	<LineBreak/>
+                	<Run/>
+                </TextBlock>
+                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Margin="16,484,0,0">
+                	<Run Text="Userteam"/>
+                	<LineBreak/>
+                	<Run/>
+                </TextBlock>
+                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Margin="14,293,0,0">
+                	<Run Text="First Name"/>
+                	<LineBreak/>
+                </TextBlock>
+                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Margin="16,385,0,0">
+                	<Run Text="Last Name"/>
+                	<LineBreak/>
+                	<Run/>
+                </TextBlock>
+                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Margin="16,580,0,0">
+                	<Run Text="AMKA"/>
+                	<LineBreak/>
+                	<Run/>
+                </TextBlock>
+                <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top" Margin="14,670,0,0">
+                	<Run Text="Department"/>
+                	<LineBreak/>
+                	<Run/>
+                </TextBlock>
+                
+
+        	</Grid>
+        </ScrollViewer>
+
+        <!--ContentPanel - place additional content here-->
+    </Grid>
+
+</phone:PhoneApplicationPage>

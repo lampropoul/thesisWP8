@@ -60,8 +60,8 @@
 				<ColumnDefinition Width="0*"/>
 				<ColumnDefinition Width="56*"/>
 			</Grid.ColumnDefinitions>
-			<TextBox x:Name="username" HorizontalAlignment="Center" Height="71" TextWrapping="Wrap" VerticalAlignment="Top" Width="274" Grid.Column="2" Margin="87,56,87,0"/>
-			<PasswordBox x:Name="password" Grid.Column="2" HorizontalAlignment="Center" Margin="85.664,180.247,89.336,0" VerticalAlignment="Top" Width="273" Height="71.812" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto">
+			<TextBox x:Name="username_box" HorizontalAlignment="Center" Height="71" TextWrapping="Wrap" VerticalAlignment="Top" Width="274" Grid.Column="2" Margin="87,56,87,0"/>
+			<PasswordBox x:Name="password_box" Grid.Column="2" HorizontalAlignment="Center" Margin="85.664,180.247,89.336,0" VerticalAlignment="Top" Width="273" Height="71.812" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto">
 				<PasswordBox.RenderTransform>
 					<CompositeTransform SkewY="0.215" TranslateY="0.496"/>
 				</PasswordBox.RenderTransform>

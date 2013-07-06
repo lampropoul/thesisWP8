@@ -35,6 +35,8 @@ namespace HFPMApp
         {
             InitializeComponent();
 
+            //bool isNetwork = NetworkInterface.GetIsNetworkAvailable();
+
             client = new WebClient();
             client.DownloadStringCompleted += client_DownloadStringCompleted;
             //url = "http://192.168.42.236/HFPM_Server_CI/index.php/restful/api/user/username/" + uname;
@@ -55,10 +57,13 @@ namespace HFPMApp
             
             
             // edw upoti8etai oti 8a ginetai to erwtima stin topiki basi
-            
-            
+            string uname = username_box.Text;
+            string pass = password_box.Password;
+            Random rnd = new Random();
+            int rand = rnd.Next(1, 1000);
 
-            if (username_box.Text != String.Empty)
+
+            if (uname != String.Empty && pass != String.Empty && !Convert.ToBoolean(gr.IsChecked))
             {
                 
                 using (HospitalContext db = new HospitalContext(HospitalContext.ConnectionString))
@@ -66,65 +71,54 @@ namespace HFPMApp
                     db.CreateIfNotExists();
                     db.LogDebug = true;
 
+                    
+                    // elegxw an exw internet
 
-                    string uname = username_box.Text;
-                    string pass = password_box.Password;
-
+                    // ean exw proxwraw kai kanw to REST call
+                    // TODO: check internet connectivity
 
 
                     // REST Call
-
-                    url = "http://192.168.42.236/HFPM_Server_CI/index.php/restful/api/user/username/" + uname;
-
+                    url = "http://192.168.42.236/HFPM_Server_CI/index.php/restful/api/user/username/" + uname + "/password/" + pass + "/randomnum/" + rand;
                     client.DownloadStringAsync(new Uri(url));
-                    //MessageBox.Show("JSON downloaded.");
                     
-                    
-                    //var query = from Users users in db.Users
-                    //            select users;
 
-                    //ObservableCollection<Users> result = new ObservableCollection<Users>(query);
+
+
+
+                    // ean oxi, kalw thn topiki bash
+                    // CALL TO LOCAL DB
+
+                    // TODO: call local db
 
 
                 }
 
             }
-            else
+            else if (Convert.ToBoolean(gr.IsChecked))
+            {
+                // do something in GREEK
+            }
+            else if (uname == String.Empty && pass != String.Empty)
             {
                 MessageBox.Show("Please specify username.");
                 username_box.Focus();
             }
-
+            else if (pass == String.Empty && uname != String.Empty)
+            {
+                MessageBox.Show("Please specify password.");
+                password_box.Focus();
+            }
+            else
+            {
+                MessageBox.Show("Please fill in all the fields.");
+                username_box.Focus();
+            }
         }
 
 
-        // register
-        private void login_btn_click2(object sender, RoutedEventArgs e)
-        {
 
-
-            string uri = "/RegisterPage.xaml";
-            NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
-
-        }
-
-
-
-        //private void ResponseCallback(IAsyncResult asyncResult)
-        //{
-        //    HttpWebRequest webRequest = (HttpWebRequest)asyncResult.AsyncState;
-        //    HttpWebResponse webResponse = (HttpWebResponse)webRequest.EndGetResponse(asyncResult);
-
-        //    MemoryStream tempStream = new MemoryStream();
-        //    webResponse.GetResponseStream().CopyTo(tempStream);
-
-        //    MessageBox.Show(tempStream.ToString());
-
-
-        //}
-
-
-
+        // function that retreives json data from web server
         void client_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
             try
@@ -150,8 +144,9 @@ namespace HFPMApp
 
                     if (password == password_box.Password)
                     {
-                        uri = "/MainMenuPage.xaml?username=" + username + "&password=" + email;
-                        MessageBox.Show("User " + username + " (" + email + ") logged in successfully.");
+                        uri = "/MainMenuPage.xaml?username=" + username;
+                        //MessageBox.Show("User " + username + " (" + email + ") logged in successfully.");
+                        this.downloadedText = null;
                         NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
                     }
                     else
@@ -160,10 +155,10 @@ namespace HFPMApp
                         password_box.Focus();
                     }
                 }
-                catch (TargetInvocationException ex)
+                catch (Exception ex)
                 {
-                    MessageBox.Show("Not such user. Please try again. ("+ex.Message+")");
-                    username_box.Focus();
+                    MessageBox.Show(ex.Message);
+                    //username_box.Focus();
                 }
 
             }
@@ -179,50 +174,6 @@ namespace HFPMApp
                 System.Diagnostics.Debug.WriteLine("WebException: " + ex.Message);
             }
         }
-
-
-
-
-
-        //private void GotResponse(IAsyncResult asynchronousResult) 
-        //{
-        //    try
-        //    {
-        //        string data; 
-        //        // State of request is asynchronous 
-        //        HttpWebRequest myHttpWebRequest = (HttpWebRequest)asynchronousResult.AsyncState;
-        //        using (HttpWebResponse response = (HttpWebResponse)myHttpWebRequest.EndGetResponse(asynchronousResult))
-        //        {
-        //            // Read the response into a Stream object. 
-        //            System.IO.Stream responseStream = response.GetResponseStream();
-        //            using (var reader = new System.IO.StreamReader(responseStream))
-        //            {
-        //                data = reader.ReadToEnd();
-        //            }
-        //            responseStream.Close();
-        //        } // Callback occurs on a background thread, so use Dispatcher to marshal back to the UI thread 
-        //        this.Dispatcher.BeginInvoke(() =>
-        //        {
-        //            MessageBox.Show("Received payload of " + data.Length + " characters");
-        //        }
-        //        );
-        //    }
-        //    catch (Exception e) {
-        //        var we = e.InnerException as WebException;
-        //        if (we != null) 
-        //        { 
-        //            var resp = we.Response as HttpWebResponse; 
-        //            var code = resp.StatusCode; 
-        //            this.Dispatcher.BeginInvoke(() =>
-        //            { 
-        //                MessageBox.Show("RespCallback Exception raised! Message:" + we.Message + "HTTP Status: " + we.Status);
-        //            }
-        //            );
-        //        } 
-        //        else
-        //            throw;
-        //    } 
-        //}
 
         
     }

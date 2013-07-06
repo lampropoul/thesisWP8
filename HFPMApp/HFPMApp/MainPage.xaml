@@ -68,14 +68,8 @@
 			</PasswordBox>
 			<TextBlock x:Name="uname" Grid.Column="2" HorizontalAlignment="Center" Margin="185,24,174,0" Style="{StaticResource PhoneTextBlockBase}" TextWrapping="Wrap" Text="Username" VerticalAlignment="Top" Height="27" Width="89"/>
 			<TextBlock x:Name="pwd" Grid.Column="2" HorizontalAlignment="Center" Margin="188,145,174,0" Style="{StaticResource PhoneTextBlockBase}" TextWrapping="Wrap" Text="Password" VerticalAlignment="Top" Height="27" Width="86"/>
-			<Button x:Name="login_btn" Click="login_btn_click1" Content="Login" Grid.Column="2" HorizontalAlignment="Center" Margin="87,406,87,0" VerticalAlignment="Top" Width="274" Height="72"/>
-            <Button Content="Register" Click="login_btn_click2" Grid.Column="2" HorizontalAlignment="Left" Margin="87,483,0,0" VerticalAlignment="Top" Height="75" Width="269">
-				<Button.DataContext>
-					<local:RegisterPage/>
-				</Button.DataContext>
-			</Button>
-            <Button x:Name="gr" Content="GR" Grid.Column="2" HorizontalAlignment="Left" Margin="130,306,0,0" VerticalAlignment="Top" Width="80"/>
-            <Button x:Name="en" Content="EN" Grid.Column="2" HorizontalAlignment="Left" Margin="229,306,0,0" VerticalAlignment="Top" Width="83"/>
+			<Button x:Name="login_btn" Click="login_btn_click1" Content="Login" Grid.Column="2" HorizontalAlignment="Center" Margin="87,292,87,0" VerticalAlignment="Top" Width="274" Height="72"/>
+			<ToggleButton x:Name="gr" Content="GR" Grid.Column="2" HorizontalAlignment="Left" Margin="185,387,0,0" VerticalAlignment="Top"/>
 		</Grid>
 
 	</Grid>

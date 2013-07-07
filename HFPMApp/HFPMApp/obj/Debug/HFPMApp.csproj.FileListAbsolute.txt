@@ -17,12 +17,10 @@ c:\users\basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\obj\Debug
 c:\users\basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\obj\Debug\HFPMApp.pdb
 c:\users\basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\obj\Debug\XapCacheFile.xml
 C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\obj\Debug\MainMenuPage.g.cs
-C:\Users\Basilis\Documents\Visual Studio 2012\Projects\HFPMApp\HFPMApp\obj\Debug\ErrorPage.g.cs
 C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\Bin\Debug\Properties\WMAppManifest.xml
 C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\obj\Debug\HFPMApp.csprojResolveAssemblyReference.cache
-C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\obj\Debug\RegisterPage.g.cs
 C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\Bin\Debug\Microsoft.Phone.Controls.dll
-C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\obj\Debug\MenuWithTilesPage.g.cs
 C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\Bin\Debug\Newtonsoft.Json.dll
 C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\Bin\Debug\Newtonsoft.Json.xml
+C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\obj\Debug\Settings.g.cs
 C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\Bin\Debug\hospital.sdf

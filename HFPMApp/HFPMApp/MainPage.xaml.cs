@@ -2,6 +2,7 @@
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Notification;
 using Microsoft.Phone.Shell;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,14 +11,13 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Reflection;
 using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Navigation;
-using System.Reflection;
-using Newtonsoft.Json;
 
 
 namespace HFPMApp
@@ -39,13 +39,40 @@ namespace HFPMApp
 
             client = new WebClient();
             client.DownloadStringCompleted += client_DownloadStringCompleted;
-            //url = "http://192.168.42.236/HFPM_Server_CI/index.php/restful/api/user/username/" + uname;
-            //var request = HttpWebRequest.Create(url) as HttpWebRequest;
-            //request.Accept = "application/json;odata=verbose"; // Must pass the HttpWebRequest object in the state attached to this call // Begin the request…
-            //request.BeginGetResponse(new AsyncCallback(GotResponse), request);
         }
 
-        
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            // if already logged in, navigate to menu page
+            try
+            {
+                if (PhoneApplicationService.Current.State["Username"] != null)
+                {
+                    uri = "/MainMenuPage.xaml?username=" + PhoneApplicationService.Current.State["Username"];
+                    NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
+                }
+            }
+            catch (KeyNotFoundException ex)
+            {
+
+            }
+
+            //try
+            //{
+            //    if (this.NavigationContext.QueryString["logout"] != null)
+            //    {
+            //        MessageBox.Show("Logout successfull.");
+            //    }
+            //}
+            //catch (KeyNotFoundException ex)
+            //{
+            //}
+
+            
+
+        }
 
         // login
         private void login_btn_click1(object sender, RoutedEventArgs e)
@@ -138,15 +165,16 @@ namespace HFPMApp
                 string amka = jsonObject.amka;
                 string status = jsonObject.status;
                 string department = jsonObject.department;
+                string error = jsonObject.error;
 
                 try
                 {
 
                     if (password == password_box.Password)
                     {
-                        uri = "/MainMenuPage.xaml?username=" + username;
-                        //MessageBox.Show("User " + username + " (" + email + ") logged in successfully.");
-                        this.downloadedText = null;
+                        PhoneApplicationService.Current.State["Username"] = username;
+
+                        uri = "/MainMenuPage.xaml";
                         NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
                     }
                     else
@@ -154,6 +182,7 @@ namespace HFPMApp
                         MessageBox.Show("Wrong password. Please try again.");
                         password_box.Focus();
                     }
+
                 }
                 catch (Exception ex)
                 {

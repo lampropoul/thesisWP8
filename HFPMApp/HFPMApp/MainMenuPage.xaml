@@ -19,11 +19,11 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-
+        
         <!--TitlePanel contains the name of the application and page title-->
-        <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock x:Name="___No_Name_" Text="Health Facilities Personnel Management App" Style="{StaticResource PhoneTextNormalStyle}" HorizontalAlignment="Center"/>
-            <TextBlock Text="Welcome" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}" HorizontalAlignment="Center"/>
+        <StackPanel Grid.Row="0" Margin="12,17,0,0">
+            <TextBlock x:Name="title" Text="Health Facilities Personnel Management App" Style="{StaticResource PhoneTextNormalStyle}" HorizontalAlignment="Center"/>
+            <TextBlock x:Name="welcome" Text="Welcome" Margin="0,0,0,0" Style="{StaticResource PhoneTextTitle1Style}" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="48"/>
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
@@ -31,10 +31,11 @@
         	<ScrollViewer HorizontalAlignment="Left" Height="100" Margin="330,265,0,0" VerticalAlignment="Top" Width="100"/>
         	
         		<phone:Pivot x:Name="pivot" Title="Main Menu">
-        			<phone:PivotItem x:Name="pers_prog" CacheMode="{x:Null}" Header="Personal" FontSize="10.667" Margin="12,28,12,0">
-        				<Grid x:Name="grid_pers_prog">
-        					<ScrollViewer x:Name="scroll_pers_prog"/>
-        				</Grid>
+        			<phone:PivotItem x:Name="pers_prog" CacheMode="{x:Null}" Header="Personal Prog" FontSize="10.667" Margin="12,28,12,0">
+        			    <ScrollViewer>
+                            <Grid x:Name="grid_pers_prog">
+                            </Grid>
+                        </ScrollViewer>
         			</phone:PivotItem>
         			<phone:PivotItem x:Name="search" CacheMode="{x:Null}" Header="Search">
         				<Grid/>
@@ -45,18 +46,27 @@
         			<phone:PivotItem x:Name="edit" Header="Edit">
                         <ScrollViewer>
                             <Grid Height="780">
-                                <TextBlock x:Name="edit_username" HorizontalAlignment="Left" Height="55" TextWrapping="Wrap" Text="username" VerticalAlignment="Top" Width="230" Margin="10,0,0,0"/>
+                                <TextBlock x:Name="edit_username" HorizontalAlignment="Left" Height="55" TextWrapping="Wrap" VerticalAlignment="Top" Width="230" Margin="10,0,0,0"/>
         					    <PasswordBox x:Name="edit_password" HorizontalAlignment="Left" Height="72" VerticalAlignment="Top" Width="230" Margin="0,60,0,0"/>
                                 <PasswordBox x:Name="edit_password2" HorizontalAlignment="Left" Height="72" VerticalAlignment="Top" Width="230" Margin="0,120,0,0"/>
-                                <TextBox x:Name="edit_name" HorizontalAlignment="Left" Height="72" TextWrapping="Wrap" Text="name" VerticalAlignment="Top" Width="230" Margin="0,180,0,0"/>
-                                <TextBox x:Name="edit_surname" HorizontalAlignment="Left" Height="72" TextWrapping="Wrap" Text="surname" VerticalAlignment="Top" Width="230" Margin="0,240,0,0"/>
-                                <TextBox x:Name="edit_email" HorizontalAlignment="Left" Height="72" TextWrapping="Wrap" Text="email" VerticalAlignment="Top" Width="230" Margin="0,300,0,0"/>
-                                <TextBox x:Name="edit_amka" HorizontalAlignment="Left" Height="72" TextWrapping="Wrap" Text="amka" VerticalAlignment="Top" Width="230" Margin="0,360,0,0"/>
-                                <TextBox x:Name="edit_userteam" HorizontalAlignment="Left" Height="72" TextWrapping="Wrap" Text="userteam" VerticalAlignment="Top" Width="230" Margin="0,420,0,0"/>
-                                <TextBox x:Name="edit_status" HorizontalAlignment="Left" Height="72" TextWrapping="Wrap" Text="status" VerticalAlignment="Top" Width="230" Margin="0,480,0,0"/>
-                                <TextBox x:Name="edit_department" HorizontalAlignment="Left" Height="72" TextWrapping="Wrap" Text="department" VerticalAlignment="Top" Width="230" Margin="0,540,0,0"/>
-                            <Button x:Name="edit_completed_button" Click="edit_button_pressed" Content="Finish" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,600,0,0" Width="200" Height="70"/>
-                            </Grid>
+                                <TextBox x:Name="edit_name" HorizontalAlignment="Left" Height="72" TextWrapping="Wrap" VerticalAlignment="Top" Width="230" Margin="0,180,0,0"/>
+                                <TextBox x:Name="edit_surname" HorizontalAlignment="Left" Height="72" TextWrapping="Wrap" VerticalAlignment="Top" Width="230" Margin="0,240,0,0"/>
+                                <TextBox x:Name="edit_email" HorizontalAlignment="Left" Height="72" TextWrapping="Wrap" VerticalAlignment="Top" Width="230" Margin="0,300,0,0"/>
+                                <TextBox x:Name="edit_amka" HorizontalAlignment="Left" Height="72" TextWrapping="Wrap" VerticalAlignment="Top" Width="230" Margin="0,360,0,0"/>
+                                <TextBox x:Name="edit_userteam" HorizontalAlignment="Left" Height="72" TextWrapping="Wrap" VerticalAlignment="Top" Width="230" Margin="0,420,0,0"/>
+                                <TextBox x:Name="edit_status" HorizontalAlignment="Left" Height="72" TextWrapping="Wrap" VerticalAlignment="Top" Width="230" Margin="0,480,0,0"/>
+                                <TextBox x:Name="edit_department" HorizontalAlignment="Left" Height="72" TextWrapping="Wrap" VerticalAlignment="Top" Width="230" Margin="0,540,0,0"/>
+                                <Button x:Name="edit_completed_button" Click="edit_button_pressed" Content="Finish" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,600,0,0" Width="auto" Height="70"/>
+                                <TextBlock HorizontalAlignment="Left" Margin="230,85,0,0" TextWrapping="Wrap" Text="New password" VerticalAlignment="Top"/>
+                                <TextBlock HorizontalAlignment="Left" Margin="230,145,0,0" TextWrapping="Wrap" Text="New password (again)" VerticalAlignment="Top"/>
+                                <TextBlock HorizontalAlignment="Left" Margin="230,205,0,0" TextWrapping="Wrap" Text="Name" VerticalAlignment="Top"/>
+                                <TextBlock HorizontalAlignment="Left" Margin="230,265,0,0" TextWrapping="Wrap" Text="Surname" VerticalAlignment="Top"/>
+                                <TextBlock HorizontalAlignment="Left" Margin="230,325,0,0" TextWrapping="Wrap" Text="E-mail" VerticalAlignment="Top"/>
+                                <TextBlock HorizontalAlignment="Left" Margin="230,385,0,0" TextWrapping="Wrap" Text="AMKA" VerticalAlignment="Top"/>
+                                <TextBlock HorizontalAlignment="Left" Margin="230,445,0,0" TextWrapping="Wrap" Text="User Team" VerticalAlignment="Top"/>
+                                <TextBlock HorizontalAlignment="Left" Margin="230,505,0,0" TextWrapping="Wrap" Text="Status" VerticalAlignment="Top"/>
+                                <TextBlock HorizontalAlignment="Left" Margin="230,565,0,0" TextWrapping="Wrap" Text="Department" VerticalAlignment="Top"/>
+                        </Grid>
                         </ScrollViewer>
                     </phone:PivotItem>
         		</phone:Pivot>

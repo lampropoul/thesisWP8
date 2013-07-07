@@ -2,23 +2,23 @@
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Notification;
 using Microsoft.Phone.Shell;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Linq;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Reflection;
 using System.ServiceModel;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Navigation;
-using System.Reflection;
-using Newtonsoft.Json;
-//using System.String;
 
 
 namespace HFPMApp
@@ -43,12 +43,62 @@ namespace HFPMApp
         {
             InitializeComponent();
 
+
             
+
+            // CLIENTS
             client = new WebClient();
             client.DownloadStringCompleted += client_DownloadStringCompleted;
 
             client_up = new WebClient();
             client_up.UploadStringCompleted += client_UploadStringCompleted;
+
+        }
+
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            // APP BAR
+            ApplicationBar = new ApplicationBar();
+            ApplicationBar.Mode = ApplicationBarMode.Default;
+            ApplicationBar.Opacity = 1.0;
+            ApplicationBar.IsVisible = true;
+            ApplicationBar.IsMenuEnabled = true;
+
+            //ApplicationBarIconButton button1 = new ApplicationBarIconButton();
+            //button1.IconUri = new Uri("/Images/YourImage.png", UriKind.Relative);
+            //button1.Text = "button 1";
+            //ApplicationBar.Buttons.Add(button1);
+
+            ApplicationBarMenuItem menuItem1 = new ApplicationBarMenuItem();
+            menuItem1.Text = "Logout";
+            ApplicationBar.MenuItems.Add(menuItem1);
+            menuItem1.Click += new EventHandler(logout_Click);
+
+            ApplicationBarMenuItem menuItem2 = new ApplicationBarMenuItem();
+            menuItem2.Text = "Clear old entries";
+            ApplicationBar.MenuItems.Add(menuItem2);
+
+            ApplicationBarMenuItem menuItem3 = new ApplicationBarMenuItem();
+            menuItem3.Text = "Settings for declared";
+            ApplicationBar.MenuItems.Add(menuItem3);
+            menuItem3.Click += new EventHandler(settings_Click);
+
+            
+
+
+            // pairnw ta parameters (username kai password) apo tin MainPage.xaml
+            string given_username = PhoneApplicationService.Current.State["Username"].ToString();
+
+            edit_username.Text = given_username;
+
+            Random rnd = new Random();
+            int rand = rnd.Next(1, 1000);
+
+            url = "http://192.168.42.236/HFPM_Server_CI/index.php/restful/api/user/username/" + given_username + "/randomnum/" + rand;
+            client.DownloadStringAsync(new Uri(url));
 
         }
 
@@ -76,7 +126,8 @@ namespace HFPMApp
                 "/randomnum/" + rand;
             
             client_up.Headers["Method"] = "POST";
-
+            
+            // if passwords match
             if (edit_password.Password == edit_password2.Password && edit_password.Password != String.Empty)
             {
                 client_up.UploadStringAsync(new Uri(url_post), this.json_to_send);
@@ -102,23 +153,27 @@ namespace HFPMApp
                 try
                 {
 
-                    // encode JSON
-                    RootObject jsonObject = new RootObject();
+                    //// encode JSON
+                    //RootObject jsonObject = new RootObject();
 
-                    // put fields' values to json object
-                    jsonObject.user_team = edit_userteam.Text;
-                    jsonObject.name_user = edit_name.Text;
-                    jsonObject.surname_user = edit_surname.Text;
-                    jsonObject.username = edit_username.Text;
-                    jsonObject.password = edit_password.Password;
-                    jsonObject.email = edit_email.Text;
-                    jsonObject.amka = edit_amka.Text;
-                    jsonObject.status = edit_status.Text;
-                    jsonObject.department = edit_department.Text;
+                    //// put fields' values to json object
+                    //jsonObject.user_team = edit_userteam.Text;
+                    //jsonObject.name_user = edit_name.Text;
+                    //jsonObject.surname_user = edit_surname.Text;
+                    //jsonObject.username = edit_username.Text;
+                    //jsonObject.password = edit_password.Password;
+                    //jsonObject.email = edit_email.Text;
+                    //jsonObject.amka = edit_amka.Text;
+                    //jsonObject.status = edit_status.Text;
+                    //jsonObject.department = edit_department.Text;
 
-                    this.json_to_send = JsonConvert.SerializeObject(jsonObject, Formatting.Indented, new JsonSerializerSettings { });
+                    //this.json_to_send = JsonConvert.SerializeObject(jsonObject, Formatting.Indented, new JsonSerializerSettings { });
 
-                    MessageBox.Show("Edit OK.");
+                    this.downloadedText = e.Result;
+                    RootObject jsonObject = JsonConvert.DeserializeObject<RootObject>(this.downloadedText);
+
+                    if (jsonObject.message == "Updated") MessageBox.Show("Edit OK.");
+                    else MessageBox.Show("Something went terribly wrong. Please try again.");
 
                     
                 }
@@ -148,45 +203,36 @@ namespace HFPMApp
             try
             {
                 
-                try
-                {
+               this.downloadedText = e.Result;
 
-                    this.downloadedText = e.Result;
+                // decode JSON
+                RootObject jsonObject = JsonConvert.DeserializeObject<RootObject>(this.downloadedText);
 
-                    // decode JSON
-                    RootObject jsonObject = JsonConvert.DeserializeObject<RootObject>(this.downloadedText);
+                int id = jsonObject.id;
+                string user_team = jsonObject.user_team;
+                string name_user = jsonObject.name_user;
+                string surname_user = jsonObject.surname_user;
+                string username = jsonObject.username;
+                string password = jsonObject.password;
+                string email = jsonObject.email;
+                string amka = jsonObject.amka;
+                string status = jsonObject.status;
+                string department = jsonObject.department;
 
-                    int id = jsonObject.id;
-                    string user_team = jsonObject.user_team;
-                    string name_user = jsonObject.name_user;
-                    string surname_user = jsonObject.surname_user;
-                    string username = jsonObject.username;
-                    string password = jsonObject.password;
-                    string email = jsonObject.email;
-                    string amka = jsonObject.amka;
-                    string status = jsonObject.status;
-                    string department = jsonObject.department;
-
-                    // fill boxes with new (updated) data
-                    edit_username.Text = username;
-                    edit_amka.Text = amka;
-                    edit_department.Text = department;
-                    edit_email.Text = email;
-                    edit_name.Text = name_user;
-                    edit_surname.Text = surname_user;
-                    //edit_password.Password = "new pass";
-                    //edit_password2.Password = "new pass again";
-                    edit_status.Text = status;
-                    edit_userteam.Text = user_team;
+                // fill boxes with new (updated) data
+                edit_username.Text = username + "'s account details:";
+                edit_amka.Text = amka;
+                edit_department.Text = department;
+                edit_email.Text = email;
+                edit_name.Text = name_user;
+                edit_surname.Text = surname_user;
+                //edit_password.Password = "new pass";
+                //edit_password2.Password = "new pass again";
+                edit_status.Text = status;
+                edit_userteam.Text = user_team;
 
 
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Exception: " + ex.Message);
-                    //username_box.Focus();
-                }
-
+                
             }
             catch (TargetInvocationException ex)
             {
@@ -198,24 +244,6 @@ namespace HFPMApp
                 MessageBox.Show("WebException: " + ex.Message);
                 System.Diagnostics.Debug.WriteLine("WebException: " + ex.Message);
             }
-        }
-
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-
-            // pairnw ta parameters (username kai password) apo tin MainPage.xaml
-            string given_username = this.NavigationContext.QueryString["username"];
-
-            edit_username.Text = given_username;
-
-            Random rnd = new Random();
-            int rand = rnd.Next(1, 1000);
-
-            url = "http://192.168.42.236/HFPM_Server_CI/index.php/restful/api/user/username/" + given_username + "/randomnum/" + rand;
-            client.DownloadStringAsync(new Uri(url));
-
         }
 
         // the class which contains the properties of the specific json response
@@ -232,6 +260,31 @@ namespace HFPMApp
             public string status { get; set; }
             public string department { get; set; }
             public string error { get; set; }
+            public string message { get; set; }
         }
+
+        
+        
+        
+        
+        
+        
+        private void logout_Click(object sender, EventArgs e)
+        {
+
+            PhoneApplicationService.Current.State["Username"] = null;
+            uri = "/MainPage.xaml?logout=true";
+            NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
+
+        }
+
+
+        private void settings_Click(object sender, EventArgs e)
+        {
+            uri = "/Settings.xaml";
+            NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
+        }
+
+        
     }
 }

@@ -60,6 +60,38 @@ namespace HFPMApp
         {
             base.OnNavigatedTo(e);
 
+            if (PhoneApplicationService.Current.State["Language"] == "GR")
+            {
+                title.Text = "Εφαρμογή Διαχείρισης Μονάδων Υγείας";
+                welcome.Text = "Μενού";
+                
+                
+                pers_prog_pitem.Header = "Πρόγραμμα";
+                search_pitem.Header = "Αναζήτηση";
+                declared_pitem.Header = "Αιτήματα";
+                edit_pitem.Header = "Επεξεργασία";
+
+
+                new_pass.Text = "Νέος κωδικός";
+                new_pass2.Text = "Νέος κωδικός (ξανά)";
+                new_name.Text = "Όνομα";
+                new_surname.Text = "Επώνυμο";
+                new_email.Text = "E-mail";
+                new_amka.Text = "ΑΜΚΑ";
+                new_userteam.Text = "Ομάδα χρήστη";
+                new_status.Text = "Κατάσταση";
+                new_department.Text = "Τμήμα";
+                edit_completed_button.Content = "Ολοκλήρωση";
+
+
+            }
+
+
+            if (PhoneApplicationService.Current.State["Language"] == "GR")
+                edit_username.Text = "Λεπτομέρειες του χρήστη " + PhoneApplicationService.Current.State["Username"] + ":";
+            else
+                edit_username.Text = PhoneApplicationService.Current.State["Username"] + "'s account details:";
+
             // APP BAR
             ApplicationBar = new ApplicationBar();
             ApplicationBar.Mode = ApplicationBarMode.Default;
@@ -73,16 +105,31 @@ namespace HFPMApp
             //ApplicationBar.Buttons.Add(button1);
 
             ApplicationBarMenuItem menuItem1 = new ApplicationBarMenuItem();
-            menuItem1.Text = "Logout";
+            
+            if (PhoneApplicationService.Current.State["Language"] == "GR")
+                menuItem1.Text = "Έξοδος";
+            else
+                menuItem1.Text = "Logout";
+
             ApplicationBar.MenuItems.Add(menuItem1);
             menuItem1.Click += new EventHandler(logout_Click);
 
             ApplicationBarMenuItem menuItem2 = new ApplicationBarMenuItem();
-            menuItem2.Text = "Clear old entries";
+
+            if (PhoneApplicationService.Current.State["Language"] == "GR")
+                menuItem2.Text = "Εκκαθάριση περασμένων καθηκόντων";
+            else
+                menuItem2.Text = "Clear old entries";
+
             ApplicationBar.MenuItems.Add(menuItem2);
 
             ApplicationBarMenuItem menuItem3 = new ApplicationBarMenuItem();
-            menuItem3.Text = "Settings for declared";
+
+            if (PhoneApplicationService.Current.State["Language"] == "GR")
+                menuItem3.Text = "Ρυθμίσεις για τα αιτήματα.";
+            else
+                menuItem3.Text = "Settings for declared";
+
             ApplicationBar.MenuItems.Add(menuItem3);
             menuItem3.Click += new EventHandler(settings_Click);
 
@@ -134,7 +181,10 @@ namespace HFPMApp
             }
             else
             {
-                MessageBox.Show("Passwords don't match or you have specified no password at all. Try again.");
+                if (PhoneApplicationService.Current.State["Language"] == "GR")
+                    MessageBox.Show("Οι κωδικοί δεν ταιριάζουν ή δεν έχετε εισάγει κωδικό. Προσπαθήστε ξανά.");
+                else
+                    MessageBox.Show("Passwords don't match or you have specified no password at all. Try again.");
             }
 
 
@@ -173,7 +223,13 @@ namespace HFPMApp
                     RootObject jsonObject = JsonConvert.DeserializeObject<RootObject>(this.downloadedText);
 
                     if (jsonObject.message == "Updated") MessageBox.Show("Edit OK.");
-                    else MessageBox.Show("Something went terribly wrong. Please try again.");
+                    else
+                    {
+                        if (PhoneApplicationService.Current.State["Language"] == "GR")
+                            MessageBox.Show("Κάτι δεν πήγε καθόλου καλά. Προσπαθήστε ξανά.");
+                        else
+                            MessageBox.Show("Something went terribly wrong. Please try again.");
+                    }
 
                     
                 }
@@ -219,8 +275,10 @@ namespace HFPMApp
                 string status = jsonObject.status;
                 string department = jsonObject.department;
 
+
+                
+
                 // fill boxes with new (updated) data
-                edit_username.Text = username + "'s account details:";
                 edit_amka.Text = amka;
                 edit_department.Text = department;
                 edit_email.Text = email;

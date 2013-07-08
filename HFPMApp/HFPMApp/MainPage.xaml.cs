@@ -59,6 +59,11 @@ namespace HFPMApp
 
             }
 
+
+
+            
+
+            
             //try
             //{
             //    if (this.NavigationContext.QueryString["logout"] != null)
@@ -87,10 +92,10 @@ namespace HFPMApp
             string uname = username_box.Text;
             string pass = password_box.Password;
             Random rnd = new Random();
-            int rand = rnd.Next(1, 1000);
+            int rand = rnd.Next(1, 10000);
 
 
-            if (uname != String.Empty && pass != String.Empty && !Convert.ToBoolean(gr.IsChecked))
+            if (uname != String.Empty && pass != String.Empty)
             {
                 
                 using (HospitalContext db = new HospitalContext(HospitalContext.ConnectionString))
@@ -98,7 +103,14 @@ namespace HFPMApp
                     db.CreateIfNotExists();
                     db.LogDebug = true;
 
+
+                    var query = from Users todo in db.Users select todo.Amka;
+
                     
+                    db.SubmitChanges();
+                    //MessageBox.Show(query.ToString());
+
+
                     // elegxw an exw internet
 
                     // ean exw proxwraw kai kanw to REST call
@@ -106,7 +118,7 @@ namespace HFPMApp
 
 
                     // REST Call
-                    url = "http://192.168.42.236/HFPM_Server_CI/index.php/restful/api/user/username/" + uname + "/password/" + pass + "/randomnum/" + rand;
+                    url = "http://192.168.42.236/HFPM_Server_CI/index.php/restful/api/user/username/" + uname + "/randomnum/" + rand;
                     client.DownloadStringAsync(new Uri(url));
                     
 
@@ -122,23 +134,31 @@ namespace HFPMApp
                 }
 
             }
-            else if (Convert.ToBoolean(gr.IsChecked))
-            {
-                // do something in GREEK
-            }
             else if (uname == String.Empty && pass != String.Empty)
             {
-                MessageBox.Show("Please specify username.");
+
+                if (Convert.ToBoolean(gr.IsChecked))
+                    MessageBox.Show("Παρακαλώ εισάγετε όνομα χρήστη.");
+                else
+                    MessageBox.Show("Please specify username.");
+                
                 username_box.Focus();
             }
             else if (pass == String.Empty && uname != String.Empty)
             {
-                MessageBox.Show("Please specify password.");
+                if (Convert.ToBoolean(gr.IsChecked))
+                    MessageBox.Show("Παρακαλώ εισάγετε κωδικό.");
+                else
+                    MessageBox.Show("Please specify password.");
+
                 password_box.Focus();
             }
             else
             {
-                MessageBox.Show("Please fill in all the fields.");
+                if (Convert.ToBoolean(gr.IsChecked))
+                    MessageBox.Show("Παρακαλώ συμπληρώστε όλα τα πεδία.");
+                else
+                    MessageBox.Show("Please fill in all the fields.");
                 username_box.Focus();
             }
         }
@@ -174,12 +194,21 @@ namespace HFPMApp
                     {
                         PhoneApplicationService.Current.State["Username"] = username;
 
+                        if (Convert.ToBoolean(gr.IsChecked))
+                            PhoneApplicationService.Current.State["Language"] = "GR";
+                        else
+                            PhoneApplicationService.Current.State["Language"] = "EN";
+
                         uri = "/MainMenuPage.xaml";
                         NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
                     }
                     else
                     {
-                        MessageBox.Show("Wrong password. Please try again.");
+                        if (Convert.ToBoolean(gr.IsChecked))
+                            MessageBox.Show("Λάθος κωδικός. Προσπαθήστε ξανά.");
+                        else
+                            MessageBox.Show("Wrong password. Please try again.");
+
                         password_box.Focus();
                     }
 
@@ -193,7 +222,11 @@ namespace HFPMApp
             }
             catch (TargetInvocationException ex)
             {
-                MessageBox.Show("No such user. Please try again.");
+                if (Convert.ToBoolean(gr.IsChecked))
+                    MessageBox.Show("Δεν υπάρχει αυτός ο χρήστης. Προσπαθήστε ξανά.");
+                else
+                    MessageBox.Show("No such user. Please try again.");
+
                 username_box.Focus();
                 System.Diagnostics.Debug.WriteLine("TargetInvocationException: " + ex.Message);
             }

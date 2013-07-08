@@ -23,27 +23,27 @@
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel Grid.Row="0" Margin="12,17,0,0">
             <TextBlock x:Name="title" Text="Health Facilities Personnel Management App" Style="{StaticResource PhoneTextNormalStyle}" HorizontalAlignment="Center"/>
-            <TextBlock x:Name="welcome" Text="Welcome" Margin="0,0,0,0" Style="{StaticResource PhoneTextTitle1Style}" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="48"/>
+            <TextBlock x:Name="welcome" Text="Menu" Margin="0,0,0,0" Style="{StaticResource PhoneTextTitle1Style}" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="48"/>
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
         	<ScrollViewer HorizontalAlignment="Left" Height="100" Margin="330,265,0,0" VerticalAlignment="Top" Width="100"/>
         	
-        		<phone:Pivot x:Name="pivot" Title="Main Menu">
-        			<phone:PivotItem x:Name="pers_prog" CacheMode="{x:Null}" Header="Personal Prog" FontSize="10.667" Margin="12,28,12,0">
+        		<phone:Pivot x:Name="pivot">
+        			<phone:PivotItem x:Name="pers_prog_pitem" CacheMode="{x:Null}" Header="Personal Prog" FontSize="10.667" Margin="12,28,12,0">
         			    <ScrollViewer>
                             <Grid x:Name="grid_pers_prog">
                             </Grid>
                         </ScrollViewer>
         			</phone:PivotItem>
-        			<phone:PivotItem x:Name="search" CacheMode="{x:Null}" Header="Search">
-        				<Grid/>
-        			</phone:PivotItem>
-        			<phone:PivotItem x:Name="declared" Header="Declared">
-        				<Grid/>
-        			</phone:PivotItem>
-        			<phone:PivotItem x:Name="edit" Header="Edit">
+                    <phone:PivotItem x:Name="search_pitem" CacheMode="{x:Null}" Header="Search">
+        				    <Grid/>
+        			    </phone:PivotItem>
+                    <phone:PivotItem x:Name="declared_pitem" Header="Declared">
+        				    <Grid/>
+        			    </phone:PivotItem>
+                    <phone:PivotItem x:Name="edit_pitem" Header="Edit">
                         <ScrollViewer>
                             <Grid Height="780">
                                 <TextBlock x:Name="edit_username" HorizontalAlignment="Left" Height="55" TextWrapping="Wrap" VerticalAlignment="Top" Width="230" Margin="10,0,0,0"/>
@@ -57,15 +57,15 @@
                                 <TextBox x:Name="edit_status" HorizontalAlignment="Left" Height="72" TextWrapping="Wrap" VerticalAlignment="Top" Width="230" Margin="0,480,0,0"/>
                                 <TextBox x:Name="edit_department" HorizontalAlignment="Left" Height="72" TextWrapping="Wrap" VerticalAlignment="Top" Width="230" Margin="0,540,0,0"/>
                                 <Button x:Name="edit_completed_button" Click="edit_button_pressed" Content="Finish" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,600,0,0" Width="auto" Height="70"/>
-                                <TextBlock HorizontalAlignment="Left" Margin="230,85,0,0" TextWrapping="Wrap" Text="New password" VerticalAlignment="Top"/>
-                                <TextBlock HorizontalAlignment="Left" Margin="230,145,0,0" TextWrapping="Wrap" Text="New password (again)" VerticalAlignment="Top"/>
-                                <TextBlock HorizontalAlignment="Left" Margin="230,205,0,0" TextWrapping="Wrap" Text="Name" VerticalAlignment="Top"/>
-                                <TextBlock HorizontalAlignment="Left" Margin="230,265,0,0" TextWrapping="Wrap" Text="Surname" VerticalAlignment="Top"/>
-                                <TextBlock HorizontalAlignment="Left" Margin="230,325,0,0" TextWrapping="Wrap" Text="E-mail" VerticalAlignment="Top"/>
-                                <TextBlock HorizontalAlignment="Left" Margin="230,385,0,0" TextWrapping="Wrap" Text="AMKA" VerticalAlignment="Top"/>
-                                <TextBlock HorizontalAlignment="Left" Margin="230,445,0,0" TextWrapping="Wrap" Text="User Team" VerticalAlignment="Top"/>
-                                <TextBlock HorizontalAlignment="Left" Margin="230,505,0,0" TextWrapping="Wrap" Text="Status" VerticalAlignment="Top"/>
-                                <TextBlock HorizontalAlignment="Left" Margin="230,565,0,0" TextWrapping="Wrap" Text="Department" VerticalAlignment="Top"/>
+                                <TextBlock x:Name="new_pass" HorizontalAlignment="Left" Margin="230,85,0,0" TextWrapping="Wrap" Text="New password" VerticalAlignment="Top"/>
+                                <TextBlock x:Name="new_pass2" HorizontalAlignment="Left" Margin="230,145,0,0" TextWrapping="Wrap" Text="New password (again)" VerticalAlignment="Top"/>
+                                <TextBlock x:Name="new_name" HorizontalAlignment="Left" Margin="230,205,0,0" TextWrapping="Wrap" Text="Name" VerticalAlignment="Top"/>
+                                <TextBlock x:Name="new_surname" HorizontalAlignment="Left" Margin="230,265,0,0" TextWrapping="Wrap" Text="Surname" VerticalAlignment="Top"/>
+                                <TextBlock x:Name="new_email" HorizontalAlignment="Left" Margin="230,325,0,0" TextWrapping="Wrap" Text="E-mail" VerticalAlignment="Top"/>
+                                <TextBlock x:Name="new_amka" HorizontalAlignment="Left" Margin="230,385,0,0" TextWrapping="Wrap" Text="AMKA" VerticalAlignment="Top"/>
+                                <TextBlock x:Name="new_userteam" HorizontalAlignment="Left" Margin="230,445,0,0" TextWrapping="Wrap" Text="User Team" VerticalAlignment="Top"/>
+                                <TextBlock x:Name="new_status" HorizontalAlignment="Left" Margin="230,505,0,0" TextWrapping="Wrap" Text="Status" VerticalAlignment="Top"/>
+                                <TextBlock x:Name="new_department" HorizontalAlignment="Left" Margin="230,565,0,0" TextWrapping="Wrap" Text="Department" VerticalAlignment="Top"/>
                         </Grid>
                         </ScrollViewer>
                     </phone:PivotItem>

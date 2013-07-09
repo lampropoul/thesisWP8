@@ -87,10 +87,8 @@ namespace HFPMApp
             }
 
 
-            if (PhoneApplicationService.Current.State["Language"] == "GR")
-                edit_username.Text = "Λεπτομέρειες του χρήστη " + PhoneApplicationService.Current.State["Username"] + ":";
-            else
-                edit_username.Text = PhoneApplicationService.Current.State["Username"] + "'s account details:";
+            if (PhoneApplicationService.Current.State["Language"] == "GR") edit_username.Text = "Λεπτομέρειες του χρήστη " + PhoneApplicationService.Current.State["Username"] + ":";
+            else edit_username.Text = PhoneApplicationService.Current.State["Username"] + "'s account details:";
 
             // APP BAR
             ApplicationBar = new ApplicationBar();
@@ -104,35 +102,23 @@ namespace HFPMApp
             //button1.Text = "button 1";
             //ApplicationBar.Buttons.Add(button1);
 
-            ApplicationBarMenuItem menuItem1 = new ApplicationBarMenuItem();
-            
-            if (PhoneApplicationService.Current.State["Language"] == "GR")
-                menuItem1.Text = "Έξοδος";
-            else
-                menuItem1.Text = "Logout";
 
+            ApplicationBarMenuItem menuItem1 = new ApplicationBarMenuItem();
+            if (PhoneApplicationService.Current.State["Language"] == "GR") menuItem1.Text = "Έξοδος";
+            else menuItem1.Text = "Logout";
             ApplicationBar.MenuItems.Add(menuItem1);
             menuItem1.Click += new EventHandler(logout_Click);
 
             ApplicationBarMenuItem menuItem2 = new ApplicationBarMenuItem();
-
-            if (PhoneApplicationService.Current.State["Language"] == "GR")
-                menuItem2.Text = "Εκκαθάριση περασμένων καθηκόντων";
-            else
-                menuItem2.Text = "Clear old entries";
-
+            if (PhoneApplicationService.Current.State["Language"] == "GR") menuItem2.Text = "Εκκαθάριση περασμένων καθηκόντων";
+            else menuItem2.Text = "Clear old entries";
             ApplicationBar.MenuItems.Add(menuItem2);
-
+            
             ApplicationBarMenuItem menuItem3 = new ApplicationBarMenuItem();
-
-            if (PhoneApplicationService.Current.State["Language"] == "GR")
-                menuItem3.Text = "Ρυθμίσεις για τα αιτήματα.";
-            else
-                menuItem3.Text = "Settings for declared";
-
+            if (PhoneApplicationService.Current.State["Language"] == "GR") menuItem3.Text = "Ρυθμίσεις για τα αιτήματα.";
+            else menuItem3.Text = "Settings for declared";
             ApplicationBar.MenuItems.Add(menuItem3);
             menuItem3.Click += new EventHandler(settings_Click);
-
             
 
 
@@ -181,10 +167,8 @@ namespace HFPMApp
             }
             else
             {
-                if (PhoneApplicationService.Current.State["Language"] == "GR")
-                    MessageBox.Show("Οι κωδικοί δεν ταιριάζουν ή δεν έχετε εισάγει κωδικό. Προσπαθήστε ξανά.");
-                else
-                    MessageBox.Show("Passwords don't match or you have specified no password at all. Try again.");
+                if (PhoneApplicationService.Current.State["Language"] == "GR") MessageBox.Show("Οι κωδικοί δεν ταιριάζουν ή δεν έχετε εισάγει κωδικό. Προσπαθήστε ξανά.");
+                else MessageBox.Show("Passwords don't match or you have specified no password at all. Try again.");
             }
 
 
@@ -225,10 +209,8 @@ namespace HFPMApp
                     if (jsonObject.message == "Updated") MessageBox.Show("Edit OK.");
                     else
                     {
-                        if (PhoneApplicationService.Current.State["Language"] == "GR")
-                            MessageBox.Show("Κάτι δεν πήγε καθόλου καλά. Προσπαθήστε ξανά.");
-                        else
-                            MessageBox.Show("Something went terribly wrong. Please try again.");
+                        if (PhoneApplicationService.Current.State["Language"] == "GR") MessageBox.Show("Κάτι δεν πήγε καθόλου καλά. Προσπαθήστε ξανά.");
+                        else MessageBox.Show("Something went terribly wrong. Please try again.");
                     }
 
                     
@@ -276,16 +258,12 @@ namespace HFPMApp
                 string department = jsonObject.department;
 
 
-                
-
                 // fill boxes with new (updated) data
                 edit_amka.Text = amka;
                 edit_department.Text = department;
                 edit_email.Text = email;
                 edit_name.Text = name_user;
                 edit_surname.Text = surname_user;
-                //edit_password.Password = "new pass";
-                //edit_password2.Password = "new pass again";
                 edit_status.Text = status;
                 edit_userteam.Text = user_team;
 
@@ -304,24 +282,6 @@ namespace HFPMApp
             }
         }
 
-        // the class which contains the properties of the specific json response
-        public class RootObject
-        {
-            public int id { get; set; }
-            public string user_team { get; set; }
-            public string name_user { get; set; }
-            public string surname_user { get; set; }
-            public string username { get; set; }
-            public string password { get; set; }
-            public string email { get; set; }
-            public string amka { get; set; }
-            public string status { get; set; }
-            public string department { get; set; }
-            public string error { get; set; }
-            public string message { get; set; }
-        }
-
-        
         
         
         
@@ -343,6 +303,28 @@ namespace HFPMApp
             NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
         }
 
+
+
+
+        // the class which contains the properties of the specific json response
+        public class RootObject
+        {
+            public int id { get; set; }
+            public string user_team { get; set; }
+            public string name_user { get; set; }
+            public string surname_user { get; set; }
+            public string username { get; set; }
+            public string password { get; set; }
+            public string email { get; set; }
+            public string amka { get; set; }
+            public string status { get; set; }
+            public string department { get; set; }
+            public string error { get; set; }
+            public string message { get; set; }
+        }
+
         
+
+
     }
 }

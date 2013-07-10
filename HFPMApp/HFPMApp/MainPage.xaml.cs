@@ -21,6 +21,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Navigation;
+using Windows.Networking.Connectivity;
+using Microsoft.Phone.Net.NetworkInformation;
 
 
 namespace HFPMApp
@@ -61,18 +63,18 @@ namespace HFPMApp
             base.OnNavigatedTo(e);
 
             // if already logged in, navigate to menu page
-            try
-            {
-                if (PhoneApplicationService.Current.State["Username"] != null)
-                {
-                    uri = "/MainMenuPage.xaml?username=" + PhoneApplicationService.Current.State["Username"];
-                    NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
-                }
-            }
-            catch (KeyNotFoundException ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
+            //try
+            //{
+            //    if (PhoneApplicationService.Current.State["Username"] != null)
+            //    {
+            //        uri = "/MainMenuPage.xaml?username=" + PhoneApplicationService.Current.State["Username"];
+            //        NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
+            //    }
+            //}
+            //catch (KeyNotFoundException ex)
+            //{
+            //    Console.WriteLine(ex.Message);
+            //}
 
 
 
@@ -89,11 +91,9 @@ namespace HFPMApp
         private void login_btn_click1(object sender, RoutedEventArgs e)
         {
 
-            SolidColorBrush Brush = new SolidColorBrush();
-            Brush.Color = Colors.Blue;
+            if (Convert.ToBoolean(gr.IsChecked)) PhoneApplicationService.Current.State["Language"] = "GR";
+            else PhoneApplicationService.Current.State["Language"] = "EN";
 
-            
-            
             // edw upoti8etai oti 8a ginetai to erwtima stin topiki basi
             string uname = username_box.Text;
             string pass = password_box.Password;
@@ -108,11 +108,12 @@ namespace HFPMApp
 
                 
                 // TODO: check internet connectivity
-                
-                bool isInternet = false;
+
+                bool hasInternet = NetworkInterface.GetIsNetworkAvailable();
+                //hasInternet = false;
 
                 // ean exw internet proxwraw kai kanw to REST call
-                if (isInternet)
+                if (hasInternet)
                 {
 
                     // REST Call
@@ -137,17 +138,28 @@ namespace HFPMApp
 
 
                         // insert entry in DB
-                        db.Users.InsertOnSubmit(new Users
-                        {
-                            Userid = 2,
-                            Username = "q",
-                            Password = "q",
-                            Nameuser = "Kostas",
-                            Surnameuser = "Dim",
-                            Amka = "12048901859",
-                            Department = "ΠΑΘΟΛΟΓΙΚΗ",
-                            Userteam = 5
-                        });
+                        //db.Users.InsertOnSubmit(new Users
+                        //{
+                        //    Userid = 2,
+                        //    Username = "q",
+                        //    Password = "q",
+                        //    Nameuser = "Kostas",
+                        //    Surnameuser = "Dim",
+                        //    Amka = "12048901859",
+                        //    Department = "ΠΑΘΟΛΟΓΙΚΗ",
+                        //    Userteam = 5
+                        //});
+                        //db.Users.InsertOnSubmit(new Users
+                        //{
+                        //    Userid = 1,
+                        //    Username = "lampropoul",
+                        //    Password = "12",
+                        //    Nameuser = "Vassilis",
+                        //    Surnameuser = "Lampropoulos",
+                        //    Amka = "12048901859",
+                        //    Department = "ΠΑΘΟΛΟΓΙΚΗ",
+                        //    Userteam = 1
+                        //});
 
                         
                         // changes do not take place until SubmitChanges method is called
@@ -334,48 +346,26 @@ namespace HFPMApp
             }
         }
 
-        
+
+
+        // the class which contains the properties of the specific JSON response
+        public class RootObject
+        {
+            public int id { get; set; }
+            public string user_team { get; set; }
+            public string name_user { get; set; }
+            public string surname_user { get; set; }
+            public string username { get; set; }
+            public string password { get; set; }
+            public string email { get; set; }
+            public string amka { get; set; }
+            public string status { get; set; }
+            public string department { get; set; }
+            public string error { get; set; }
+        }
+
+
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-    // the class which contains the properties of the specific JSON response
-    public class RootObject
-    {
-        public int id { get; set; }
-        public string user_team { get; set; }
-        public string name_user { get; set; }
-        public string surname_user { get; set; }
-        public string username { get; set; }
-        public string password { get; set; }
-        public string email { get; set; }
-        public string amka { get; set; }
-        public string status { get; set; }
-        public string department { get; set; }
-        public string error { get; set; }
-    }
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

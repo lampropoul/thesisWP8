@@ -99,8 +99,14 @@
     <Compile Include="Edit.xaml.cs">
       <DependentUpon>Edit.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Edit2.xaml.cs">
-      <DependentUpon>Edit2.xaml</DependentUpon>
+    <Compile Include="Edit_Address.xaml.cs">
+      <DependentUpon>Edit_Address.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Edit_Phones.xaml.cs">
+      <DependentUpon>Edit_Phones.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Edit_User.xaml.cs">
+      <DependentUpon>Edit_User.xaml</DependentUpon>
     </Compile>
     <Compile Include="HospitalContext.cs" />
     <Compile Include="LocalizedStrings.cs" />
@@ -139,7 +145,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Edit2.xaml">
+    <Page Include="Edit_Address.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Edit_Phones.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Edit_User.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

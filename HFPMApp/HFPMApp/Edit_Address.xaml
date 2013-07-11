@@ -1,5 +1,5 @@
 ﻿<phone:PhoneApplicationPage
-    x:Class="HFPMApp.Edit"
+    x:Class="HFPMApp.Edit_Address"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
@@ -23,15 +23,12 @@
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel Grid.Row="0" Margin="12,17,0,28">
             <TextBlock x:Name="app_title" Text="Health Facilities Personnel Management App" Style="{StaticResource PhoneTextNormalStyle}" Margin="12,0" TextAlignment="Center" FontSize="21.333" Height="69"/>
-            <TextBlock x:Name="page_title" Text="Edit Personal Info" Margin="0,-7,12,0" Style="{StaticResource PhoneTextTitle1Style}" FontSize="48" TextAlignment="Center" Height="72"/>
+            <TextBlock x:Name="page_title" Text="Edit Address Info" Margin="0,-7,12,0" Style="{StaticResource PhoneTextTitle1Style}" FontSize="48" TextAlignment="Center" Height="72"/>
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-        	<Button x:Name="edit_user" Click="edit_user_Click" Content="User Info" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="436" Height="144"/>
-        	<Button x:Name="edit_address" Click="edit_address_Click"  Content="Address Info" HorizontalAlignment="Left" Margin="10,159,0,0" VerticalAlignment="Top" Width="436" Height="141"/>
-        	<Button x:Name="edit_phones" Click="edit_phones_Click" Content="Phone Info" HorizontalAlignment="Left" Margin="10,305,0,0" VerticalAlignment="Top" Height="137" Width="436"/>
-            
+
         </Grid>
     </Grid>
 

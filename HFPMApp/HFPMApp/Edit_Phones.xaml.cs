@@ -10,9 +10,9 @@ using Microsoft.Phone.Shell;
 
 namespace HFPMApp
 {
-    public partial class Edit2 : PhoneApplicationPage
+    public partial class Edit_Phones : PhoneApplicationPage
     {
-        public Edit2()
+        public Edit_Phones()
         {
             InitializeComponent();
         }

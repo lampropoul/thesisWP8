@@ -1,0 +1,58 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="HFPMApp.Edit_User"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d"
+    shell:SystemTray.IsVisible="True">
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--TitlePanel contains the name of the application and page title-->
+        <StackPanel Grid.Row="0" Margin="12,17,0,28">
+            <TextBlock x:Name="app_title" Text="Health Facilities Personnel Management App" Style="{StaticResource PhoneTextNormalStyle}" Margin="12,0" TextAlignment="Center" FontSize="21.333" Height="69"/>
+            <TextBlock x:Name="page_title" Text="Edit User Info" Margin="0,-7,12,0" Style="{StaticResource PhoneTextTitle1Style}" FontSize="48" TextAlignment="Center" Height="72"/>
+        </StackPanel>
+
+        <!--ContentPanel - place additional content here-->
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+            <ScrollViewer>
+                <Grid Height="780">
+                    <TextBlock x:Name="edit_username" HorizontalAlignment="Left" Height="55" TextWrapping="Wrap" VerticalAlignment="Top" Width="230" Margin="10,0,0,0"/>
+                    <PasswordBox x:Name="edit_password" HorizontalAlignment="Left" Height="72" VerticalAlignment="Top" Width="230" Margin="0,60,0,0"/>
+                    <PasswordBox x:Name="edit_password2" HorizontalAlignment="Left" Height="72" VerticalAlignment="Top" Width="230" Margin="0,120,0,0"/>
+                    <TextBox x:Name="edit_name" HorizontalAlignment="Left" Height="72" TextWrapping="Wrap" VerticalAlignment="Top" Width="230" Margin="0,180,0,0"/>
+                    <TextBox x:Name="edit_surname" HorizontalAlignment="Left" Height="72" TextWrapping="Wrap" VerticalAlignment="Top" Width="230" Margin="0,240,0,0"/>
+                    <TextBox x:Name="edit_email" HorizontalAlignment="Left" Height="72" TextWrapping="Wrap" VerticalAlignment="Top" Width="230" Margin="0,300,0,0"/>
+                    <TextBox x:Name="edit_amka" HorizontalAlignment="Left" Height="72" TextWrapping="Wrap" VerticalAlignment="Top" Width="230" Margin="0,360,0,0"/>
+                    <TextBox x:Name="edit_userteam" HorizontalAlignment="Left" Height="72" TextWrapping="Wrap" VerticalAlignment="Top" Width="230" Margin="0,420,0,0"/>
+                    <TextBox x:Name="edit_status" HorizontalAlignment="Left" Height="72" TextWrapping="Wrap" VerticalAlignment="Top" Width="230" Margin="0,480,0,0"/>
+                    <TextBox x:Name="edit_department" HorizontalAlignment="Left" Height="72" TextWrapping="Wrap" VerticalAlignment="Top" Width="230" Margin="0,540,0,0"/>
+                    <Button x:Name="edit_completed_button" Click="edit_button_pressed" Content="Finish" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,600,0,0" Width="auto" Height="70"/>
+                    <TextBlock x:Name="new_pass" HorizontalAlignment="Left" Margin="230,85,0,0" TextWrapping="Wrap" Text="New password" VerticalAlignment="Top"/>
+                    <TextBlock x:Name="new_pass2" HorizontalAlignment="Left" Margin="230,145,0,0" TextWrapping="Wrap" Text="New password (again)" VerticalAlignment="Top"/>
+                    <TextBlock x:Name="new_name" HorizontalAlignment="Left" Margin="230,205,0,0" TextWrapping="Wrap" Text="Name" VerticalAlignment="Top"/>
+                    <TextBlock x:Name="new_surname" HorizontalAlignment="Left" Margin="230,265,0,0" TextWrapping="Wrap" Text="Surname" VerticalAlignment="Top"/>
+                    <TextBlock x:Name="new_email" HorizontalAlignment="Left" Margin="230,325,0,0" TextWrapping="Wrap" Text="E-mail" VerticalAlignment="Top"/>
+                    <TextBlock x:Name="new_amka" HorizontalAlignment="Left" Margin="230,385,0,0" TextWrapping="Wrap" Text="AMKA" VerticalAlignment="Top"/>
+                    <TextBlock x:Name="new_userteam" HorizontalAlignment="Left" Margin="230,445,0,0" TextWrapping="Wrap" Text="User Team" VerticalAlignment="Top"/>
+                    <TextBlock x:Name="new_status" HorizontalAlignment="Left" Margin="230,505,0,0" TextWrapping="Wrap" Text="Status" VerticalAlignment="Top"/>
+                    <TextBlock x:Name="new_department" HorizontalAlignment="Left" Margin="230,565,0,0" TextWrapping="Wrap" Text="Department" VerticalAlignment="Top"/>
+                </Grid>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+
+</phone:PhoneApplicationPage>

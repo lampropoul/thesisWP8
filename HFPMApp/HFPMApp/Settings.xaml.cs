@@ -12,6 +12,10 @@ namespace HFPMApp
 {
     public partial class Settings : PhoneApplicationPage
     {
+
+        string uri;
+
+
         public Settings()
         {
             InitializeComponent();
@@ -47,10 +51,11 @@ namespace HFPMApp
             ApplicationBar.IsVisible = true;
             ApplicationBar.IsMenuEnabled = true;
 
-            //ApplicationBarIconButton button1 = new ApplicationBarIconButton();
-            //button1.IconUri = new Uri("/Images/YourImage.png", UriKind.Relative);
-            //button1.Text = "button 1";
-            //ApplicationBar.Buttons.Add(button1);
+            ApplicationBarIconButton button1 = new ApplicationBarIconButton();
+            button1.IconUri = new Uri("/Images/YourImage.png", UriKind.Relative);
+            button1.Text = "Main Menu";
+            ApplicationBar.Buttons.Add(button1);
+            button1.Click += new EventHandler(main_menu_Click);
 
             ApplicationBarMenuItem menuItem1 = new ApplicationBarMenuItem();
 
@@ -91,6 +96,14 @@ namespace HFPMApp
 
             PhoneApplicationService.Current.State["Username"] = null;
             string uri = "/MainPage.xaml?logout=true";
+            NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
+
+        }
+
+        private void main_menu_Click(object sender, EventArgs e)
+        {
+
+            uri = "/MainMenuPage.xaml";
             NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
 
         }

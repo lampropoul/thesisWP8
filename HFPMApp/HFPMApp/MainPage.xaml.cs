@@ -2,6 +2,7 @@
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Data.Linq;
 using Microsoft.Phone.Data.Linq.Mapping;
+using Microsoft.Phone.Net.NetworkInformation;
 using Microsoft.Phone.Notification;
 using Microsoft.Phone.Shell;
 using Newtonsoft.Json;
@@ -21,8 +22,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Navigation;
-using Windows.Networking.Connectivity;
-using Microsoft.Phone.Net.NetworkInformation;
 
 
 namespace HFPMApp

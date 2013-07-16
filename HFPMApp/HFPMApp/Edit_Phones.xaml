@@ -28,7 +28,17 @@
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-
+            <ScrollViewer>
+                <Grid>
+                    <TextBox x:Name="edit_phone" HorizontalAlignment="Left" Height="72" TextWrapping="Wrap" VerticalAlignment="Top" Width="265"/>
+                    <TextBlock x:Name="phone" HorizontalAlignment="Left" Margin="270,25,0,0" TextWrapping="Wrap" Text="Phone" VerticalAlignment="Top" Width="114"/>
+                    <TextBox x:Name="edit_mobile" HorizontalAlignment="Left" Height="72" TextWrapping="Wrap" VerticalAlignment="Top" Width="265" Margin="0,75,0,0"/>
+                    <TextBlock x:Name="mobile" HorizontalAlignment="Left" Margin="270,100,0,0" TextWrapping="Wrap" Text="Mobile" VerticalAlignment="Top" Width="114"/>
+                    <TextBox x:Name="edit_fax" HorizontalAlignment="Left" Height="72" TextWrapping="Wrap" VerticalAlignment="Top" Width="265" Margin="0,152,0,0"/>
+                    <TextBlock x:Name="fax" HorizontalAlignment="Left" Margin="270,177,0,0" TextWrapping="Wrap" Text="Fax" VerticalAlignment="Top" Width="114"/>
+                    <Button x:Name="send_phones" Click="send_phones_Click" Content="Finish" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,230,0,0" Width="258"/>
+                </Grid>
+            </ScrollViewer>
         </Grid>
     </Grid>
 

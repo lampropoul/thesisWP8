@@ -63,7 +63,7 @@ namespace HFPMApp
             ApplicationBar.IsMenuEnabled = true;
 
             ApplicationBarIconButton button1 = new ApplicationBarIconButton();
-            button1.IconUri = new Uri("/Images/YourImage.png", UriKind.Relative);
+            button1.IconUri = new Uri("menu_button.gif", UriKind.Relative);
             button1.Text = "Main Menu";
             ApplicationBar.Buttons.Add(button1);
             button1.Click += new EventHandler(main_menu_Click);

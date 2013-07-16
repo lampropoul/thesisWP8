@@ -33,8 +33,8 @@ namespace HFPMApp
         WebClient client;
         string url;
         string uri;
-        
 
+        String server_ip;
 
 
 
@@ -45,7 +45,19 @@ namespace HFPMApp
         {
             InitializeComponent();
 
-            //bool isNetwork = NetworkInterface.GetIsNetworkAvailable();
+            try
+            {
+                using (StreamReader sr = new StreamReader("server_ip.txt"))
+                {
+                    server_ip = sr.ReadToEnd();
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("The file could not be read:");
+                MessageBox.Show(e.Message);
+            }
+
 
             client = new WebClient();
             client.DownloadStringCompleted += client_DownloadStringCompleted;
@@ -116,7 +128,7 @@ namespace HFPMApp
                 {
 
                     // REST Call
-                    url = "http://192.168.42.236/HFPM_Server_CI/index.php/restful/api/user/username/" + uname + "/randomnum/" + rand;
+                    url = "http://" + server_ip + "/HFPM_Server_CI/index.php/restful/api/user/username/" + uname + "/randomnum/" + rand;
                     client.DownloadStringAsync(new Uri(url));
 
                 }

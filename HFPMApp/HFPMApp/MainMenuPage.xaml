@@ -23,7 +23,7 @@
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel Grid.Row="0" Margin="12,17,0,0">
             <TextBlock x:Name="title" Text="Health Facilities Personnel Management App" Style="{StaticResource PhoneTextNormalStyle}" HorizontalAlignment="Center"/>
-            <TextBlock x:Name="welcome" Text="Menu" Margin="0,0,0,0" Style="{StaticResource PhoneTextTitle1Style}" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="48"/>
+            <TextBlock x:Name="welcome" Text="Main Menu" Margin="0,0,0,0" Style="{StaticResource PhoneTextTitle1Style}" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="48"/>
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
@@ -34,8 +34,6 @@
                     <Button x:Name="search_button" Click="search_button_Click" Content="Search" HorizontalAlignment="Center" Margin="0,130,0,0" VerticalAlignment="Top" Height="130" Width="400"/>
                     <Button x:Name="declared_button" Click="declared_button_Click" Content="Declared Duties" HorizontalAlignment="Center" Margin="0,260,0,0" VerticalAlignment="Top" Height="130" Width="400"/>
                     <Button x:Name="edit_button" Click="edit_button_Click" Content="Edit Personal Info" HorizontalAlignment="Center" Margin="0,390,0,0" VerticalAlignment="Top" Height="130" Width="400"/>
-        	
-
         		</Grid>
         	</ScrollViewer>
         </Grid>

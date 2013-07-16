@@ -28,7 +28,27 @@
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+        	<ScrollViewer>
+        		<Grid>
+        			<TextBox x:Name="edit_nomos" HorizontalAlignment="Left" Height="72" TextWrapping="Wrap" VerticalAlignment="Top" Width="265"/>
+        			<TextBlock x:Name="nomos" HorizontalAlignment="Left" Margin="270,25,0,0" TextWrapping="Wrap" Text="Nomos" VerticalAlignment="Top" Width="114"/>
+        			<TextBox x:Name="edit_dimos" HorizontalAlignment="Left" Height="72" TextWrapping="Wrap" VerticalAlignment="Top" Width="265" Margin="0,75,0,0"/>
+        			<TextBlock x:Name="dimos" HorizontalAlignment="Left" Margin="270,100,0,0" TextWrapping="Wrap" Text="Dimos" VerticalAlignment="Top" Width="114"/>
+        			<TextBox x:Name="edit_city" HorizontalAlignment="Left" Height="72" TextWrapping="Wrap" VerticalAlignment="Top" Width="265" Margin="0,152,0,0"/>
+        			<TextBlock x:Name="city" HorizontalAlignment="Left" Margin="270,177,0,0" TextWrapping="Wrap" Text="City" VerticalAlignment="Top" Width="114"/>
+        			<TextBox x:Name="edit_address" HorizontalAlignment="Left" Height="72" TextWrapping="Wrap" VerticalAlignment="Top" Width="265" Margin="0,227,0,0"/>
+        			<TextBlock x:Name="address" HorizontalAlignment="Left" Margin="270,252,0,0" TextWrapping="Wrap" Text="Address" VerticalAlignment="Top" Width="114"/>
+        			<TextBox x:Name="edit_postal_code" HorizontalAlignment="Left" Height="72" TextWrapping="Wrap" VerticalAlignment="Top" Width="265" Margin="0,296,0,0"/>
+        			<TextBlock x:Name="postal_code" HorizontalAlignment="Left" Margin="270,321,0,0" TextWrapping="Wrap" Text="Postal Code" VerticalAlignment="Top" Width="114"/>
+        			<TextBox x:Name="edit_country" HorizontalAlignment="Left" Height="72" TextWrapping="Wrap" VerticalAlignment="Top" Width="265" Margin="0,436,0,0"/>
+        			<TextBlock x:Name="nomos_Copy4" HorizontalAlignment="Left" Margin="270,25,0,0" TextWrapping="Wrap" Text="Nomos" VerticalAlignment="Top" Width="114"/>
+        			<TextBox x:Name="edit_area" HorizontalAlignment="Left" Height="72" TextWrapping="Wrap" VerticalAlignment="Top" Width="265" Margin="0,364,0,0"/>
+        			<TextBlock x:Name="area" HorizontalAlignment="Left" Margin="270,389,0,0" TextWrapping="Wrap" Text="Area" VerticalAlignment="Top" Width="114"/>
+        			<TextBlock x:Name="country" HorizontalAlignment="Left" Margin="270,461,0,0" TextWrapping="Wrap" Text="Country" VerticalAlignment="Top" Width="114"/>
+        			<Button x:Name="send_address_info" Click="send_address_info_Click" Content="Finish" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,513,0,0" Width="258"/>
 
+        		</Grid>
+        	</ScrollViewer>
         </Grid>
     </Grid>
 

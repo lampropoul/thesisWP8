@@ -32,13 +32,25 @@ namespace HFPMApp
         string url_post;
         string uri;
         string json_to_send = null;
-
+        String server_ip;
 
 
         public Edit_User()
         {
             InitializeComponent();
 
+            try
+            {
+                using (StreamReader sr = new StreamReader("server_ip.txt"))
+                {
+                    server_ip = sr.ReadToEnd();                   
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("The file could not be read:");
+                MessageBox.Show(e.Message);
+            }
 
             // CLIENTS
             client = new WebClient();
@@ -69,8 +81,10 @@ namespace HFPMApp
                 new_userteam.Text = "Ομάδα χρήστη";
                 new_status.Text = "Κατάσταση";
                 new_department.Text = "Τμήμα";
+
                 edit_completed_button.Content = "Ολοκλήρωση";
 
+                
 
             }
 
@@ -89,8 +103,19 @@ namespace HFPMApp
 
             //ShellTile.Create(new Uri("/Settings.xaml", UriKind.Relative), tileData, true);
 
-            
-            
+
+            // APP BAR
+            ApplicationBar = new ApplicationBar();
+            ApplicationBar.Mode = ApplicationBarMode.Default;
+            ApplicationBar.Opacity = 1.0;
+            ApplicationBar.IsVisible = true;
+            ApplicationBar.IsMenuEnabled = true;
+
+            ApplicationBarIconButton button1 = new ApplicationBarIconButton();
+            button1.IconUri = new Uri("menu_button.gif", UriKind.Relative);
+            button1.Text = "Main Menu";
+            ApplicationBar.Buttons.Add(button1);
+            button1.Click += new EventHandler(main_menu_Click);
             
 
             // pairnw ta parameters (username kai password) apo tin MainPage.xaml
@@ -101,7 +126,7 @@ namespace HFPMApp
             Random rnd = new Random();
             int rand = rnd.Next(1, 1000);
 
-            url = "http://192.168.42.236/HFPM_Server_CI/index.php/restful/api/user/username/" + given_username + "/randomnum/" + rand;
+            url = "http://" + server_ip + "/HFPM_Server_CI/index.php/restful/api/user/username/" + given_username + "/randomnum/" + rand;
             client.DownloadStringAsync(new Uri(url));
 
         }
@@ -116,7 +141,7 @@ namespace HFPMApp
             Random rnd = new Random();
             int rand = rnd.Next(1, 1000);
 
-            url_post = "http://192.168.42.236/HFPM_Server_CI/index.php/restful/api/user" +
+            url_post = "http://" + server_ip + "/HFPM_Server_CI/index.php/restful/api/user" +
                 "/username/" + edit_username.Text +
                 //"/password/" + edit_password.Password +
                 //"/amka/" + edit_amka.Text +
@@ -146,7 +171,6 @@ namespace HFPMApp
             jsonObject.department = edit_department.Text;
 
             this.json_to_send = JsonConvert.SerializeObject(jsonObject, Formatting.Indented, new JsonSerializerSettings { });
-            MessageBox.Show(this.json_to_send.ToString());
 
             
 
@@ -172,15 +196,10 @@ namespace HFPMApp
             try
             {
 
-
-
                 try
                 {
 
-                    
-
                     this.downloadedText = e.Result;
-                    MessageBox.Show(e.Result.ToString());
                     RootObject jsonObject_res = JsonConvert.DeserializeObject<RootObject>(this.downloadedText);
 
                     if (jsonObject_res.message == "Updated")
@@ -262,6 +281,18 @@ namespace HFPMApp
                 MessageBox.Show("WebException: " + ex.Message);
                 System.Diagnostics.Debug.WriteLine("WebException: " + ex.Message);
             }
+        }
+
+
+
+
+
+        private void main_menu_Click(object sender, EventArgs e)
+        {
+
+            uri = "/MainMenuPage.xaml";
+            NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
+
         }
 
 

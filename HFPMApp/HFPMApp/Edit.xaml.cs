@@ -36,14 +36,6 @@ namespace HFPMApp
         {
             InitializeComponent();
 
-
-        }
-
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-
             // APP BAR
             ApplicationBar = new ApplicationBar();
             ApplicationBar.Mode = ApplicationBarMode.Default;
@@ -57,13 +49,44 @@ namespace HFPMApp
             ApplicationBar.Buttons.Add(button1);
             button1.Click += new EventHandler(main_menu_Click);
 
+
+            ApplicationBarMenuItem menuItem1 = new ApplicationBarMenuItem();
+            if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") menuItem1.Text = "Έξοδος";
+            else menuItem1.Text = "Logout";
+            ApplicationBar.MenuItems.Add(menuItem1);
+            menuItem1.Click += new EventHandler(logout_Click);
+
+            ApplicationBarMenuItem menuItem2 = new ApplicationBarMenuItem();
+            if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") menuItem2.Text = "Εκκαθάριση περασμένων καθηκόντων";
+            else menuItem2.Text = "Clear old entries";
+            ApplicationBar.MenuItems.Add(menuItem2);
+
+            ApplicationBarMenuItem menuItem3 = new ApplicationBarMenuItem();
+            if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") menuItem3.Text = "Ρυθμίσεις για τα αιτήματα.";
+            else menuItem3.Text = "Settings for declared";
+            ApplicationBar.MenuItems.Add(menuItem3);
+            menuItem3.Click += new EventHandler(settings_Click);
+
+
             if (PhoneApplicationService.Current.State["Language"].ToString() == "GR")
             {
                 app_title.Text = "Εφαρμογή Διαχείρισης Μονάδων Υγείας";
                 page_title.Text = "Επεξεργασία";
 
-
+                edit_user.Content = "Στοιχεία χρήστη";
+                edit_address.Content = "Διεύθυνση";
+                edit_phones.Content = "Τηλέφωνα";
             }
+
+        }
+
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            
+            
 
 
             bool hasInternet = NetworkInterface.GetIsNetworkAvailable();
@@ -109,7 +132,10 @@ namespace HFPMApp
         {
             uri = "/Edit_Phones.xaml";
             NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
-        } 
+        }
+
+
+
 
 
         private void main_menu_Click(object sender, EventArgs e)
@@ -118,6 +144,22 @@ namespace HFPMApp
             uri = "/MainMenuPage.xaml";
             NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
 
+        }
+
+        private void logout_Click(object sender, EventArgs e)
+        {
+
+            PhoneApplicationService.Current.State["Username"] = null;
+            uri = "/MainPage.xaml?logout=true";
+            NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
+
+        }
+
+
+        private void settings_Click(object sender, EventArgs e)
+        {
+            uri = "/Settings.xaml";
+            NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
         }
         
 

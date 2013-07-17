@@ -115,10 +115,8 @@ namespace HFPMApp
             if (uname != String.Empty && pass != String.Empty)
             {
 
-                // elegxw an exw internet
 
-                
-                // TODO: check internet connectivity
+                // check internet connectivity
 
                 bool hasInternet = NetworkInterface.GetIsNetworkAvailable();
                 //hasInternet = false;
@@ -148,30 +146,6 @@ namespace HFPMApp
                         db.LogDebug = true;
 
 
-                        // insert entry in DB
-                        //db.Users.InsertOnSubmit(new Users
-                        //{
-                        //    Userid = 2,
-                        //    Username = "q",
-                        //    Password = "q",
-                        //    Nameuser = "Kostas",
-                        //    Surnameuser = "Dim",
-                        //    Amka = "12048901859",
-                        //    Department = "ΠΑΘΟΛΟΓΙΚΗ",
-                        //    Userteam = 5
-                        //});
-                        //db.Users.InsertOnSubmit(new Users
-                        //{
-                        //    Userid = 1,
-                        //    Username = "lampropoul",
-                        //    Password = "12",
-                        //    Nameuser = "Vassilis",
-                        //    Surnameuser = "Lampropoulos",
-                        //    Amka = "12048901859",
-                        //    Department = "ΠΑΘΟΛΟΓΙΚΗ",
-                        //    Userteam = 1
-                        //});
-
                         
                         // changes do not take place until SubmitChanges method is called
                         try
@@ -193,6 +167,7 @@ namespace HFPMApp
                         //MessageBox.Show("Query 1: " + query);
                         bool found = false;
                         string password = null;
+
                         foreach (Users us in query)
                         {
                             
@@ -287,10 +262,6 @@ namespace HFPMApp
 
 
 
-
-
-
-
         // function that retreives json data from web server
         void client_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
@@ -302,7 +273,7 @@ namespace HFPMApp
                 RootObject jsonObject = JsonConvert.DeserializeObject<RootObject>(this.downloadedText);
 
                 int id = jsonObject.id;
-                string user_team = jsonObject.user_team;
+                int user_team = jsonObject.user_team;
                 string name_user = jsonObject.name_user;
                 string surname_user = jsonObject.surname_user;
                 string username = jsonObject.username;
@@ -323,8 +294,68 @@ namespace HFPMApp
                         if (Convert.ToBoolean(gr.IsChecked)) PhoneApplicationService.Current.State["Language"] = "GR";
                         else PhoneApplicationService.Current.State["Language"] = "EN";
 
-                        uri = "/MainMenuPage.xaml";
-                        NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
+
+                        // logged via internet. now delete and insert to lacal db
+                        using (HospitalContext db = new HospitalContext(HospitalContext.ConnectionString))
+                        {
+
+                            // -------------------------------------------------------------------//
+                            // -------------------------- LOCAL DATABASE -------------------------//
+                            // -------------------------------------------------------------------//
+
+                            db.CreateIfNotExists();
+                            db.LogDebug = true;
+
+
+                            // retreive user id from table users
+
+                            IEnumerable<Users> query =
+                                        from user in db.Users
+                                        where user.Username == PhoneApplicationService.Current.State["Username"].ToString()
+                                        select user;
+
+                            // delete
+                            foreach (Users us in query)
+                            {
+                                db.Users.DeleteOnSubmit(us);
+                            }
+
+
+
+                            db.Users.InsertOnSubmit(new Users
+                            {
+                                Userid = id,
+                                Username = username,
+                                Password = password,
+                                Nameuser = name_user,
+                                Surnameuser = surname_user,
+                                Amka = amka,
+                                Department = department,
+                                Userteam = user_team
+                            });
+
+
+
+                            // changes do not take place until SubmitChanges method is called
+                            try
+                            {
+                                db.SubmitChanges();
+                                uri = "/MainMenuPage.xaml";
+                                NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show(ex.Message);
+                            }
+
+
+
+
+
+                        }
+
+
+                        
                     }
                     else
                     {
@@ -363,7 +394,7 @@ namespace HFPMApp
         public class RootObject
         {
             public int id { get; set; }
-            public string user_team { get; set; }
+            public int user_team { get; set; }
             public string name_user { get; set; }
             public string surname_user { get; set; }
             public string username { get; set; }

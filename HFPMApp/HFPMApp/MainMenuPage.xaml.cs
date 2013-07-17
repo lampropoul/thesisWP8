@@ -43,18 +43,6 @@ namespace HFPMApp
         {
             InitializeComponent();
 
-
-            
-        }
-
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-
-            
-            
-            
             // APP BAR
             ApplicationBar = new ApplicationBar();
             ApplicationBar.Mode = ApplicationBarMode.Default;
@@ -76,15 +64,38 @@ namespace HFPMApp
             menuItem1.Click += new EventHandler(logout_Click);
 
             ApplicationBarMenuItem menuItem2 = new ApplicationBarMenuItem();
-            if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") menuItem2.Text = "Εκκαθάριση περασμένων καθηκόντων";
+            if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") menuItem2.Text = "Εκκαθάριση καθηκόντων";
             else menuItem2.Text = "Clear old entries";
             ApplicationBar.MenuItems.Add(menuItem2);
-            
+
             ApplicationBarMenuItem menuItem3 = new ApplicationBarMenuItem();
             if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") menuItem3.Text = "Ρυθμίσεις για τα αιτήματα.";
             else menuItem3.Text = "Settings for declared";
             ApplicationBar.MenuItems.Add(menuItem3);
             menuItem3.Click += new EventHandler(settings_Click);
+
+
+            if (PhoneApplicationService.Current.State["Language"].ToString() == "GR")
+            {
+                app_title.Text = "Εφαρμογή Διαχείρισης Μονάδων Υγείας";
+                page_title.Text = "Κεντρικό Μενού";
+
+                pers_prog_button.Content = "Πρόγραμμα";
+                search_button.Content = "Αναζήτηση";
+                declared_button.Content = "Αιτήματα";
+                edit_button.Content = "Επεξεργασία";
+            }
+            
+        }
+
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            
+            
+            
             
 
 

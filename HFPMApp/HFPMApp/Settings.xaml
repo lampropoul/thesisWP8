@@ -33,7 +33,7 @@
             <ScrollViewer Margin="12,12,12,441">
             
         		<toolkit:ListPicker x:Name="types" Header="Types" Height="164" Margin="0" Width="432">
-        			<toolkit:ListPickerItem x:Name="list_all" Content="All" />
+        			<toolkit:ListPickerItem x:Name="list_all_types" Content="All" />
                     <toolkit:ListPickerItem x:Name="list_call" Content="Call" />
                     <toolkit:ListPickerItem x:Name="list_shift" Content="Shift" />
                     <toolkit:ListPickerItem x:Name="list_everyday" Content="Everyday" />
@@ -43,8 +43,9 @@
             <ScrollViewer Margin="10,219,14,255">
 
                 <toolkit:ListPicker x:Name="departments" Header="Departments" Height="143" Margin="0" Width="432">
-                    <toolkit:ListPickerItem x:Name="list_swtiria" Content="SWTIRIA" />
-                    <toolkit:ListPickerItem x:Name="list_ges" Content="GES" />
+                    <toolkit:ListPickerItem x:Name="list_all_departments" Content="All" />
+                    <toolkit:ListPickerItem x:Name="list_swtiria" Content="Swtiria" />
+                    <toolkit:ListPickerItem x:Name="list_ges" Content="Ges" />
             	</toolkit:ListPicker>
             </ScrollViewer>
             <Button x:Name="submit_button" Content="Submit" Click="selectionSubmitted" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="124,405,132,0" Width="200"/>

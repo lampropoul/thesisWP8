@@ -52,6 +52,37 @@ namespace HFPMApp
                 MessageBox.Show(e.Message);
             }
 
+            // APP BAR
+            ApplicationBar = new ApplicationBar();
+            ApplicationBar.Mode = ApplicationBarMode.Default;
+            ApplicationBar.Opacity = 1.0;
+            ApplicationBar.IsVisible = true;
+            ApplicationBar.IsMenuEnabled = true;
+
+            ApplicationBarIconButton button1 = new ApplicationBarIconButton();
+            button1.IconUri = new Uri("menu_button.gif", UriKind.Relative);
+            button1.Text = "Main Menu";
+            ApplicationBar.Buttons.Add(button1);
+            button1.Click += new EventHandler(main_menu_Click);
+
+
+            ApplicationBarMenuItem menuItem1 = new ApplicationBarMenuItem();
+            if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") menuItem1.Text = "Έξοδος";
+            else menuItem1.Text = "Logout";
+            ApplicationBar.MenuItems.Add(menuItem1);
+            menuItem1.Click += new EventHandler(logout_Click);
+
+            ApplicationBarMenuItem menuItem2 = new ApplicationBarMenuItem();
+            if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") menuItem2.Text = "Εκκαθάριση περασμένων καθηκόντων";
+            else menuItem2.Text = "Clear old entries";
+            ApplicationBar.MenuItems.Add(menuItem2);
+
+            ApplicationBarMenuItem menuItem3 = new ApplicationBarMenuItem();
+            if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") menuItem3.Text = "Ρυθμίσεις για τα αιτήματα.";
+            else menuItem3.Text = "Settings for declared";
+            ApplicationBar.MenuItems.Add(menuItem3);
+            menuItem3.Click += new EventHandler(settings_Click);
+
             // CLIENTS
             client = new WebClient();
             client.DownloadStringCompleted += client_DownloadStringCompleted;
@@ -104,18 +135,6 @@ namespace HFPMApp
             //ShellTile.Create(new Uri("/Settings.xaml", UriKind.Relative), tileData, true);
 
 
-            // APP BAR
-            ApplicationBar = new ApplicationBar();
-            ApplicationBar.Mode = ApplicationBarMode.Default;
-            ApplicationBar.Opacity = 1.0;
-            ApplicationBar.IsVisible = true;
-            ApplicationBar.IsMenuEnabled = true;
-
-            ApplicationBarIconButton button1 = new ApplicationBarIconButton();
-            button1.IconUri = new Uri("menu_button.gif", UriKind.Relative);
-            button1.Text = "Main Menu";
-            ApplicationBar.Buttons.Add(button1);
-            button1.Click += new EventHandler(main_menu_Click);
             
 
             // pairnw ta parameters (username kai password) apo tin MainPage.xaml
@@ -141,17 +160,7 @@ namespace HFPMApp
             Random rnd = new Random();
             int rand = rnd.Next(1, 1000);
 
-            url_post = "http://" + server_ip + "/HFPM_Server_CI/index.php/restful/api/user" +
-                "/username/" + edit_username.Text +
-                //"/password/" + edit_password.Password +
-                //"/amka/" + edit_amka.Text +
-                //"/email/" + email_encoded + 
-                //"/userteam/" + edit_userteam.Text + 
-                //"/name/" + edit_name.Text + 
-                //"/surname/" + edit_surname.Text + 
-                //"/status/" + edit_status.Text +
-                //"/department/" + edit_department.Text +
-                "/randomnum/" + rand;
+            url_post = "http://" + server_ip + "/HFPM_Server_CI/index.php/restful/api/user" + "/username/" + edit_username.Text + "/randomnum/" + rand;
 
             client_up.Headers["Method"] = "POST";
             client_up.Headers[HttpRequestHeader.ContentType] = "application/json";
@@ -160,7 +169,7 @@ namespace HFPMApp
             // encode JSON
             RootObject jsonObject = new RootObject();
             // put fields' values to json object
-            jsonObject.user_team = edit_userteam.Text;
+            jsonObject.user_team = Int32.Parse(edit_userteam.Text);
             jsonObject.name_user = edit_name.Text;
             jsonObject.surname_user = edit_surname.Text;
             jsonObject.username = edit_username.Text;
@@ -204,6 +213,62 @@ namespace HFPMApp
 
                     if (jsonObject_res.message == "Updated")
                     {
+
+                        using (HospitalContext db = new HospitalContext(HospitalContext.ConnectionString))
+                        {
+
+                            // -------------------------------------------------------------------//
+                            // -------------------------- LOCAL DATABASE -------------------------//
+                            // -------------------------------------------------------------------//
+
+                            db.CreateIfNotExists();
+                            db.LogDebug = true;
+
+
+                            // retreive user id from table users
+
+                            IEnumerable<Users> query =
+                                        from user in db.Users
+                                        where user.Username == PhoneApplicationService.Current.State["Username"].ToString()
+                                        select user;
+
+                            // delete
+                            foreach (Users us in query)
+                            {
+                                db.Users.DeleteOnSubmit(us);
+                            }
+
+
+
+                            db.Users.InsertOnSubmit(new Users
+                            {
+                                Userid = jsonObject_res.id,
+                                Username = jsonObject_res.username,
+                                Password = jsonObject_res.password,
+                                Nameuser = jsonObject_res.name_user,
+                                Surnameuser = jsonObject_res.surname_user,
+                                Amka = jsonObject_res.amka,
+                                Department = jsonObject_res.department,
+                                Userteam = jsonObject_res.user_team
+                            });
+
+
+
+                            // changes do not take place until SubmitChanges method is called
+                            try
+                            {
+                                db.SubmitChanges();
+                                uri = "/MainMenuPage.xaml";
+                                NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
+                            }
+                            catch (Exception ex)
+                            {
+                                MessageBox.Show(ex.Message);
+                            }
+
+
+                        }
+
                         MessageBox.Show("Edit OK.");
                         uri = "/Edit.xaml";
                         NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
@@ -248,7 +313,7 @@ namespace HFPMApp
                 RootObject jsonObject = JsonConvert.DeserializeObject<RootObject>(this.downloadedText);
 
                 int id = jsonObject.id;
-                string user_team = jsonObject.user_team;
+                int user_team = jsonObject.user_team;
                 string name_user = jsonObject.name_user;
                 string surname_user = jsonObject.surname_user;
                 string username = jsonObject.username;
@@ -266,7 +331,7 @@ namespace HFPMApp
                 edit_name.Text = name_user;
                 edit_surname.Text = surname_user;
                 edit_status.Text = status;
-                edit_userteam.Text = user_team;
+                edit_userteam.Text = user_team.ToString();
 
 
 
@@ -295,6 +360,22 @@ namespace HFPMApp
 
         }
 
+        private void logout_Click(object sender, EventArgs e)
+        {
+
+            PhoneApplicationService.Current.State["Username"] = null;
+            uri = "/MainPage.xaml?logout=true";
+            NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
+
+        }
+
+
+        private void settings_Click(object sender, EventArgs e)
+        {
+            uri = "/Settings.xaml";
+            NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
+        }
+
 
 
 
@@ -302,7 +383,7 @@ namespace HFPMApp
         public class RootObject
         {
             public int id { get; set; }
-            public string user_team { get; set; }
+            public int user_team { get; set; }
             public string name_user { get; set; }
             public string surname_user { get; set; }
             public string username { get; set; }

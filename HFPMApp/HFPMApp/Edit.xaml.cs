@@ -51,8 +51,8 @@ namespace HFPMApp
 
 
             ApplicationBarMenuItem menuItem1 = new ApplicationBarMenuItem();
-            if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") menuItem1.Text = "Έξοδος";
-            else menuItem1.Text = "Logout";
+            if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") menuItem1.Text = "Έξοδος (" + PhoneApplicationService.Current.State["Username"] + ")";
+            else menuItem1.Text = "Logout (" + PhoneApplicationService.Current.State["Username"] + ")";
             ApplicationBar.MenuItems.Add(menuItem1);
             menuItem1.Click += new EventHandler(logout_Click);
 
@@ -150,6 +150,14 @@ namespace HFPMApp
         {
 
             PhoneApplicationService.Current.State["Username"] = null;
+
+
+            using (StreamWriter writer = new StreamWriter("already_logged.txt"))
+            {
+                writer.Write(PhoneApplicationService.Current.State["Username"]);
+                writer.Close();
+            }
+
             uri = "/MainPage.xaml?logout=true";
             NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
 

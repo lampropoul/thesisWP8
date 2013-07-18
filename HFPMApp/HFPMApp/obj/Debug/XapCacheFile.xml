@@ -1,6 +1,7 @@
-﻿<xapCache source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\Bin\Debug\HFPMApp_Debug_AnyCPU.xap" wasSigned="False" wasTritonized="False" certificateThumbprint="" TimeStampUrl="" signKeyFile="" signKeyPassword="" lastWriteTime="17/07/2013 23:11:39">
-  <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\obj\Debug\HFPMApp.dll" archivePath="HFPMApp.dll" lastWriteTime="17/07/2013 23:11:37" />
-  <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\obj\Debug\el-GR\HFPMApp.resources.dll" archivePath="el-GR\HFPMApp.resources.dll" lastWriteTime="17/07/2013 23:11:37" />
+﻿<xapCache source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\Bin\Debug\HFPMApp_Debug_AnyCPU.xap" wasSigned="False" wasTritonized="False" certificateThumbprint="" TimeStampUrl="" signKeyFile="" signKeyPassword="" lastWriteTime="19/07/2013 00:30:26">
+  <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\obj\Debug\HFPMApp.dll" archivePath="HFPMApp.dll" lastWriteTime="19/07/2013 00:30:25" />
+  <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\obj\Debug\el-GR\HFPMApp.resources.dll" archivePath="el-GR\HFPMApp.resources.dll" lastWriteTime="19/07/2013 00:30:25" />
+  <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\already_logged.txt" archivePath="already_logged.txt" lastWriteTime="18/07/2013 23:05:23" />
   <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\Assets\AlignmentGrid.png" archivePath="Assets\AlignmentGrid.png" lastWriteTime="07/04/2013 12:59:49" />
   <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\Assets\Tiles\FlipCycleTileLarge.png" archivePath="Assets\Tiles\FlipCycleTileLarge.png" lastWriteTime="07/04/2013 12:59:49" />
   <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\Assets\Tiles\FlipCycleTileSmall.png" archivePath="Assets\Tiles\FlipCycleTileSmall.png" lastWriteTime="07/04/2013 12:59:49" />
@@ -14,7 +15,8 @@
   <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\Content\bootstrap.min.css" archivePath="Content\bootstrap.min.css" lastWriteTime="07/07/2013 14:15:26" />
   <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\Content\images\glyphicons-halflings-white.png" archivePath="Content\images\glyphicons-halflings-white.png" lastWriteTime="07/07/2013 14:15:26" />
   <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\Content\images\glyphicons-halflings.png" archivePath="Content\images\glyphicons-halflings.png" lastWriteTime="07/07/2013 14:15:26" />
-  <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\menu_button.gif" archivePath="menu_button.gif" lastWriteTime="16/07/2013 22:32:39" />
+  <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\menu_button.gif" archivePath="menu_button.gif" lastWriteTime="18/07/2013 21:24:50" />
+  <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\remember.txt" archivePath="remember.txt" lastWriteTime="18/07/2013 23:34:16" />
   <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\Scripts\bootstrap-datepicker.js" archivePath="Scripts\bootstrap-datepicker.js" lastWriteTime="07/07/2013 14:15:28" />
   <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\Scripts\bootstrap-datepicker.min.js" archivePath="Scripts\bootstrap-datepicker.min.js" lastWriteTime="07/07/2013 14:15:28" />
   <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\Scripts\bootstrap.js" archivePath="Scripts\bootstrap.js" lastWriteTime="07/07/2013 14:15:26" />
@@ -24,6 +26,7 @@
   <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\Scripts\jquery-1.8.3.min.js" archivePath="Scripts\jquery-1.8.3.min.js" lastWriteTime="07/07/2013 14:15:26" />
   <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\server_ip.txt" archivePath="server_ip.txt" lastWriteTime="16/07/2013 20:14:51" />
   <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\SplashScreenImage.jpg" archivePath="SplashScreenImage.jpg" lastWriteTime="23/06/2013 22:05:35" />
+  <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\White-Victorian-Background-800x480.jpg" archivePath="White-Victorian-Background-800x480.jpg" lastWriteTime="18/07/2013 21:14:16" />
   <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\Bin\Debug\AppManifest.xaml" archivePath="AppManifest.xaml" lastWriteTime="09/07/2013 20:13:20" />
   <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\Bin\Debug\Assets\ApplicationIcon.png" archivePath="Assets\ApplicationIcon.png" lastWriteTime="07/04/2013 12:59:49" />
   <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\Bin\Debug\Assets\Tiles\FlipCycleTileMedium.png" archivePath="Assets\Tiles\FlipCycleTileMedium.png" lastWriteTime="07/04/2013 12:59:49" />

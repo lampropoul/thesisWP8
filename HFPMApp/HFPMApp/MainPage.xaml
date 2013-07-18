@@ -16,7 +16,7 @@
     shell:SystemTray.IsVisible="True">
 
     <!--LayoutRoot is the root grid where all page content is placed-->
-	<Grid x:Name="LayoutRoot" Background="Transparent">
+    <Grid x:Name="LayoutRoot" Background="Transparent">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="*"/>
@@ -62,15 +62,16 @@
 				<ColumnDefinition Width="56*"/>
 			</Grid.ColumnDefinitions>
 			<TextBox x:Name="username_box" HorizontalAlignment="Center" Height="71" TextWrapping="Wrap" VerticalAlignment="Top" Width="274" Grid.Column="2" Margin="87,56,87,0"/>
-			<PasswordBox x:Name="password_box" Grid.Column="2" HorizontalAlignment="Center" Margin="85.664,180.247,89.336,0" VerticalAlignment="Top" Width="273" Height="71.812" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto">
+			<PasswordBox x:Name="password_box" Grid.Column="2" HorizontalAlignment="Center" Margin="0,162.247,0,0" VerticalAlignment="Top" Width="273" Height="71.812" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto">
 				<PasswordBox.RenderTransform>
 					<CompositeTransform SkewY="0.215" TranslateY="0.496"/>
 				</PasswordBox.RenderTransform>
 			</PasswordBox>
-			<TextBlock x:Name="uname" Grid.Column="2" HorizontalAlignment="Center" Margin="185,24,174,0" Style="{StaticResource PhoneTextBlockBase}" TextWrapping="Wrap" Text="Username" VerticalAlignment="Top" Height="27" Width="89"/>
-			<TextBlock x:Name="pwd" Grid.Column="2" HorizontalAlignment="Center" Margin="188,145,174,0" Style="{StaticResource PhoneTextBlockBase}" TextWrapping="Wrap" Text="Password" VerticalAlignment="Top" Height="27" Width="86"/>
-			<Button x:Name="login_btn" Click="login_btn_click1" Content="Login" Grid.Column="2" HorizontalAlignment="Center" Margin="87,292,87,0" VerticalAlignment="Top" Width="274" Height="72"/>
-			<ToggleButton x:Name="gr" Content="GR" Grid.Column="2" HorizontalAlignment="Left" Margin="175,390,0,0" VerticalAlignment="Top" Width="99"/>
+			<TextBlock x:Name="uname" Grid.Column="2" HorizontalAlignment="Center" Margin="0,24,0,0" Style="{StaticResource PhoneTextBlockBase}" TextWrapping="Wrap" Text="Username" VerticalAlignment="Top" Height="27"/>
+			<TextBlock x:Name="pwd" Grid.Column="2" HorizontalAlignment="Center" Margin="0,132,0,0" Style="{StaticResource PhoneTextBlockBase}" TextWrapping="Wrap" Text="Password" VerticalAlignment="Top" Height="27" Width="86"/>
+			<Button x:Name="login_btn" Click="login_btn_click1" Content="Login" Grid.Column="2" HorizontalAlignment="Center" Margin="0,383,0,0" VerticalAlignment="Top" Width="274" Height="72"/>
+			<CheckBox x:Name="remember_me" Content="Remember Me" Grid.Column="2" HorizontalAlignment="Center" Margin="0,306,0,0" VerticalAlignment="Top"/>
+			<CheckBox x:Name="gr" Content="Greek" Grid.Column="2" HorizontalAlignment="Center" Margin="0,234,0,0" VerticalAlignment="Top"/>
 		</Grid>
 
 	</Grid>

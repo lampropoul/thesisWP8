@@ -1,12 +1,24 @@
-﻿using System;
+﻿using HFPMApp.Resources;
+using Microsoft.Phone.Controls;
+using Microsoft.Phone.Notification;
+using Microsoft.Phone.Shell;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Data.Linq;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Sockets;
+using System.Reflection;
+using System.ServiceModel;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Navigation;
-using Microsoft.Phone.Controls;
-using Microsoft.Phone.Shell;
 
 namespace HFPMApp
 {
@@ -55,9 +67,9 @@ namespace HFPMApp
             ApplicationBarMenuItem menuItem1 = new ApplicationBarMenuItem();
 
             if (PhoneApplicationService.Current.State["Language"].ToString() == "GR")
-                menuItem1.Text = "Έξοδος";
+                menuItem1.Text = "Έξοδος (" + PhoneApplicationService.Current.State["Username"] + ")";
             else
-                menuItem1.Text = "Logout";
+                menuItem1.Text = "Logout (" + PhoneApplicationService.Current.State["Username"] + ")";
 
             ApplicationBar.MenuItems.Add(menuItem1);
             menuItem1.Click += new EventHandler(logout_Click);
@@ -65,7 +77,7 @@ namespace HFPMApp
             ApplicationBarMenuItem menuItem2 = new ApplicationBarMenuItem();
 
             if (PhoneApplicationService.Current.State["Language"].ToString() == "GR")
-                menuItem2.Text = "Εκκαθάριση περασμένων καθηκόντων";
+                menuItem2.Text = "Εκκαθάριση καθηκόντων";
             else
                 menuItem2.Text = "Clear old entries";
 
@@ -131,9 +143,9 @@ namespace HFPMApp
             using (HospitalContext db = new HospitalContext(HospitalContext.ConnectionString))
             {
 
-                // -------------------------------------------------------------------//
-                // -------------------------- LOCAL DATABASE -------------------------//
-                // -------------------------------------------------------------------//
+                // ------------------------------------------------------------------- //
+                // -------------------------- LOCAL DATABASE ------------------------- //
+                // ------------------------------------------------------------------- //
 
                 db.CreateIfNotExists();
                 db.LogDebug = true;
@@ -181,8 +193,7 @@ namespace HFPMApp
                 // changes do not take place until SubmitChanges method is called
                 try
                 {
-                    db.SubmitChanges();
-                    MessageBox.Show("Deleted.");
+                    db.SubmitChanges();                    
                 }
                 catch (Exception ex)
                 {
@@ -239,7 +250,15 @@ namespace HFPMApp
         {
 
             PhoneApplicationService.Current.State["Username"] = null;
-            string uri = "/MainPage.xaml?logout=true";
+
+
+            using (StreamWriter writer = new StreamWriter("already_logged.txt"))
+            {
+                writer.Write(PhoneApplicationService.Current.State["Username"]);
+                writer.Close();
+            }
+
+            uri = "/MainPage.xaml?logout=true";
             NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
 
         }

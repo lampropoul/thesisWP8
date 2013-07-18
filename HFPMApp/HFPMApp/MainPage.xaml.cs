@@ -34,7 +34,7 @@ namespace HFPMApp
         string url;
         string uri;
 
-        String server_ip;
+        String server_ip, logged, previous_remember, remember;
 
 
 
@@ -45,11 +45,19 @@ namespace HFPMApp
         {
             InitializeComponent();
 
+            //System.Windows.Media.ImageBrush myBrush = new System.Windows.Media.ImageBrush();
+            //Image image = new Image();
+            //image.Source = new System.Windows.Media.Imaging.BitmapImage(
+            //    new Uri("/White-Victorian-Background-800x480.jpg"));
+            //myBrush.ImageSource = image.Source;
+            //LayoutRoot.Background = myBrush;
+
             try
             {
                 using (StreamReader sr = new StreamReader("server_ip.txt"))
                 {
                     server_ip = sr.ReadToEnd();
+                    sr.Close();
                 }
             }
             catch (Exception e)
@@ -59,8 +67,49 @@ namespace HFPMApp
             }
 
 
-            client = new WebClient();
-            client.DownloadStringCompleted += client_DownloadStringCompleted;
+
+            try
+            {
+                using (StreamReader sr2 = new StreamReader("already_logged.txt"))
+                {
+                    logged = sr2.ReadToEnd();
+                    sr2.Close();
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("The file could not be read:");
+                MessageBox.Show(e.Message);
+            }
+
+
+            try
+            {
+                using (StreamReader sr3 = new StreamReader("remember.txt"))
+                {
+                    remember = sr3.ReadToEnd();
+                    
+                    if (remember != String.Empty)
+                    {
+                        string[] words = remember.Split(',');
+                        username_box.Text = words[0];
+                        password_box.Password = words[1];
+                        remember_me.IsChecked = true;
+                    }
+                    sr3.Close();
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("The file could not be read:");
+                MessageBox.Show(e.Message);
+            }
+
+            
+
+            
+
+
         }
 
 
@@ -73,21 +122,79 @@ namespace HFPMApp
         {
             base.OnNavigatedTo(e);
 
-            // if already logged in, navigate to menu page
-            //try
-            //{
-            //    if (PhoneApplicationService.Current.State["Username"] != null)
-            //    {
-            //        uri = "/MainMenuPage.xaml?username=" + PhoneApplicationService.Current.State["Username"];
-            //        NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
-            //    }
-            //}
-            //catch (KeyNotFoundException ex)
-            //{
-            //    Console.WriteLine(ex.Message);
-            //}
+            if (logged == String.Empty)
+            {
+
+                client = new WebClient();
+                client.DownloadStringCompleted += client_DownloadStringCompleted;
+
+            }
+            else
+            {
+
+                string[] words = logged.Split(',');
+                PhoneApplicationService.Current.State["Username"] = words[0];
+                PhoneApplicationService.Current.State["Language"] = words[1];
+
+                uri = "/MainMenuPage.xaml";
+                NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
+
+            }
+
+            gr.Checked += gr_Checked;
+            gr.Unchecked += gr_Unchecked;
+            password_box.GotFocus += password_box_GotFocus;
+
+        }
+
+        void gr_Unchecked(object sender, RoutedEventArgs e)
+        {
+
+            app_title.Text = "Health Facilities Personnel Management App";
+            page_title.Text = "Login";
+
+            uname.Text = "Username";
+            pwd.Text = "Password";
+
+            remember_me.Content = "Remember me";
+            login_btn.Content = "Login";
+
+        }
+
+        void gr_Checked(object sender, RoutedEventArgs e)
+        {
+
+            app_title.Text = "Εφαρμογή Διαχείρισης Μονάδων Υγείας";
+            page_title.Text = "Είσοδος";
+
+            uname.Text = "Όνομα";
+            pwd.Text = "Κωδικός";
+
+            remember_me.Content = "Θυμήσου με";
+            login_btn.Content = "Είσοδος";
+
+        }
 
 
+
+        void password_box_GotFocus(object sender, RoutedEventArgs e)
+        {
+
+            if (username_box.Text != String.Empty)
+            {
+
+                string[] words = remember.Split(',');
+                for (int i = 0; i < words.Length; i++)
+                {
+                    if (username_box.Text == words[i])
+                    {
+                        password_box.Password = words[i+1];
+                        remember_me.IsChecked = true;
+                        break;
+                    }
+                }
+
+            }
 
         }
 
@@ -194,6 +301,45 @@ namespace HFPMApp
                                     if (Convert.ToBoolean(gr.IsChecked)) PhoneApplicationService.Current.State["Language"] = "GR";
                                     else PhoneApplicationService.Current.State["Language"] = "EN";
 
+
+                                    using (StreamWriter writer = new StreamWriter("already_logged.txt"))
+                                    {
+                                        writer.Write(PhoneApplicationService.Current.State["Username"] + "," + PhoneApplicationService.Current.State["Language"]);
+                                        writer.Close();
+                                    }
+
+
+
+                                    if (Convert.ToBoolean(remember_me.IsChecked))
+                                    {
+                                        using (StreamReader sr3 = new StreamReader("remember.txt"))
+                                        {
+                                            previous_remember = sr3.ReadToEnd();
+                                            sr3.Close();
+                                        }
+                                        using (StreamWriter writer = new StreamWriter("remember.txt"))
+                                        {
+                                            string[] words = remember.Split(',');
+                                            for (int i = 0; i < words.Length; i++)
+                                            {
+                                                if (username_box.Text == words[i])
+                                                {
+                                                    if (words[i + 1] != password_box.Password)
+                                                    {
+                                                        if (PhoneApplicationService.Current.State["Language"].ToString() == "EN") MessageBox.Show("Stored password for this user changed.");
+                                                        else MessageBox.Show("Ο αποθηκευμένος κωδικός για αυτόν τον χρήστη άλλαξε.");
+                                                        words[i + 1] = password_box.Password;
+                                                    }
+                                                    break;
+                                                }
+                                            }
+                                            writer.Write(PhoneApplicationService.Current.State["Username"] + "," + password_box.Password + "," + previous_remember);
+                                            writer.Close();
+                                        }
+                                    }
+
+
+
                                     uri = "/MainMenuPage.xaml";
                                     NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
                                 }
@@ -213,6 +359,7 @@ namespace HFPMApp
                         }
                         else
                         {
+                            
                             if (Convert.ToBoolean(gr.IsChecked)) MessageBox.Show("Δεν υπάρχει αυτός ο χρήστης. Προσπαθήστε ξανά.");
                             else MessageBox.Show("No such user. Try again.");
 
@@ -295,7 +442,45 @@ namespace HFPMApp
                         else PhoneApplicationService.Current.State["Language"] = "EN";
 
 
-                        // logged via internet. now delete and insert to lacal db
+
+
+                        using (StreamWriter writer = new StreamWriter("already_logged.txt"))
+                        {
+                            writer.Write(PhoneApplicationService.Current.State["Username"] + "," + PhoneApplicationService.Current.State["Language"]);
+                            writer.Close();
+                        }
+
+
+                        if (Convert.ToBoolean(remember_me.IsChecked))
+                        {
+                            using (StreamReader sr3 = new StreamReader("remember.txt"))
+                            {
+                                previous_remember = sr3.ReadToEnd();
+                                sr3.Close();
+                            }
+                            using (StreamWriter writer = new StreamWriter("remember.txt"))
+                            {
+                                string[] words = remember.Split(',');
+                                for (int i = 0; i < words.Length; i++)
+                                {
+                                    if (username_box.Text == words[i])
+                                    {
+                                        if (words[i + 1] != password_box.Password)
+                                        {
+                                            if (PhoneApplicationService.Current.State["Language"].ToString() == "EN") MessageBox.Show("Stored password for this user changed.");
+                                            else MessageBox.Show("Ο αποθηκευμένος κωδικός για αυτόν τον χρήστη άλλαξε.");
+                                            words[i + 1] = password_box.Password;
+                                        }
+                                        break;
+                                    }
+                                }
+                                writer.Write(PhoneApplicationService.Current.State["Username"] + "," + password_box.Password + "," + previous_remember);
+                                writer.Close();
+                            }
+                        }
+
+
+                        // logged via internet. now delete and insert to local db
                         using (HospitalContext db = new HospitalContext(HospitalContext.ConnectionString))
                         {
 

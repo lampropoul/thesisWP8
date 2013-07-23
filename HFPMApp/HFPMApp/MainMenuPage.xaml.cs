@@ -50,9 +50,11 @@ namespace HFPMApp
             ApplicationBar.IsVisible = true;
             ApplicationBar.IsMenuEnabled = true;
 
+
             ApplicationBarIconButton button1 = new ApplicationBarIconButton();
-            button1.IconUri = new Uri("menu_button.gif", UriKind.Relative);
-            button1.Text = "Main Menu";
+            button1.IconUri = new Uri("/Toolkit.Content/ApplicationBar.Select.png", UriKind.Relative);
+            if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") button1.Text = "κυρίως μενού";
+            else button1.Text = "main menu";
             ApplicationBar.Buttons.Add(button1);
             button1.Click += new EventHandler(main_menu_Click);
 
@@ -123,6 +125,7 @@ namespace HFPMApp
             NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
 
         }
+
         
         private void logout_Click(object sender, EventArgs e)
         {

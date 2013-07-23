@@ -159,6 +159,8 @@ namespace HFPMApp
             remember_me.Content = "Remember me";
             login_btn.Content = "Login";
 
+            gr.Content = "Greek";
+
         }
 
         void gr_Checked(object sender, RoutedEventArgs e)
@@ -172,6 +174,8 @@ namespace HFPMApp
 
             remember_me.Content = "Θυμήσου με";
             login_btn.Content = "Είσοδος";
+
+            gr.Content = "Ελληνικά";
 
         }
 

@@ -30,16 +30,37 @@ namespace HFPMApp
     {
         
         
-        string uri;
         const string CurrentEntryDateKey = "CurrentEntryDateKey";
         DateTime? _entryDate = DateTime.Now;
         Dictionary<DateTime, string> _dummyRepository = new Dictionary<DateTime, string>();
-
+        public string downloadedText;
+        WebClient client;
+        WebClient client_up;
+        string url;
+        string url_post;
+        string uri;
+        string json_to_send = null;
+        String server_ip;
+        string given_username;
         
 
         public Personal_Program()
         {
             InitializeComponent();
+
+
+            try
+            {
+                using (StreamReader sr = new StreamReader("server_ip.txt"))
+                {
+                    server_ip = sr.ReadToEnd();
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("The file could not be read:");
+                MessageBox.Show(e.Message);
+            }
 
 
             if (PhoneApplicationService.Current.State["Language"].ToString() == "GR")
@@ -88,7 +109,14 @@ namespace HFPMApp
             ApplicationBar.MenuItems.Add(menuItem3);
             menuItem3.Click += new EventHandler(settings_Click);
 
-            
+
+            // CLIENTS
+            client = new WebClient();
+            client.DownloadStringCompleted += client_DownloadStringCompleted;
+
+            //client_up = new WebClient();
+            //client_up.UploadStringCompleted += client_UploadStringCompleted;
+
 
         }
 
@@ -97,6 +125,21 @@ namespace HFPMApp
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+
+            
+            // REST CALL
+
+            // pairnw ta parameters (username kai password) apo tin MainPage.xaml
+            given_username = PhoneApplicationService.Current.State["Username"].ToString();
+
+
+            Random rnd = new Random();
+            int rand = rnd.Next(1, 1000);
+
+            url = "http://" + server_ip + "/HFPM_Server_CI/index.php/restful/api/program/username/" + given_username + "/randomnum/" + rand;
+            client.DownloadStringAsync(new Uri(url));
+
+
 
             //If we return to this page after Tomstoning, then get the previous state from
             // PhoneApplicationService
@@ -146,7 +189,7 @@ namespace HFPMApp
             //if entryDate month = today's month, then disable the next button
             if (todaysDate.Month == entryDate.Month && todaysDate.Year == entryDate.Year)
             {
-                NextBtn.Visibility = System.Windows.Visibility.Collapsed;
+                //NextBtn.Visibility = System.Windows.Visibility.Collapsed;
 
                 isTodaysDate = true;
             }
@@ -216,13 +259,13 @@ namespace HFPMApp
                 {
                     Button btn = (Button)border.Child;
                     //check if user has entered data for this day
-                    if (isTodaysDate && (i + 1) > todaysDate.Day)
-                    {
-                        //disable future days
-                        btn.BorderBrush = new SolidColorBrush(Colors.Transparent);
-                        btn.IsEnabled = false;
-                    }
-                    else
+                    //if (isTodaysDate && (i + 1) > todaysDate.Day)
+                    //{
+                    //    //disable future days
+                    //    btn.BorderBrush = new SolidColorBrush(Colors.Transparent);
+                    //    btn.IsEnabled = false;
+                    //}
+                    //else
                         btn.IsEnabled = true;
 
                     bool isToday = false;
@@ -263,6 +306,8 @@ namespace HFPMApp
 
         }
 
+
+
         private void OnDayButtonClick(object sender, RoutedEventArgs e)
         {
             //Handle button click event
@@ -278,7 +323,7 @@ namespace HFPMApp
             // Since this just a sample app...I'm calling InitializeCalendar() in "OnButtonClick" to refresh the view.
             // If you are launching a page OnButtonClick, you don't have to call InitializeCalendar() here.
 
-            MessageBox.Show("Day clicked");
+            MessageBox.Show(selectedDate.ToString());
 
             InitializeCalendar(_entryDate.Value);
         }
@@ -286,6 +331,64 @@ namespace HFPMApp
 
 
 
+
+
+        // function that retreives json data from web server
+        void client_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
+        {
+            try
+            {
+
+                this.downloadedText = e.Result;
+
+                // decode JSON
+                RootObject jsonObject = JsonConvert.DeserializeObject<RootObject>(this.downloadedText);
+
+
+                int length = jsonObject.programs.Count;
+
+                for (int i = 0; i < length; i++)
+                {
+                    string date = jsonObject.programs[i].date;
+                    string duty_type = jsonObject.programs[i].duty_type;
+                    string duty_start_time = jsonObject.programs[i].duty_start_time;
+                    string duty_end_time = jsonObject.programs[i].duty_end_time;
+                    string location = jsonObject.programs[i].location;
+                    string program_name = jsonObject.programs[i].program_name;
+
+
+                    // fill calendar with program data
+
+                    string[] words = date.Split('-');
+                    DateTime selectedDate = new DateTime(Int32.Parse(words[0]), Int32.Parse(words[1]), Int32.Parse(words[2]));
+                    if (!_dummyRepository.ContainsKey(selectedDate.Date))
+                        _dummyRepository.Add(selectedDate.Date, "data");
+
+                    //MessageBox.Show(selectedDate + "------" + words[0] + "-" + words[1] + "-" + words[2]);
+
+                    InitializeCalendar(selectedDate);
+
+                }
+
+
+            }
+            catch (TargetInvocationException ex)
+            {
+                MessageBox.Show("TargetInvocationException: " + ex.Message);
+                System.Diagnostics.Debug.WriteLine("TargetInvocationException: " + ex.Message);
+            }
+            catch (WebException ex)
+            {
+                MessageBox.Show("WebException: " + ex.Message);
+                System.Diagnostics.Debug.WriteLine("WebException: " + ex.Message);
+            }
+
+
+
+
+
+
+        }
 
         private void logout_Click(object sender, EventArgs e)
         {
@@ -326,5 +429,34 @@ namespace HFPMApp
             uri = "/Settings.xaml";
             NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
         }
+
+
+
+
+
+
+        // the classes which contain the properties of the specific JSON response
+        public class RootObject
+        {
+            public List<Programs> programs { get; set; }
+        }
+
+
+        public class Programs
+        {
+            public string date { get; set; }
+            public string duty_type { get; set; }
+            public string duty_start_time { get; set; }
+            public string duty_end_time { get; set; }
+            public string location { get; set; }
+            public string program_name { get; set; }
+            public string error { get; set; }
+            public string message { get; set; }
+        }
+
+
+
+
+
     }
 }

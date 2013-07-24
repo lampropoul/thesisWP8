@@ -216,7 +216,6 @@
     <Content Include="Content\images\glyphicons-halflings.png" />
     <Content Include="Images\appbar.back.png" />
     <Content Include="Images\appbar.next.png" />
-    <Content Include="menu_button.gif" />
     <Content Include="README_FIRST.txt" />
     <Content Include="remember.txt" />
     <Content Include="Scripts\bootstrap-datepicker.js" />

@@ -45,12 +45,7 @@ namespace HFPMApp
         {
             InitializeComponent();
 
-            //System.Windows.Media.ImageBrush myBrush = new System.Windows.Media.ImageBrush();
-            //Image image = new Image();
-            //image.Source = new System.Windows.Media.Imaging.BitmapImage(
-            //    new Uri("/White-Victorian-Background-800x480.jpg"));
-            //myBrush.ImageSource = image.Source;
-            //LayoutRoot.Background = myBrush;
+            
 
             try
             {

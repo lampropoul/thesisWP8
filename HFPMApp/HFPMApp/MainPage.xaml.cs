@@ -221,6 +221,7 @@ namespace HFPMApp
             if (uname != String.Empty && pass != String.Empty)
             {
 
+                int user_id = -1;
 
                 // check internet connectivity
 
@@ -273,6 +274,7 @@ namespace HFPMApp
                         //MessageBox.Show("Query 1: " + query);
                         bool found = false;
                         string password = null;
+                        
 
                         foreach (Users us in query)
                         {
@@ -283,6 +285,7 @@ namespace HFPMApp
                             {
                                 found = true;
                                 password = us.Password;
+                                user_id = us.Userid;
                             }
 
                         }
@@ -296,6 +299,7 @@ namespace HFPMApp
                                 if (password == password_box.Password)
                                 {
                                     PhoneApplicationService.Current.State["Username"] = uname;
+                                    PhoneApplicationService.Current.State["UserId"] = user_id;
 
                                     if (Convert.ToBoolean(gr.IsChecked)) PhoneApplicationService.Current.State["Language"] = "GR";
                                     else PhoneApplicationService.Current.State["Language"] = "EN";
@@ -436,6 +440,7 @@ namespace HFPMApp
                     if (password == password_box.Password)
                     {
                         PhoneApplicationService.Current.State["Username"] = username;
+                        PhoneApplicationService.Current.State["UserId"] = id;
 
                         if (Convert.ToBoolean(gr.IsChecked)) PhoneApplicationService.Current.State["Language"] = "GR";
                         else PhoneApplicationService.Current.State["Language"] = "EN";

@@ -1,5 +1,6 @@
 ﻿using HFPMApp.Resources;
 using Microsoft.Phone.Controls;
+using Microsoft.Phone.Net.NetworkInformation;
 using Microsoft.Phone.Notification;
 using Microsoft.Phone.Shell;
 using Newtonsoft.Json;
@@ -126,18 +127,73 @@ namespace HFPMApp
         {
             base.OnNavigatedTo(e);
 
-            
-            // REST CALL
-
-            // pairnw ta parameters (username kai password) apo tin MainPage.xaml
+            // pairnw ta parameters (username)
             given_username = PhoneApplicationService.Current.State["Username"].ToString();
 
 
             Random rnd = new Random();
             int rand = rnd.Next(1, 1000);
 
-            url = "http://" + server_ip + "/HFPM_Server_CI/index.php/restful/api/program/username/" + given_username + "/randomnum/" + rand;
-            client.DownloadStringAsync(new Uri(url));
+
+
+
+            // check internet connectivity
+            bool hasInternet = NetworkInterface.GetIsNetworkAvailable();
+            hasInternet = false;
+
+            // ean exw internet proxwraw kai kanw to REST call
+            if (hasInternet)
+            {
+
+                // REST CALL
+                url = "http://" + server_ip + "/HFPM_Server_CI/index.php/restful/api/program/username/" + given_username + "/randomnum/" + rand;
+                client.DownloadStringAsync(new Uri(url));
+
+            }
+            // ean den exw internet, kalw thn topiki bash
+            else
+            {
+
+
+                using (HospitalContext db = new HospitalContext(HospitalContext.ConnectionString))
+                {
+
+                    // -------------------------------------------------------------------//
+                    // -------------------------- LOCAL DATABASE -------------------------//
+                    // -------------------------------------------------------------------//
+
+                    db.CreateIfNotExists();
+                    db.LogDebug = true;
+
+
+                    IEnumerable<Program> query =
+                            from prog in db.Program
+                            where prog.Userid == PhoneApplicationService.Current.State["UserId"].ToString()
+                            select prog;
+
+
+
+                    foreach (Program pr in query)
+                    {
+
+                        string[] words = pr.Date.Split('-');
+                        DateTime selectedDate = new DateTime(Int32.Parse(words[0]), Int32.Parse(words[1]), Int32.Parse(words[2]));
+                        if (!_dummyRepository.ContainsKey(selectedDate.Date))
+                            _dummyRepository.Add(selectedDate.Date, "data");
+
+                        //MessageBox.Show(selectedDate + "------" + words[0] + "-" + words[1] + "-" + words[2]);
+
+                        InitializeCalendar(selectedDate);
+
+                    }
+
+                }
+
+
+            }
+            
+
+            
 
 
 
@@ -222,18 +278,18 @@ namespace HFPMApp
                 {
                     Border border = new Border();
                     border.Background = new SolidColorBrush(Color.FromArgb(255, 103, 183, 212));
-                    border.Margin = new Thickness(0, 0, 5, 5);
-                    border.Width = 99;
-                    border.Height = 99;
-                    border.CornerRadius = new CornerRadius(20);
+                    border.Margin = new Thickness(0, 0, 2, 2);
+                    border.Width = 60;
+                    border.Height = 60;
+                    border.CornerRadius = new CornerRadius(10);
 
                     Button btn = new Button();
                     btn.Name = "Day" + i;
                     btn.Content = i.ToString();
                     btn.BorderBrush = new SolidColorBrush(Colors.Transparent);
-                    btn.Width = 99;
-                    btn.Height = 99;
-                    btn.FontSize = 32;
+                    btn.Width = 70;
+                    btn.Height = 70;
+                    btn.FontSize = 18;
                     border.Child = btn;
                     btn.Style = this.Resources["ButtonStyle1"] as Style;
 
@@ -313,8 +369,8 @@ namespace HFPMApp
             //Handle button click event
             //On click adding some dummy data to the repository
             DateTime selectedDate = new DateTime(_entryDate.Value.Year,_entryDate.Value.Month,Int32.Parse((string)((Button)sender).Content));
-            if (!_dummyRepository.ContainsKey(selectedDate.Date))
-                _dummyRepository.Add(selectedDate.Date, "data");
+            //if (!_dummyRepository.ContainsKey(selectedDate.Date))
+            //    _dummyRepository.Add(selectedDate.Date, "data");
             
             //NOTE: In real scenarios in OnButtonClick we would launch a new Page to accept data for the selected
             // date. And when we return back from the data entry page to this page, the "OnNavigatedTo()" method
@@ -325,7 +381,7 @@ namespace HFPMApp
 
             MessageBox.Show(selectedDate.ToString());
 
-            InitializeCalendar(_entryDate.Value);
+            //InitializeCalendar(_entryDate.Value);
         }
 
 
@@ -347,28 +403,110 @@ namespace HFPMApp
 
                 int length = jsonObject.programs.Count;
 
-                for (int i = 0; i < length; i++)
+
+                // logged via internet. now delete and insert to local db
+                using (HospitalContext db = new HospitalContext(HospitalContext.ConnectionString))
                 {
-                    string date = jsonObject.programs[i].date;
-                    string duty_type = jsonObject.programs[i].duty_type;
-                    string duty_start_time = jsonObject.programs[i].duty_start_time;
-                    string duty_end_time = jsonObject.programs[i].duty_end_time;
-                    string location = jsonObject.programs[i].location;
-                    string program_name = jsonObject.programs[i].program_name;
+
+                    // -------------------------------------------------------------------//
+                    // -------------------------- LOCAL DATABASE -------------------------//
+                    // -------------------------------------------------------------------//
+
+                    db.CreateIfNotExists();
+                    db.LogDebug = true;
 
 
-                    // fill calendar with program data
 
-                    string[] words = date.Split('-');
-                    DateTime selectedDate = new DateTime(Int32.Parse(words[0]), Int32.Parse(words[1]), Int32.Parse(words[2]));
-                    if (!_dummyRepository.ContainsKey(selectedDate.Date))
-                        _dummyRepository.Add(selectedDate.Date, "data");
+                    for (int i = 0; i < length; i++)
+                    {
 
-                    //MessageBox.Show(selectedDate + "------" + words[0] + "-" + words[1] + "-" + words[2]);
+                        int user_id = jsonObject.programs[i].user_id;
+                        int program_id = jsonObject.programs[i].id;
+                        //MessageBox.Show(program_id.ToString());
+                        string date = jsonObject.programs[i].date;
+                        string duty_type = jsonObject.programs[i].duty_type;
+                        string duty_start_time = jsonObject.programs[i].duty_start_time;
+                        string duty_end_time = jsonObject.programs[i].duty_end_time;
+                        string location = jsonObject.programs[i].location;
+                        string program_name = jsonObject.programs[i].program_name;
 
-                    InitializeCalendar(selectedDate);
 
-                }
+                        // fill calendar with program data
+
+                        string[] words = date.Split('-');
+                        DateTime selectedDate = new DateTime(Int32.Parse(words[0]), Int32.Parse(words[1]), Int32.Parse(words[2]));
+                        if (!_dummyRepository.ContainsKey(selectedDate.Date))
+                            _dummyRepository.Add(selectedDate.Date, "data");
+
+                        //MessageBox.Show(selectedDate + "------" + words[0] + "-" + words[1] + "-" + words[2]);
+
+                        InitializeCalendar(selectedDate);
+
+
+                    
+
+                        IEnumerable<Program> query =
+                                    from prog in db.Program
+                                    where prog.Programid == program_id
+                                    select prog;
+
+                        // delete
+                        foreach (Program pr in query)
+                        {
+                            db.Program.DeleteOnSubmit(pr);
+                            //MessageBox.Show("Program with id=" + program_id + " deleted.");
+                        }
+
+                        // changes do not take place until SubmitChanges method is called
+                        try
+                        {
+                            db.SubmitChanges();
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message);
+                        }
+
+
+
+
+
+                        db.Program.InsertOnSubmit(new Program
+                        {
+                            Userid = user_id.ToString(),
+                            Programid = program_id,
+                            Date = date,
+                            Start = duty_start_time,
+                            End = duty_end_time,
+                            Dutytype = duty_type,
+                            Location = location,
+                            Progname = program_name
+                        });
+
+
+
+                        // changes do not take place until SubmitChanges method is called
+                        try
+                        {
+                            db.SubmitChanges();
+                            //MessageBox.Show("Program with id=" + program_id + " inserted.");
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message);
+                        }
+
+
+
+
+                    }// for
+
+                    MessageBox.Show("Loaded.");
+
+
+
+
+                }// using
 
 
             }
@@ -444,6 +582,8 @@ namespace HFPMApp
 
         public class Programs
         {
+            public int user_id { get; set; }
+            public int id { get; set; }
             public string date { get; set; }
             public string duty_type { get; set; }
             public string duty_start_time { get; set; }

@@ -1,6 +1,6 @@
-﻿<xapCache source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\Bin\Debug\HFPMApp_Debug_AnyCPU.xap" wasSigned="False" wasTritonized="False" certificateThumbprint="" TimeStampUrl="" signKeyFile="" signKeyPassword="" lastWriteTime="25/07/2013 23:08:07">
-  <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\obj\Debug\HFPMApp.dll" archivePath="HFPMApp.dll" lastWriteTime="25/07/2013 23:08:06" />
-  <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\obj\Debug\el-GR\HFPMApp.resources.dll" archivePath="el-GR\HFPMApp.resources.dll" lastWriteTime="25/07/2013 23:08:06" />
+﻿<xapCache source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\Bin\Debug\HFPMApp_Debug_AnyCPU.xap" wasSigned="False" wasTritonized="False" certificateThumbprint="" TimeStampUrl="" signKeyFile="" signKeyPassword="" lastWriteTime="27/07/2013 23:44:21">
+  <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\obj\Debug\HFPMApp.dll" archivePath="HFPMApp.dll" lastWriteTime="27/07/2013 23:44:19" />
+  <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\obj\Debug\el-GR\HFPMApp.resources.dll" archivePath="el-GR\HFPMApp.resources.dll" lastWriteTime="27/07/2013 23:44:19" />
   <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\packages\WPToolkit.4.2013.06.11\lib\wp8\el-GR\Microsoft.Phone.Controls.Toolkit.resources.dll" archivePath="el-GR\Microsoft.Phone.Controls.Toolkit.resources.dll" lastWriteTime="23/07/2013 21:19:34" />
   <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\already_logged.txt" archivePath="already_logged.txt" lastWriteTime="18/07/2013 23:05:23" />
   <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\Assets\AlignmentGrid.png" archivePath="Assets\AlignmentGrid.png" lastWriteTime="07/04/2013 12:59:49" />
@@ -18,6 +18,7 @@
   <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\Content\images\glyphicons-halflings.png" archivePath="Content\images\glyphicons-halflings.png" lastWriteTime="07/07/2013 14:15:26" />
   <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\Images\appbar.back.png" archivePath="Images\appbar.back.png" lastWriteTime="20/11/2010 16:36:50" />
   <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\Images\appbar.next.png" archivePath="Images\appbar.next.png" lastWriteTime="20/11/2010 16:32:26" />
+  <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\previous_requests.txt" archivePath="previous_requests.txt" lastWriteTime="27/07/2013 20:18:46" />
   <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\README_FIRST.txt" archivePath="README_FIRST.txt" lastWriteTime="23/07/2013 21:19:34" />
   <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\remember.txt" archivePath="remember.txt" lastWriteTime="18/07/2013 23:34:16" />
   <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\Scripts\bootstrap-datepicker.js" archivePath="Scripts\bootstrap-datepicker.js" lastWriteTime="07/07/2013 14:15:28" />

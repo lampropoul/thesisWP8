@@ -102,7 +102,7 @@ namespace HFPMApp
             // test
             //hasInternet = false;
 
-            if (!hasInternet)
+            if (!Convert.ToBoolean(PhoneApplicationService.Current.State["hasInternet"]))
             {
                 edit_user.Visibility = Visibility.Collapsed;
                 edit_address.Visibility = Visibility.Collapsed;

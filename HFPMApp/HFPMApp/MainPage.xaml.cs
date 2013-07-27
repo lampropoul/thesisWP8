@@ -100,10 +100,11 @@ namespace HFPMApp
                 MessageBox.Show(e.Message);
             }
 
-            
 
+            PhoneApplicationService.Current.State["hasInternet"] = NetworkInterface.GetIsNetworkAvailable();
             
-
+            // test
+            //PhoneApplicationService.Current.State["hasInternet"] = false;
 
         }
 
@@ -229,7 +230,7 @@ namespace HFPMApp
                 //hasInternet = false;
 
                 // ean exw internet proxwraw kai kanw to REST call
-                if (hasInternet)
+                if (Convert.ToBoolean(PhoneApplicationService.Current.State["hasInternet"]))
                 {
 
                     // REST Call

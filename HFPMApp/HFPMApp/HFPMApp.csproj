@@ -93,6 +93,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Change_Duty_Page.xaml.cs">
+      <DependentUpon>Change_Duty_Page.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Declared.xaml.cs">
       <DependentUpon>Declared.xaml</DependentUpon>
     </Compile>
@@ -137,6 +140,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Page Include="Change_Duty_Page.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Declared.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -216,6 +223,7 @@
     <Content Include="Content\images\glyphicons-halflings.png" />
     <Content Include="Images\appbar.back.png" />
     <Content Include="Images\appbar.next.png" />
+    <Content Include="previous_requests.txt" />
     <Content Include="README_FIRST.txt" />
     <Content Include="remember.txt" />
     <Content Include="Scripts\bootstrap-datepicker.js" />

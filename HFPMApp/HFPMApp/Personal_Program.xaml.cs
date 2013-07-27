@@ -34,6 +34,8 @@ namespace HFPMApp
         const string CurrentEntryDateKey = "CurrentEntryDateKey";
         DateTime? _entryDate = DateTime.Now;
         Dictionary<DateTime, string> _dummyRepository = new Dictionary<DateTime, string>();
+        Dictionary<DateTime, string> _requestRepository = new Dictionary<DateTime, string>();
+
         public string downloadedText;
         WebClient client;
         WebClient client_up;
@@ -43,6 +45,7 @@ namespace HFPMApp
         string json_to_send = null;
         String server_ip;
         string given_username;
+        string previous_requests;
         
 
         public Personal_Program()
@@ -115,13 +118,16 @@ namespace HFPMApp
             client = new WebClient();
             client.DownloadStringCompleted += client_DownloadStringCompleted;
 
-            //client_up = new WebClient();
-            //client_up.UploadStringCompleted += client_UploadStringCompleted;
+            client_up = new WebClient();
+            client_up.UploadStringCompleted += client_UploadStringCompleted;
 
 
         }
 
         
+
+
+
 
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
@@ -137,20 +143,129 @@ namespace HFPMApp
 
 
 
-            // check internet connectivity
-            bool hasInternet = NetworkInterface.GetIsNetworkAvailable();
-            hasInternet = false;
-
+            
             // ean exw internet proxwraw kai kanw to REST call
-            if (hasInternet)
+            if (Convert.ToBoolean(PhoneApplicationService.Current.State["hasInternet"]))
             {
 
                 // REST CALL
                 url = "http://" + server_ip + "/HFPM_Server_CI/index.php/restful/api/program/username/" + given_username + "/randomnum/" + rand;
                 client.DownloadStringAsync(new Uri(url));
 
+
+                // kai twra stelnw tuxon requests poy ekane o xristis offline
+
+                // prwta select apo tin local
+                using (HospitalContext db = new HospitalContext(HospitalContext.ConnectionString))
+                {
+
+                    // -------------------------------------------------------------------//
+                    // -------------------------- LOCAL DATABASE -------------------------//
+                    // -------------------------------------------------------------------//
+
+                    db.CreateIfNotExists();
+                    db.LogDebug = true;
+
+
+                    IEnumerable<Change_list> query =
+                                from change in db.Change_list
+                                where change.Userid == Convert.ToInt32(PhoneApplicationService.Current.State["UserId"])
+                                select change;
+
+                    int count = 0;
+                    //int[] ids = {0,0,0,0,0,0,0,0,0,0};
+                    //int[] user_ids = {0,0,0,0,0,0,0,0,0,0};
+                    //String[] dates = new String[20];
+                    //String[] start_times = new String[20];
+
+
+                    // encode JSON
+                    RootObjectRequest jsonObject = new RootObjectRequest();
+                    Changes[] changes_array = new Changes[10];
+
+                    foreach (Change_list ch in query)
+                    {
+
+                        // put fields' values to json object
+                        
+                        //jsonObject.changes[count].user_id = Convert.ToInt32(PhoneApplicationService.Current.State["UserId"]);
+                        //jsonObject.changes[count].id = ch.Programid;
+                        //jsonObject.changes[count].request_date = ch.RequestDate;
+                        //jsonObject.changes[count].request_start_time = ch.RequestStartTime;
+
+                        //changes["user_id"].Add(Convert.ToInt32(PhoneApplicationService.Current.State["UserId"]);
+
+                        changes_array[count] = new Changes();
+
+                        changes_array[count].user_id = Convert.ToInt32(PhoneApplicationService.Current.State["UserId"]);
+                        changes_array[count].id = ch.Programid;
+                        changes_array[count].request_date = ch.RequestDate;
+                        changes_array[count].request_start_time = ch.RequestStartTime;
+                        
+                        //ids[count] = ch.Programid;
+                        //user_ids[count] = ch.Userid;
+                        //dates[count] = ch.RequestDate;
+                        //start_times[count] = ch.RequestStartTime;
+
+                        count++;
+                    }
+
+                    //MessageBox.Show(ids[0].ToString() + "," + ids[1].ToString() + "," + ids[2].ToString() + "," + ids[3].ToString() + "," + ids[4].ToString());
+
+
+
+                    if (count != 0)
+                    {
+
+                        // stlenw ston server tis aithseiw pou ekane o xristis otan htan offline
+
+                        this.json_to_send = JsonConvert.SerializeObject(new { changes = changes_array, size = count }, Formatting.Indented, new JsonSerializerSettings { });
+
+                        //MessageBox.Show(json_to_send);
+
+                        // REST CALL
+                        url_post = "http://" + server_ip + "/HFPM_Server_CI/index.php/restful/api/changes/randomnum/" + rand;
+                        client_up.Headers["Method"] = "POST";
+                        client_up.Headers[HttpRequestHeader.ContentType] = "application/json";
+                        client_up.UploadStringAsync(new Uri(url_post), json_to_send);
+
+
+                        //// kai svinw tin change list
+
+                        //IEnumerable<Change_list> query2 =
+                        //            from change in db.Change_list
+                        //            where change.Userid == Convert.ToInt32(PhoneApplicationService.Current.State["UserId"])
+                        //            select change;
+
+
+                        //// delete
+                        //foreach (Change_list ch in query2)
+                        //{
+                        //    db.Change_list.DeleteOnSubmit(ch);
+                        //}
+
+
+                        //try
+                        //{
+                        //    db.SubmitChanges();
+                        //}
+                        //catch (Exception ex)
+                        //{
+                        //    MessageBox.Show(ex.Message);
+                        //}
+
+
+
+                    }
+
+                }
+
+
+
+                
+
             }
-            // ean den exw internet, kalw thn topiki bash
+            // ean den exw internet, kalw thn topiki bash --PROGRAM--
             else
             {
 
@@ -169,6 +284,7 @@ namespace HFPMApp
                     IEnumerable<Program> query =
                             from prog in db.Program
                             where prog.Userid == PhoneApplicationService.Current.State["UserId"].ToString()
+                            orderby prog.Date descending
                             select prog;
 
 
@@ -179,7 +295,7 @@ namespace HFPMApp
                         string[] words = pr.Date.Split('-');
                         DateTime selectedDate = new DateTime(Int32.Parse(words[0]), Int32.Parse(words[1]), Int32.Parse(words[2]));
                         if (!_dummyRepository.ContainsKey(selectedDate.Date))
-                            _dummyRepository.Add(selectedDate.Date, "data");
+                            _dummyRepository.Add(selectedDate.Date, pr.Programid.ToString());
 
                         //MessageBox.Show(selectedDate + "------" + words[0] + "-" + words[1] + "-" + words[2]);
 
@@ -191,9 +307,69 @@ namespace HFPMApp
 
 
             }
-            
 
-            
+
+            // request data on calendar
+
+            using (HospitalContext db = new HospitalContext(HospitalContext.ConnectionString))
+            {
+
+                // -------------------------------------------------------------------//
+                // -------------------------- LOCAL DATABASE -------------------------//
+                // -------------------------------------------------------------------//
+
+                db.CreateIfNotExists();
+                db.LogDebug = true;
+
+
+                IEnumerable<Change_list> query =
+                        from change in db.Change_list
+                        join program in db.Program on change.Programid equals program.Programid
+                        where change.Userid == Convert.ToInt32(PhoneApplicationService.Current.State["UserId"])
+                        select change;
+
+
+
+                foreach (Change_list ch in query)
+                {
+
+                    string[] words = ch.RequestDate.Split('-');
+                    DateTime selectedDate = new DateTime(Int32.Parse(words[0]), Int32.Parse(words[1]), Int32.Parse(words[2]));
+                    if (!_requestRepository.ContainsKey(selectedDate.Date))
+                        _requestRepository.Add(selectedDate.Date, ch.Programid.ToString());
+
+                    //MessageBox.Show(selectedDate + "------" + words[0] + "-" + words[1] + "-" + words[2]);
+
+                    InitializeCalendar(selectedDate);
+
+                }
+
+
+                IEnumerable<Program> query2 =
+                        from program in db.Program
+                        join change in db.Change_list on program.Programid equals change.Programid
+                        where change.Userid == Convert.ToInt32(PhoneApplicationService.Current.State["UserId"])
+                        select program;
+
+
+
+                foreach (Program ch in query2)
+                {
+
+                    string[] words = ch.Date.Split('-');
+                    DateTime selectedDate = new DateTime(Int32.Parse(words[0]), Int32.Parse(words[1]), Int32.Parse(words[2]));
+                    if (!_requestRepository.ContainsKey(selectedDate.Date))
+                        _requestRepository.Add(selectedDate.Date, ch.Programid.ToString());
+
+                    //MessageBox.Show(selectedDate + "------" + words[0] + "-" + words[1] + "-" + words[2]);
+
+                    InitializeCalendar(selectedDate);
+
+                }
+
+            }
+
+
 
 
 
@@ -341,6 +517,10 @@ namespace HFPMApp
                     string data;
                     _dummyRepository.TryGetValue(new DateTime(entryDate.Year, entryDate.Month, i + 1), out data);
 
+                    string req_data;
+                    _requestRepository.TryGetValue(new DateTime(entryDate.Year, entryDate.Month, i + 1), out req_data);
+
+
                     if (data != null)
                     {
                         //if there's data for this day, set the button fore ground color to Orange
@@ -353,6 +533,16 @@ namespace HFPMApp
                     {
                         //there's no data for this day, set the button foreground to White
                         btn.Style = this.Resources["ButtonStyle1"] as Style;
+                    }
+
+
+                    if (req_data != null)
+                    {
+                        //if there's data for this day, set the button fore ground color to Orange
+                        if (isToday)
+                            btn.Style = this.Resources["TodayHasReqDataButtonStyle"] as Style;
+                        else
+                            btn.Style = this.Resources["HasReqDataButtonStyle"] as Style;
                     }
 
                 }
@@ -379,9 +569,23 @@ namespace HFPMApp
             // Since this just a sample app...I'm calling InitializeCalendar() in "OnButtonClick" to refresh the view.
             // If you are launching a page OnButtonClick, you don't have to call InitializeCalendar() here.
 
-            MessageBox.Show(selectedDate.ToString());
+            //MessageBox.Show(selectedDate.ToString());
 
             //InitializeCalendar(_entryDate.Value);
+
+
+            if (_dummyRepository.ContainsKey(selectedDate.Date))
+            {
+
+                uri = "/Change_Duty_Page.xaml?progid=" + _dummyRepository[selectedDate.Date];
+                NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
+            }
+            else
+            {
+                MessageBox.Show("There's no duty for this day to change.");
+            }
+            
+            
         }
 
 
@@ -417,6 +621,32 @@ namespace HFPMApp
 
 
 
+                    // delete all programs just to fetch the (possibly) updated ones
+                    IEnumerable<Program> query =
+                                    from prog in db.Program
+                                    select prog;
+
+                    // delete
+                    foreach (Program pr in query)
+                    {
+                        db.Program.DeleteOnSubmit(pr);
+                        //MessageBox.Show("Program with id=" + program_id + " deleted.");
+                    }
+
+                    // changes do not take place until SubmitChanges method is called
+                    try
+                    {
+                        db.SubmitChanges();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
+
+
+
+
+
                     for (int i = 0; i < length; i++)
                     {
 
@@ -436,37 +666,11 @@ namespace HFPMApp
                         string[] words = date.Split('-');
                         DateTime selectedDate = new DateTime(Int32.Parse(words[0]), Int32.Parse(words[1]), Int32.Parse(words[2]));
                         if (!_dummyRepository.ContainsKey(selectedDate.Date))
-                            _dummyRepository.Add(selectedDate.Date, "data");
+                            _dummyRepository.Add(selectedDate.Date, program_id.ToString());
 
                         //MessageBox.Show(selectedDate + "------" + words[0] + "-" + words[1] + "-" + words[2]);
 
                         InitializeCalendar(selectedDate);
-
-
-                    
-
-                        IEnumerable<Program> query =
-                                    from prog in db.Program
-                                    where prog.Programid == program_id
-                                    select prog;
-
-                        // delete
-                        foreach (Program pr in query)
-                        {
-                            db.Program.DeleteOnSubmit(pr);
-                            //MessageBox.Show("Program with id=" + program_id + " deleted.");
-                        }
-
-                        // changes do not take place until SubmitChanges method is called
-                        try
-                        {
-                            db.SubmitChanges();
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show(ex.Message);
-                        }
-
 
 
 
@@ -501,7 +705,7 @@ namespace HFPMApp
 
                     }// for
 
-                    MessageBox.Show("Loaded.");
+                    //MessageBox.Show("Loaded.");
 
 
 
@@ -527,6 +731,93 @@ namespace HFPMApp
 
 
         }
+
+
+
+
+
+        
+        // function that sends json data to web server
+        // send request to server
+        void client_UploadStringCompleted(object sender, UploadStringCompletedEventArgs e)
+        {
+            try
+            {
+
+                try
+                {
+
+                    this.downloadedText = e.Result;
+                    //MessageBox.Show(this.downloadedText);
+                    RootObjectRequest jsonObject_res = JsonConvert.DeserializeObject<RootObjectRequest>(this.downloadedText);
+
+
+                    if (jsonObject_res.message == "InsertedOrUpdated")
+                    {
+
+
+                        try
+                        {
+                            using (StreamReader sr = new StreamReader("previous_requests.txt"))
+                            {
+                                previous_requests = sr.ReadToEnd();
+
+                                if (previous_requests == "pending") MessageBox.Show("Your previous requests are sent to server.");
+
+                                sr.Close();
+                            }
+
+                            using (StreamWriter sw = new StreamWriter("previous_requests.txt"))
+                            {
+
+                                if (previous_requests == "pending") sw.Write("ok");
+
+                                sw.Close();
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("The file could not be read:");
+                            MessageBox.Show(ex.Message);
+                        }
+
+
+                        uri = "/Personal_Program.xaml";
+                        NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
+
+                    }
+                    else
+                    {
+                        if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") MessageBox.Show("Κάτι δεν πήγε καθόλου καλά. Προσπαθήστε ξανά.");
+                        else MessageBox.Show("Something went terribly wrong. Please try again.");
+                    }
+
+
+                }
+                catch (WebException ex)
+                {
+                    MessageBox.Show("WebException: " + ex.Message);
+                }
+
+            }
+            catch (TargetInvocationException ex)
+            {
+                MessageBox.Show("TargetInvocationException: " + ex.Message);
+                System.Diagnostics.Debug.WriteLine("TargetInvocationException: " + ex.Message);
+            }
+            catch (WebException ex)
+            {
+                MessageBox.Show("WebException: " + ex.Message);
+                System.Diagnostics.Debug.WriteLine("WebException: " + ex.Message);
+            }
+        }
+
+
+
+
+
+
+
 
         private void logout_Click(object sender, EventArgs e)
         {
@@ -595,6 +886,22 @@ namespace HFPMApp
         }
 
 
+
+        public class RootObjectRequest
+        {
+            public List<Changes> changes { get; set; }
+            public string error { get; set; }
+            public string message { get; set; }
+        }
+
+
+        public class Changes
+        {
+            public int user_id { get; set; }
+            public int id { get; set; }
+            public string request_date { get; set; }
+            public string request_start_time { get; set; }
+        }
 
 
 

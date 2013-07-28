@@ -74,6 +74,12 @@ namespace HFPMApp
 
 
 
+            if (PhoneApplicationService.Current.State["Language"].ToString() == "GR")
+            {
+                app_title.Text = "Εφαρμογή Διαχείρισης Μονάδων Υγείας";
+                page_title.Text = "Αναζήτηση";
+            }
+
 
 
         }
@@ -94,7 +100,8 @@ namespace HFPMApp
         private void back_Click(object sender, EventArgs e)
         {
 
-            NavigationService.GoBack();
+            uri = "/MainMenuPage.xaml";
+            NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
         }
 
 

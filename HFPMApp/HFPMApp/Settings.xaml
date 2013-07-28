@@ -29,26 +29,24 @@
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+            <ScrollViewer Margin="0,22,24,150">
+        		<Grid>
 
-            <ScrollViewer Margin="12,12,12,441">
-            
-        		<toolkit:ListPicker x:Name="types" Header="Types" Height="164" Margin="0" Width="432">
-        			<toolkit:ListPickerItem x:Name="list_all_types" Content="All" />
-                    <toolkit:ListPickerItem x:Name="list_call" Content="Call" />
-                    <toolkit:ListPickerItem x:Name="list_shift" Content="Shift" />
-                    <toolkit:ListPickerItem x:Name="list_everyday" Content="Everyday" />
-        		</toolkit:ListPicker>
+        			<toolkit:ListPicker x:Name="types" Header="Types" Margin="0,0,0,215">
+        				<toolkit:ListPickerItem x:Name="list_all_types" Content="All" />
+        				<toolkit:ListPickerItem x:Name="list_call" Content="Call" />
+        				<toolkit:ListPickerItem x:Name="list_shift" Content="Shift" />
+        				<toolkit:ListPickerItem x:Name="list_everyday" Content="Everyday" />
+        			</toolkit:ListPicker>
 
+        			<toolkit:ListPicker x:Name="departments" Header="Departments" Margin="0,278,0,0">
+        				<toolkit:ListPickerItem x:Name="list_all_departments" Content="All" />
+        				<toolkit:ListPickerItem x:Name="list_swtiria" Content="Swtiria" />
+        				<toolkit:ListPickerItem x:Name="list_ges" Content="Ges" />
+        			</toolkit:ListPicker>
+        		</Grid>
         	</ScrollViewer>
-            <ScrollViewer Margin="10,219,14,255">
-
-                <toolkit:ListPicker x:Name="departments" Header="Departments" Height="143" Margin="0" Width="432">
-                    <toolkit:ListPickerItem x:Name="list_all_departments" Content="All" />
-                    <toolkit:ListPickerItem x:Name="list_swtiria" Content="Swtiria" />
-                    <toolkit:ListPickerItem x:Name="list_ges" Content="Ges" />
-            	</toolkit:ListPicker>
-            </ScrollViewer>
-            <Button x:Name="submit_button" Content="Submit" Click="selectionSubmitted" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="124,405,132,0" Width="200"/>
+            <Button x:Name="submit_button" Content="Submit" Click="selectionSubmitted" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="124,520,132,0" Width="200"/>
             
         </Grid>
     </Grid>

@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:edc="clr-namespace:Microsoft.Expression.Controls;assembly=Microsoft.Expression.Drawing"
     x:Class="HFPMApp.Change_Duty_Page"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -17,24 +18,57 @@
     <!--LayoutRoot is the root grid where all page content is placed-->
 	<Grid x:Name="LayoutRoot" Background="#FF0388B8">
 		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="*"/>
+			<RowDefinition Height="150"/>
+			<RowDefinition Height="18"/>
+			<RowDefinition/>
 		</Grid.RowDefinitions>
 
 		<!--TitlePanel contains the name of the application and page title-->
-		<StackPanel Grid.Row="0" Margin="12,17,0,28">
+		<StackPanel Grid.Row="0" Margin="12,17,0,10">
 			<TextBlock x:Name="app_title" Text="Health Facilities Personnel Management App" Style="{StaticResource PhoneTextNormalStyle}" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center"/>
 			<TextBlock x:Name="page_title" Text="Duty Details" Margin="0" Style="{StaticResource PhoneTextTitle1Style}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 		</StackPanel>
 
         <!--ContentPanel - place additional content here-->
-		<Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+		<Grid x:Name="ContentPanel" Grid.Row="2" Margin="12,0,12,0">
 
-            <toolkit:DatePicker x:Name="datepicked" ValueStringFormat = "{}{0:yyyy-MM-dd}" HorizontalAlignment="Center" Margin="0,100,0,0" VerticalAlignment="Top"/>
-            <toolkit:TimePicker x:Name="timepicked" ValueStringFormat = "{}{0:HH:mm:ss}" HorizontalAlignment="Center" Margin="0,250,0,0" VerticalAlignment="Top"/>
-			<TextBlock x:Name="newdateblock" HorizontalAlignment="Center" Margin="0,50,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Set New Date" FontSize="29.333"/>
-			<TextBlock x:Name="newtimeblock" HorizontalAlignment="Center" Margin="0,200,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Set New Time" FontSize="29.333"/>
-			<Button x:Name="request_change_button" Click="request_change_button_Click" Content="Request Change" HorizontalAlignment="Center" Margin="110,400,95,0" VerticalAlignment="Top" Width="251"/>
+			<toolkit:DatePicker x:Name="datepicked" ValueStringFormat = "{}{0:yyyy-MM-dd}" HorizontalAlignment="Left" Margin="0,232,0,0" VerticalAlignment="Top"/>
+			<toolkit:TimePicker x:Name="timepicked" ValueStringFormat = "{}{0:HH:mm:ss}" HorizontalAlignment="Left" Margin="0,367,0,0" VerticalAlignment="Top"/>
+			<TextBlock x:Name="newdateblock" HorizontalAlignment="Left" Margin="0,192,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Set New Date" FontSize="29.333"/>
+			<TextBlock x:Name="newtimeblock" HorizontalAlignment="Left" Margin="0,327,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Set New Time" FontSize="29.333"/>
+			<Button x:Name="request_change_button" Click="request_change_button_Click" Content="Request Change" HorizontalAlignment="Left" Margin="0,447,0,0" VerticalAlignment="Top" Width="220">
+				<Button.Background>
+					<SolidColorBrush Color="{StaticResource PhoneSemitransparentColor}"/>
+				</Button.Background>
+			</Button>
+			<Button x:Name="alarm_button" Click="alarm_button_Click" Content="Set Alarm" HorizontalAlignment="Right" Margin="0,446,0,0" VerticalAlignment="Top" Width="221">
+				<Button.Background>
+					<SolidColorBrush Color="{StaticResource PhoneSemitransparentColor}"/>
+				</Button.Background>
+			</Button>
+			<TextBlock x:Name="remind" HorizontalAlignment="Left" Margin="235,191,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="29.333" Height="38">
+				<Run Text="Remind"/>
+				<LineBreak/>
+				<Run/>
+			</TextBlock>
+			<toolkit:ListPicker x:Name="min_before_list" HorizontalAlignment="Right" Margin="0,234,10,0" VerticalAlignment="Top" Width="202">
+				<toolkit:ListPickerItem x:Name="min30" Content="30 mins before" HorizontalAlignment="Left" Margin="0" Width="220"/>
+				<toolkit:ListPickerItem x:Name="min60" Content="1 hr before" HorizontalAlignment="Right" Width="220"/>
+				<toolkit:ListPickerItem x:Name="min120" Content="2 hrs before" HorizontalAlignment="Right" Width="220"/>
+			</toolkit:ListPicker>
+			<toolkit:Separator HorizontalAlignment="Left" Height="14.954" Margin="58.516,347.676,0,0" VerticalAlignment="Top" Width="335.137" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False" d:LayoutRounding="Auto">
+				<toolkit:Separator.RenderTransform>
+					<CompositeTransform Rotation="89.536"/>
+				</toolkit:Separator.RenderTransform>
+			</toolkit:Separator>
+			<toolkit:Separator HorizontalAlignment="Left" Height="13" Margin="0,160,0,0" VerticalAlignment="Top" Width="456"/>
+			<TextBlock x:Name="location" HorizontalAlignment="Left" Margin="10,22,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Hospital" Height="66" FontSize="24" Width="250"/>
+			<TextBlock x:Name="cur_start_time" HorizontalAlignment="Right" Margin="0,22,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="37.333" Height="43" Text="00:00:00
+" Width="150"/>
+			<TextBlock x:Name="type" HorizontalAlignment="Left" Margin="10,93,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="TYPE
+" FontSize="37.333" Height="62" Width="164"/>
+			<TextBlock x:Name="cur_end_time" HorizontalAlignment="Right" Margin="0,93,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="37.333" Height="43" Text="00:00:00" Width="150"/>
+			<TextBlock x:Name="to" HorizontalAlignment="Left" Margin="354,70,0,0" TextWrapping="Wrap" Text="to" VerticalAlignment="Top"/>
 
 		</Grid>
 	</Grid>

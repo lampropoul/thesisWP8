@@ -80,17 +80,6 @@ namespace HFPMApp
             ApplicationBar.MenuItems.Add(menuItem1);
             menuItem1.Click += new EventHandler(logout_Click);
 
-            ApplicationBarMenuItem menuItem2 = new ApplicationBarMenuItem();
-            if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") menuItem2.Text = "Εκκαθάριση περασμένων καθηκόντων";
-            else menuItem2.Text = "Clear old entries";
-            ApplicationBar.MenuItems.Add(menuItem2);
-
-            ApplicationBarMenuItem menuItem3 = new ApplicationBarMenuItem();
-            if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") menuItem3.Text = "Ρυθμίσεις για τα αιτήματα.";
-            else menuItem3.Text = "Settings for declared";
-            ApplicationBar.MenuItems.Add(menuItem3);
-            menuItem3.Click += new EventHandler(settings_Click);
-
             // CLIENTS
             client = new WebClient();
             client.DownloadStringCompleted += client_DownloadStringCompleted;
@@ -372,7 +361,8 @@ namespace HFPMApp
         private void back_Click(object sender, EventArgs e)
         {
 
-            NavigationService.GoBack();
+            uri = "/Edit.xaml";
+            NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
         }
 
 
@@ -391,13 +381,6 @@ namespace HFPMApp
             uri = "/MainPage.xaml?logout=true";
             NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
 
-        }
-
-
-        private void settings_Click(object sender, EventArgs e)
-        {
-            uri = "/Settings.xaml";
-            NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
         }
 
 

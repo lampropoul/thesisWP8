@@ -383,17 +383,23 @@
                     <Button x:Name="BackBtn" VerticalAlignment="Top" HorizontalAlignment="Left" Style="{StaticResource RoundButton}" Height="72" Width="72" Margin="27,1,0,0" Click="OnChangeMonth" BorderBrush="White">
                         <Image Source="/Images/appbar.back.png" Height="42" Width="42" VerticalAlignment="Top" HorizontalAlignment="Left" />
                     </Button>
-                    <TextBlock x:Name="MonthYear" Text="November 2010" Style="{StaticResource PhoneTextLargeStyle}" Margin="101,14,124,0" HorizontalAlignment="Center" VerticalAlignment="Top" Width="231" TextAlignment="Center" Foreground="White"/>
+                    <TextBlock x:Name="MonthYear" Text="November 2010" Style="{StaticResource PhoneTextLargeStyle}" Margin="89,14,107,0" HorizontalAlignment="Center" VerticalAlignment="Top" TextAlignment="Center" Foreground="White"/>
                     <Button x:Name="NextBtn" VerticalAlignment="Top" HorizontalAlignment="Right" Style="{StaticResource RoundButton}" Height="72" Width="74" Margin="0,0,45,0" Click="OnChangeMonth" Foreground="White" BorderBrush="White">
                         <Image Source="/Images/appbar.next.png" Height="42" Width="42" VerticalAlignment="Top" HorizontalAlignment="Right" />
                     </Button>
+                    <ProgressBar x:Name="progress" HorizontalAlignment="Left" Height="13" VerticalAlignment="Top" Width="456"/>
                 </Grid>
-                <ListBox x:Name="CalendarListBox" Margin="0,75,0,0">
+                <ListBox x:Name="CalendarListBox" Margin="0,75,0,10" Visibility="Collapsed">
                     <ListBoxItem Margin="12,0,0,0">
                         <toolkit:WrapPanel x:Name="CalendarWrapPanel" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     </ListBoxItem>
                 </ListBox>
             </Grid>
+            <TextBlock x:Name="please_wait" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Please wait..." VerticalAlignment="Top" Margin="0,-27,0,0">
+            	<TextBlock.Foreground>
+            		<SolidColorBrush Color="{StaticResource PhoneAccentColor}"/>
+            	</TextBlock.Foreground>
+            </TextBlock>
 
         </Grid>
     </Grid>

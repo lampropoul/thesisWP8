@@ -37,6 +37,7 @@ namespace HFPMApp
                 title.Text = "Εφαρμογή Διαχείρισης Μονάδων Υγείας";
                 settings.Text = "Ρυθμίσεις";
 
+                //list
                 list_all_departments.Content = "Όλα";
                 list_call.Content = "Εφημερία";
                 list_shift.Content = "Βάρδια";
@@ -47,6 +48,7 @@ namespace HFPMApp
                 list_ges.Content = "ΓΕΣ";
 
                 submit_button.Content = "Ολοκλήρωση";
+
 
             }
 
@@ -81,15 +83,6 @@ namespace HFPMApp
 
             ApplicationBar.MenuItems.Add(menuItem1);
             menuItem1.Click += new EventHandler(logout_Click);
-
-            ApplicationBarMenuItem menuItem2 = new ApplicationBarMenuItem();
-
-            if (PhoneApplicationService.Current.State["Language"].ToString() == "GR")
-                menuItem2.Text = "Εκκαθάριση καθηκόντων";
-            else
-                menuItem2.Text = "Clear old entries";
-
-            ApplicationBar.MenuItems.Add(menuItem2);
 
 
         }
@@ -283,7 +276,8 @@ namespace HFPMApp
         private void back_Click(object sender, EventArgs e)
         {
 
-            NavigationService.GoBack();
+            uri = "/MainMenuPage.xaml";
+            NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
         }
 
         

@@ -34,6 +34,8 @@ namespace HFPMApp
             InitializeComponent();
 
 
+
+
             // APP BAR
             ApplicationBar = new ApplicationBar();
             ApplicationBar.Mode = ApplicationBarMode.Default;
@@ -75,6 +77,16 @@ namespace HFPMApp
 
 
 
+
+
+            if (PhoneApplicationService.Current.State["Language"].ToString() == "GR")
+            {
+                app_title.Text = "Εφαρμογή Διαχείρισης Μονάδων Υγείας";
+                page_title.Text = "Αιτήματα";
+            }
+
+
+
         }
 
 
@@ -92,7 +104,8 @@ namespace HFPMApp
         private void back_Click(object sender, EventArgs e)
         {
 
-            NavigationService.GoBack();
+            uri = "/MainMenuPage.xaml";
+            NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
         }
 
         private void logout_Click(object sender, EventArgs e)

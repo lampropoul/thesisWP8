@@ -71,6 +71,8 @@ namespace HFPMApp
             {
                 app_title.Text = "Εφαρμογή Διαχείρισης Μονάδων Υγείας";
                 page_title.Text = "Πρόγραμμα";
+
+                please_wait.Text = "Παρακαλώ περιμένετε...";
             }
 
 
@@ -106,12 +108,7 @@ namespace HFPMApp
             if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") menuItem2.Text = "Εκκαθάριση περασμένων καθηκόντων";
             else menuItem2.Text = "Clear old entries";
             ApplicationBar.MenuItems.Add(menuItem2);
-
-            ApplicationBarMenuItem menuItem3 = new ApplicationBarMenuItem();
-            if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") menuItem3.Text = "Ρυθμίσεις για τα αιτήματα.";
-            else menuItem3.Text = "Settings for declared";
-            ApplicationBar.MenuItems.Add(menuItem3);
-            menuItem3.Click += new EventHandler(settings_Click);
+            menuItem2.Click += new EventHandler(clear_old_entries_Click);
 
 
             // CLIENTS
@@ -141,12 +138,14 @@ namespace HFPMApp
             int rand = rnd.Next(1, 1000);
 
 
-
+            progress.Visibility = Visibility.Visible;
 
             
             // ean exw internet proxwraw kai kanw to REST call
             if (Convert.ToBoolean(PhoneApplicationService.Current.State["hasInternet"]))
             {
+
+                progress.Value = 25;
 
                 // REST CALL
                 url = "http://" + server_ip + "/HFPM_Server_CI/index.php/restful/api/program/username/" + given_username + "/randomnum/" + rand;
@@ -261,7 +260,7 @@ namespace HFPMApp
                 }
 
 
-
+                
                 
 
             }
@@ -269,6 +268,7 @@ namespace HFPMApp
             else
             {
 
+                progress.Value = 50;
 
                 using (HospitalContext db = new HospitalContext(HospitalContext.ConnectionString))
                 {
@@ -303,8 +303,11 @@ namespace HFPMApp
 
                     }
 
+                    
+
                 }
 
+               
 
             }
 
@@ -380,6 +383,13 @@ namespace HFPMApp
 
             InitializeCalendar(_entryDate.Value);
 
+            if (!Convert.ToBoolean(PhoneApplicationService.Current.State["hasInternet"]))
+            {
+                please_wait.Visibility = Visibility.Collapsed;
+                progress.Value = 100;
+                progress.Visibility = Visibility.Collapsed;
+            }
+
         }
 
         /// <summary>
@@ -414,6 +424,24 @@ namespace HFPMApp
         protected void InitializeCalendar(DateTime entryDate)
         {
             MonthYear.Text = String.Format("{0:MMMM yyyy}", _entryDate.Value);
+
+            string[] english = MonthYear.Text.Split(' ');
+
+            if (PhoneApplicationService.Current.State["Language"].ToString() == "GR")
+            {
+                if (english[0] == "January") MonthYear.Text = "Ιανουάριος " + english[1];
+                if (english[0] == "February") MonthYear.Text = "Φεβρουάριος " + english[1];
+                if (english[0] == "March") MonthYear.Text = "Μάρτιος " + english[1];
+                if (english[0] == "April") MonthYear.Text = "Απρίλιος " + english[1];
+                if (english[0] == "May") MonthYear.Text = "Μάιος " + english[1];
+                if (english[0] == "June") MonthYear.Text = "Ιούνιος " + english[1];
+                if (english[0] == "July") MonthYear.Text = "Ιούλιος " + english[1];
+                if (english[0] == "August") MonthYear.Text = "Αύγουστος " + english[1];
+                if (english[0] == "September") MonthYear.Text = "Σεπτέμβριος " + english[1];
+                if (english[0] == "October") MonthYear.Text = "Οκτώβριος " + english[1];
+                if (english[0] == "November") MonthYear.Text = "Νοέμβριος " + english[1];
+                if (english[0] == "December") MonthYear.Text = "Δεκέμβριος " + english[1];
+            }
 
             DateTime todaysDate = DateTime.Now;
             bool isTodaysDate = false;
@@ -521,6 +549,8 @@ namespace HFPMApp
                     _requestRepository.TryGetValue(new DateTime(entryDate.Year, entryDate.Month, i + 1), out req_data);
 
 
+
+
                     if (data != null)
                     {
                         //if there's data for this day, set the button fore ground color to Orange
@@ -582,7 +612,8 @@ namespace HFPMApp
             }
             else
             {
-                MessageBox.Show("There's no duty for this day to change.");
+                if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") MessageBox.Show("Δεν υπάρχει κάποιο καθήκον αυτήν την ημέρα.");
+                else MessageBox.Show("There's no duty for this day.");
             }
             
             
@@ -596,6 +627,7 @@ namespace HFPMApp
         // function that retreives json data from web server
         void client_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
+            progress.Value = 50;
             try
             {
 
@@ -619,7 +651,7 @@ namespace HFPMApp
                     db.CreateIfNotExists();
                     db.LogDebug = true;
 
-
+                    
 
                     // delete all programs just to fetch the (possibly) updated ones
                     IEnumerable<Program> query =
@@ -644,7 +676,7 @@ namespace HFPMApp
                     }
 
 
-
+                    progress.Value = 100;
 
 
                     for (int i = 0; i < length; i++)
@@ -712,6 +744,7 @@ namespace HFPMApp
 
                 }// using
 
+                
 
             }
             catch (TargetInvocationException ex)
@@ -726,8 +759,9 @@ namespace HFPMApp
             }
 
 
-
-
+            
+            progress.Visibility = Visibility.Collapsed;
+            please_wait.Visibility = Visibility.Collapsed;
 
 
         }
@@ -762,7 +796,11 @@ namespace HFPMApp
                             {
                                 previous_requests = sr.ReadToEnd();
 
-                                if (previous_requests == "pending") MessageBox.Show("Your previous requests are sent to server.");
+                                if (previous_requests == "pending")
+                                {
+                                    if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") MessageBox.Show("Οι εκκρεμείς αιτήσεις εστάλησαν στην γραμματεία.");
+                                    else MessageBox.Show("Your previous requests are sent to server.");
+                                }
 
                                 sr.Close();
                             }
@@ -810,6 +848,8 @@ namespace HFPMApp
                 MessageBox.Show("WebException: " + ex.Message);
                 System.Diagnostics.Debug.WriteLine("WebException: " + ex.Message);
             }
+
+            please_wait.Visibility = Visibility.Collapsed;
         }
 
 
@@ -848,18 +888,90 @@ namespace HFPMApp
         private void back_Click(object sender, EventArgs e)
         {
 
-            NavigationService.GoBack();
-        }
-
-
-
-        private void settings_Click(object sender, EventArgs e)
-        {
-            uri = "/Settings.xaml";
+            uri = "/MainMenuPage.xaml";
             NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
         }
 
 
+
+
+        /// <summary>
+        /// ka8arizw ton program kai ton change_list tis topikis basis
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void clear_old_entries_Click(object sender, EventArgs e)
+        {
+
+
+            using (HospitalContext db = new HospitalContext(HospitalContext.ConnectionString))
+            {
+
+                // -------------------------------------------------------------------//
+                // -------------------------- LOCAL DATABASE -------------------------//
+                // -------------------------------------------------------------------//
+
+                db.CreateIfNotExists();
+                db.LogDebug = true;
+
+
+
+                // === PROGRAM ===
+
+                IEnumerable<Program> query =
+                        from prog in db.Program
+                        where prog.Userid == PhoneApplicationService.Current.State["UserId"].ToString() && Convert.ToDateTime(prog.Date) < DateTime.Now
+                        select prog;
+
+                // delete
+                foreach (Program pr in query)
+                {
+                    db.Program.DeleteOnSubmit(pr);
+                }
+
+                // changes do not take place until SubmitChanges method is called
+                try
+                {
+                    db.SubmitChanges();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+
+
+
+
+                // === CHANGE_LIST ===
+
+                IEnumerable<Change_list> query2 =
+                        from change in db.Change_list
+                        where change.Userid == Convert.ToInt32(PhoneApplicationService.Current.State["UserId"]) && Convert.ToDateTime(change.RequestDate) < DateTime.Now
+                        select change;
+
+                // delete
+                foreach (Change_list ch in query2)
+                {
+                    db.Change_list.DeleteOnSubmit(ch);
+                }
+
+                // changes do not take place until SubmitChanges method is called
+                try
+                {
+                    db.SubmitChanges();
+                    if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") MessageBox.Show("Διαγράφηκαν.");
+                    else MessageBox.Show("Cleared.");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+
+
+            }
+
+
+        }
 
 
 

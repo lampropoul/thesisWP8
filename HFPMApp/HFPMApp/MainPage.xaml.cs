@@ -46,6 +46,18 @@ namespace HFPMApp
             InitializeComponent();
 
             
+            app_title.Text = "Εφαρμογή Διαχείρισης Μονάδων Υγείας";
+            page_title.Text = "Είσοδος";
+
+            uname.Text = "Όνομα";
+            pwd.Text = "Κωδικός";
+
+            remember_me.Content = "Θυμήσου με";
+            login_btn.Content = "Είσοδος";
+
+            gr.Content = "Ελληνικά";
+
+
 
             try
             {
@@ -224,14 +236,13 @@ namespace HFPMApp
 
                 int user_id = -1;
 
-                // check internet connectivity
 
-                bool hasInternet = NetworkInterface.GetIsNetworkAvailable();
-                //hasInternet = false;
+                progress.Visibility = Visibility.Visible;
 
                 // ean exw internet proxwraw kai kanw to REST call
                 if (Convert.ToBoolean(PhoneApplicationService.Current.State["hasInternet"]))
                 {
+                    progress.Value = 25;
 
                     // REST Call
                     url = "http://" + server_ip + "/HFPM_Server_CI/index.php/restful/api/user/username/" + uname + "/randomnum/" + rand;
@@ -253,7 +264,7 @@ namespace HFPMApp
                         db.CreateIfNotExists();
                         db.LogDebug = true;
 
-
+                        progress.Value = 10;
                         
                         // changes do not take place until SubmitChanges method is called
                         try
@@ -275,7 +286,8 @@ namespace HFPMApp
                         //MessageBox.Show("Query 1: " + query);
                         bool found = false;
                         string password = null;
-                        
+
+                        progress.Value = 25;
 
                         foreach (Users us in query)
                         {
@@ -291,6 +303,7 @@ namespace HFPMApp
 
                         }
 
+                        progress.Value = 40;
 
                         if (found)
                         {
@@ -305,6 +318,7 @@ namespace HFPMApp
                                     if (Convert.ToBoolean(gr.IsChecked)) PhoneApplicationService.Current.State["Language"] = "GR";
                                     else PhoneApplicationService.Current.State["Language"] = "EN";
 
+                                    progress.Value = 60;
 
                                     using (StreamWriter writer = new StreamWriter("already_logged.txt"))
                                     {
@@ -312,7 +326,7 @@ namespace HFPMApp
                                         writer.Close();
                                     }
 
-
+                                    progress.Value = 80;
 
                                     if (Convert.ToBoolean(remember_me.IsChecked))
                                     {
@@ -342,7 +356,7 @@ namespace HFPMApp
                                         }
                                     }
 
-
+                                    progress.Value = 100;
 
                                     uri = "/MainMenuPage.xaml";
                                     NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
@@ -418,6 +432,9 @@ namespace HFPMApp
         {
             try
             {
+
+                
+
                 this.downloadedText = e.Result;
 
                 // decode JSON
@@ -447,7 +464,7 @@ namespace HFPMApp
                         else PhoneApplicationService.Current.State["Language"] = "EN";
 
 
-
+                        progress.Value = 75;
 
                         using (StreamWriter writer = new StreamWriter("already_logged.txt"))
                         {
@@ -484,6 +501,7 @@ namespace HFPMApp
                             }
                         }
 
+                        
 
                         // logged via internet. now delete and insert to local db
                         using (HospitalContext db = new HospitalContext(HospitalContext.ConnectionString))
@@ -511,6 +529,7 @@ namespace HFPMApp
                             }
 
 
+                            
 
                             db.Users.InsertOnSubmit(new Users
                             {
@@ -530,6 +549,7 @@ namespace HFPMApp
                             try
                             {
                                 db.SubmitChanges();
+                                progress.Value = 100;
                                 uri = "/MainMenuPage.xaml";
                                 NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
                             }

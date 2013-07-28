@@ -24,6 +24,10 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Phone.Scheduler;
+
+
+
 namespace HFPMApp
 {
     public partial class Change_Duty_Page : PhoneApplicationPage
@@ -67,11 +71,55 @@ namespace HFPMApp
             {
                 app_title.Text = "Εφαρμογή Διαχείρισης Μονάδων Υγείας";
                 page_title.Text = "Λεπτομέρειες";
+
+                to.Text = "μέχρι";
+
+                newdateblock.Text = "Νέα Ημ/νία";
+                newtimeblock.Text = "Νέα Ώρα";
+                request_change_button.Content = "Αίτημα Αλλαγής";
+
+                remind.Text = "Υπενθύμιση";
+                min30.Content = "30 λεπτά πριν";
+                min60.Content = "1 ώρα πριν";
+                min120.Content = "2 ώρες πριν";
+                alarm_button.Content = "Ορισμός";
             }
 
 
 
-            // CLIENTS
+
+            // APP BAR
+            ApplicationBar = new ApplicationBar();
+            ApplicationBar.Mode = ApplicationBarMode.Default;
+            ApplicationBar.Opacity = 1.0;
+            ApplicationBar.IsVisible = true;
+            ApplicationBar.IsMenuEnabled = true;
+
+            ApplicationBarIconButton button2 = new ApplicationBarIconButton();
+            button2.IconUri = new Uri("/Images/appbar.back.png", UriKind.Relative);
+            if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") button2.Text = "πίσω";
+            else button2.Text = "go back";
+            ApplicationBar.Buttons.Add(button2);
+            button2.Click += new EventHandler(back_Click);
+
+            ApplicationBarIconButton button1 = new ApplicationBarIconButton();
+            button1.IconUri = new Uri("/Toolkit.Content/ApplicationBar.Select.png", UriKind.Relative);
+            if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") button1.Text = "κυρίως μενού";
+            else button1.Text = "main menu";
+            ApplicationBar.Buttons.Add(button1);
+            button1.Click += new EventHandler(main_menu_Click);
+
+
+            ApplicationBarMenuItem menuItem1 = new ApplicationBarMenuItem();
+            if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") menuItem1.Text = "Έξοδος (" + PhoneApplicationService.Current.State["Username"] + ")";
+            else menuItem1.Text = "Logout (" + PhoneApplicationService.Current.State["Username"] + ")";
+            ApplicationBar.MenuItems.Add(menuItem1);
+            menuItem1.Click += new EventHandler(logout_Click);
+
+
+
+
+            // CLIENT
             client_up = new WebClient();
             client_up.UploadStringCompleted += client_UploadStringCompleted;
 
@@ -89,7 +137,42 @@ namespace HFPMApp
         {
             base.OnNavigatedTo(e);
 
+            string progid = String.Empty;
+            NavigationContext.QueryString.TryGetValue("progid", out progid);
 
+
+            // retreive info about the selected program
+            using (HospitalContext db = new HospitalContext(HospitalContext.ConnectionString))
+            {
+
+
+                // -------------------------------------------------------------------//
+                // -------------------------- LOCAL DATABASE -------------------------//
+                // -------------------------------------------------------------------//
+
+                db.CreateIfNotExists();
+                db.LogDebug = true;
+
+
+
+                IEnumerable<Program> query =
+                                    from program in db.Program
+                                    where program.Programid == Convert.ToInt32(progid)
+                                    select program;
+
+
+
+                foreach (Program pr in query)
+                {
+                    page_title.Text = pr.Date;
+                    cur_start_time.Text = pr.Start;
+                    cur_end_time.Text = pr.End;
+                    type.Text = pr.Dutytype;
+                    location.Text = pr.Location;
+                }
+
+
+            }
             
 
 
@@ -234,7 +317,12 @@ namespace HFPMApp
                         MessageBox.Show(ex.Message);
                     }
 
-                    MessageBox.Show("You are currently offline. The next time you connect to the Internet your request you just did will be sent.");
+
+
+                    if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") MessageBox.Show("Δεν εντοπίστηκε σύνδεση στο Internet. Την επόμενη φορά που θα εντοπιστεί το αίτημά σας θα σταλεί.");
+                    else MessageBox.Show("You are currently offline. The next time you connect to the Internet your request you just did will be sent.");
+                    
+                    
                     uri = "/Personal_Program.xaml";
                     NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
 
@@ -251,7 +339,152 @@ namespace HFPMApp
 
 
 
-        // function that sends json data to web server
+        /// <summary>
+        /// --- ALARM ---
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void alarm_button_Click(object sender, RoutedEventArgs e)
+        {
+
+            Int32 year;
+            Int32 month;
+            Int32 day;
+            Int32 hour;
+            Int32 minute;
+            Int32 second;
+
+
+            string[] words1 = page_title.Text.Split('-');
+            string[] words2 = cur_start_time.Text.Split(':');
+
+            year = Convert.ToInt32(words1[0]);
+            month = Convert.ToInt32(words1[1]);
+            day = Convert.ToInt32(words1[2]);
+            hour = Convert.ToInt32(words2[0]);
+            minute = Convert.ToInt32(words2[1]);
+            second = Convert.ToInt32(words2[2]);
+
+
+
+
+            // 30 mins
+            if (min_before_list.SelectedIndex == 0)
+            {
+                
+                DateTime bt = new DateTime(year, month, day, hour, minute, second);
+
+                bt.AddMinutes(-30);
+
+                if (ScheduledActionService.Find("My Alarm") != null)
+                    ScheduledActionService.Remove("My Alarm");
+
+                Alarm a = new Alarm("My Alarm")
+                {
+                    Content = "Alarm",
+                    BeginTime = bt.Date
+                };
+
+
+                if (bt.Date >= DateTime.Now)
+                {
+                    ScheduledActionService.Add(a);
+                    MessageBox.Show("Alarm added " + min_before_list.SelectedItem.ToString() + ".");
+                }
+                else
+                {
+                    if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") MessageBox.Show("Αυτό το καθήκον ανήκει στο παρελθόν. Παρακαλώ εκκαθαρίστε τις παλιές εγγραφές μέσω του popup μενού.");
+                    else MessageBox.Show("This duty has passed. Please clear old entries (popup menu selection).");
+                }
+
+                uri = "/Personal_Program.xaml";
+                NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
+                
+
+            }
+            // 60 mins
+            else if (min_before_list.SelectedIndex == 1)
+            {
+                DateTime bt = new DateTime(year, month, day, hour, minute, second);
+
+                bt.AddHours(-1);
+
+                if (ScheduledActionService.Find("My Alarm") != null)
+                    ScheduledActionService.Remove("My Alarm");
+
+                Alarm a = new Alarm("My Alarm")
+                {
+                    Content = "Alarm",
+                    BeginTime = bt.Date
+                };
+
+
+                if (bt.Date >= DateTime.Now)
+                {
+                    ScheduledActionService.Add(a);
+                    MessageBox.Show("Alarm added " + min_before_list.SelectedItem.ToString() + ".");
+                }
+                else
+                {
+                    if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") MessageBox.Show("Αυτό το καθήκον ανήκει στο παρελθόν. Παρακαλώ εκκαθαρίστε τις παλιές εγγραφές μέσω του popup μενού.");
+                    else MessageBox.Show("This duty has passed. Please clear old entries (popup menu selection).");
+                }
+
+                uri = "/Personal_Program.xaml";
+                NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
+
+            }
+            // 120 mins
+            else if (min_before_list.SelectedIndex == 2)
+            {
+                DateTime bt = new DateTime(year, month, day, hour, minute, second);
+
+                bt.AddHours(-2);
+
+                if (ScheduledActionService.Find("My Alarm") != null)
+                    ScheduledActionService.Remove("My Alarm");
+
+                Alarm a = new Alarm("My Alarm")
+                {
+                    Content = "Alarm",
+                    BeginTime = bt.Date
+                };
+
+
+                if (bt.Date >= DateTime.Now)
+                {
+                    ScheduledActionService.Add(a);
+                    MessageBox.Show("Alarm added " + min_before_list.SelectedItem.ToString() + ".");
+                }
+                else
+                {
+                    if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") MessageBox.Show("Αυτό το καθήκον ανήκει στο παρελθόν. Παρακαλώ εκκαθαρίστε τις παλιές εγγραφές μέσω του popup μενού.");
+                    else MessageBox.Show("This duty has passed. Please clear old entries (popup menu selection).");
+                }
+
+                uri = "/Personal_Program.xaml";
+                NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
+
+            }
+
+
+
+
+            
+
+
+        }
+
+
+
+
+
+
+        /// <summary>
+        /// function that sends json data to web server
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void client_UploadStringCompleted(object sender, UploadStringCompletedEventArgs e)
         {
             try
@@ -327,7 +560,9 @@ namespace HFPMApp
 
 
                         //}
-                        MessageBox.Show("Request sent to server.");
+
+                        if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") MessageBox.Show("Το αίτημα εστάλη στην γραμματεία.");
+                        else MessageBox.Show("Request sent to server.");
                         uri = "/Personal_Program.xaml";
                         NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
                         
@@ -392,14 +627,7 @@ namespace HFPMApp
         private void back_Click(object sender, EventArgs e)
         {
 
-            NavigationService.GoBack();
-        }
-
-
-
-        private void settings_Click(object sender, EventArgs e)
-        {
-            uri = "/Settings.xaml";
+            uri = "/Personal_Program.xaml";
             NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
         }
 

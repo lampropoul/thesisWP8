@@ -220,6 +220,7 @@ namespace HFPMApp
         // login
         private void login_btn_click1(object sender, RoutedEventArgs e)
         {
+            loadingProgressBar.IsVisible = true;
 
             if (Convert.ToBoolean(gr.IsChecked)) PhoneApplicationService.Current.State["Language"] = "GR";
             else PhoneApplicationService.Current.State["Language"] = "EN";
@@ -237,12 +238,12 @@ namespace HFPMApp
                 int user_id = -1;
 
 
-                progress.Visibility = Visibility.Visible;
+                
 
                 // ean exw internet proxwraw kai kanw to REST call
                 if (Convert.ToBoolean(PhoneApplicationService.Current.State["hasInternet"]))
                 {
-                    progress.Value = 25;
+                    
 
                     // REST Call
                     url = "http://" + server_ip + "/HFPM_Server_CI/index.php/restful/api/user/username/" + uname + "/randomnum/" + rand;
@@ -264,7 +265,7 @@ namespace HFPMApp
                         db.CreateIfNotExists();
                         db.LogDebug = true;
 
-                        progress.Value = 10;
+                        
                         
                         // changes do not take place until SubmitChanges method is called
                         try
@@ -287,7 +288,7 @@ namespace HFPMApp
                         bool found = false;
                         string password = null;
 
-                        progress.Value = 25;
+                        
 
                         foreach (Users us in query)
                         {
@@ -303,7 +304,7 @@ namespace HFPMApp
 
                         }
 
-                        progress.Value = 40;
+                        
 
                         if (found)
                         {
@@ -318,7 +319,7 @@ namespace HFPMApp
                                     if (Convert.ToBoolean(gr.IsChecked)) PhoneApplicationService.Current.State["Language"] = "GR";
                                     else PhoneApplicationService.Current.State["Language"] = "EN";
 
-                                    progress.Value = 60;
+                                    
 
                                     using (StreamWriter writer = new StreamWriter("already_logged.txt"))
                                     {
@@ -326,7 +327,7 @@ namespace HFPMApp
                                         writer.Close();
                                     }
 
-                                    progress.Value = 80;
+                                    
 
                                     if (Convert.ToBoolean(remember_me.IsChecked))
                                     {
@@ -356,13 +357,14 @@ namespace HFPMApp
                                         }
                                     }
 
-                                    progress.Value = 100;
 
+                                    loadingProgressBar.IsVisible = false;
                                     uri = "/MainMenuPage.xaml";
                                     NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
                                 }
                                 else
                                 {
+                                    loadingProgressBar.IsVisible = false;
                                     if (Convert.ToBoolean(gr.IsChecked)) MessageBox.Show("Λάθος κωδικός. Προσπαθήστε ξανά.");
                                     else MessageBox.Show("Wrong password. Please try again.");
 
@@ -377,7 +379,9 @@ namespace HFPMApp
                         }
                         else
                         {
-                            
+
+                            loadingProgressBar.IsVisible = false;
+
                             if (Convert.ToBoolean(gr.IsChecked)) MessageBox.Show("Δεν υπάρχει αυτός ο χρήστης. Προσπαθήστε ξανά.");
                             else MessageBox.Show("No such user. Try again.");
 
@@ -394,6 +398,8 @@ namespace HFPMApp
             else if (uname == String.Empty && pass != String.Empty)
             {
 
+                loadingProgressBar.IsVisible = false;
+
                 if (Convert.ToBoolean(gr.IsChecked))
                     MessageBox.Show("Παρακαλώ εισάγετε όνομα χρήστη.");
                 else
@@ -403,6 +409,9 @@ namespace HFPMApp
             }
             else if (pass == String.Empty && uname != String.Empty)
             {
+
+                loadingProgressBar.IsVisible = false;
+
                 if (Convert.ToBoolean(gr.IsChecked))
                     MessageBox.Show("Παρακαλώ εισάγετε κωδικό.");
                 else
@@ -412,6 +421,9 @@ namespace HFPMApp
             }
             else
             {
+
+                loadingProgressBar.IsVisible = false;
+
                 if (Convert.ToBoolean(gr.IsChecked))
                     MessageBox.Show("Παρακαλώ συμπληρώστε όλα τα πεδία.");
                 else
@@ -439,7 +451,7 @@ namespace HFPMApp
 
                 // decode JSON
                 RootObject jsonObject = JsonConvert.DeserializeObject<RootObject>(this.downloadedText);
-
+                
                 int id = jsonObject.id;
                 int user_team = jsonObject.user_team;
                 string name_user = jsonObject.name_user;
@@ -455,124 +467,147 @@ namespace HFPMApp
                 try
                 {
 
-                    if (password == password_box.Password)
+                    if (id != null)
                     {
-                        PhoneApplicationService.Current.State["Username"] = username;
-                        PhoneApplicationService.Current.State["UserId"] = id;
-
-                        if (Convert.ToBoolean(gr.IsChecked)) PhoneApplicationService.Current.State["Language"] = "GR";
-                        else PhoneApplicationService.Current.State["Language"] = "EN";
 
 
-                        progress.Value = 75;
-
-                        using (StreamWriter writer = new StreamWriter("already_logged.txt"))
+                        if (password == password_box.Password)
                         {
-                            writer.Write(PhoneApplicationService.Current.State["Username"] + "," + PhoneApplicationService.Current.State["Language"]);
-                            writer.Close();
-                        }
+                            PhoneApplicationService.Current.State["Username"] = username;
+                            PhoneApplicationService.Current.State["UserId"] = id;
 
-
-                        if (Convert.ToBoolean(remember_me.IsChecked))
-                        {
-                            using (StreamReader sr3 = new StreamReader("remember.txt"))
-                            {
-                                previous_remember = sr3.ReadToEnd();
-                                sr3.Close();
-                            }
-                            using (StreamWriter writer = new StreamWriter("remember.txt"))
-                            {
-                                string[] words = remember.Split(',');
-                                for (int i = 0; i < words.Length; i++)
-                                {
-                                    if (username_box.Text == words[i])
-                                    {
-                                        if (words[i + 1] != password_box.Password)
-                                        {
-                                            if (PhoneApplicationService.Current.State["Language"].ToString() == "EN") MessageBox.Show("Stored password for this user changed.");
-                                            else MessageBox.Show("Ο αποθηκευμένος κωδικός για αυτόν τον χρήστη άλλαξε.");
-                                            words[i + 1] = password_box.Password;
-                                        }
-                                        break;
-                                    }
-                                }
-                                writer.Write(PhoneApplicationService.Current.State["Username"] + "," + password_box.Password + "," + previous_remember);
-                                writer.Close();
-                            }
-                        }
-
-                        
-
-                        // logged via internet. now delete and insert to local db
-                        using (HospitalContext db = new HospitalContext(HospitalContext.ConnectionString))
-                        {
-
-                            // -------------------------------------------------------------------//
-                            // -------------------------- LOCAL DATABASE -------------------------//
-                            // -------------------------------------------------------------------//
-
-                            db.CreateIfNotExists();
-                            db.LogDebug = true;
-
-
-                            // retreive user id from table users
-
-                            IEnumerable<Users> query =
-                                        from user in db.Users
-                                        where user.Username == PhoneApplicationService.Current.State["Username"].ToString()
-                                        select user;
-
-                            // delete
-                            foreach (Users us in query)
-                            {
-                                db.Users.DeleteOnSubmit(us);
-                            }
+                            if (Convert.ToBoolean(gr.IsChecked)) PhoneApplicationService.Current.State["Language"] = "GR";
+                            else PhoneApplicationService.Current.State["Language"] = "EN";
 
 
                             
 
-                            db.Users.InsertOnSubmit(new Users
+                            using (StreamWriter writer = new StreamWriter("already_logged.txt"))
                             {
-                                Userid = id,
-                                Username = username,
-                                Password = password,
-                                Nameuser = name_user,
-                                Surnameuser = surname_user,
-                                Amka = amka,
-                                Department = department,
-                                Userteam = user_team
-                            });
-
-
-
-                            // changes do not take place until SubmitChanges method is called
-                            try
-                            {
-                                db.SubmitChanges();
-                                progress.Value = 100;
-                                uri = "/MainMenuPage.xaml";
-                                NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
-                            }
-                            catch (Exception ex)
-                            {
-                                MessageBox.Show(ex.Message);
+                                writer.Write(PhoneApplicationService.Current.State["Username"] + "," + PhoneApplicationService.Current.State["Language"]);
+                                writer.Close();
                             }
 
 
+                            if (Convert.ToBoolean(remember_me.IsChecked))
+                            {
+                                using (StreamReader sr3 = new StreamReader("remember.txt"))
+                                {
+                                    previous_remember = sr3.ReadToEnd();
+                                    sr3.Close();
+                                }
+                                using (StreamWriter writer = new StreamWriter("remember.txt"))
+                                {
+                                    string[] words = remember.Split(',');
+                                    for (int i = 0; i < words.Length; i++)
+                                    {
+                                        if (username_box.Text == words[i])
+                                        {
+                                            if (words[i + 1] != password_box.Password)
+                                            {
+                                                if (PhoneApplicationService.Current.State["Language"].ToString() == "EN") MessageBox.Show("Stored password for this user changed.");
+                                                else MessageBox.Show("Ο αποθηκευμένος κωδικός για αυτόν τον χρήστη άλλαξε.");
+                                                words[i + 1] = password_box.Password;
+                                            }
+                                            break;
+                                        }
+                                    }
+                                    writer.Write(PhoneApplicationService.Current.State["Username"] + "," + password_box.Password + "," + previous_remember);
+                                    writer.Close();
+                                }
+                            }
+
+
+
+                            // logged via internet. now delete and insert to local db
+                            using (HospitalContext db = new HospitalContext(HospitalContext.ConnectionString))
+                            {
+
+                                // -------------------------------------------------------------------//
+                                // -------------------------- LOCAL DATABASE -------------------------//
+                                // -------------------------------------------------------------------//
+
+                                db.CreateIfNotExists();
+                                db.LogDebug = true;
+
+
+                                // retreive user id from table users
+
+                                IEnumerable<Users> query =
+                                            from user in db.Users
+                                            where user.Username == PhoneApplicationService.Current.State["Username"].ToString()
+                                            select user;
+
+                                // delete
+                                foreach (Users us in query)
+                                {
+                                    db.Users.DeleteOnSubmit(us);
+                                }
+
+
+
+
+                                db.Users.InsertOnSubmit(new Users
+                                {
+                                    Userid = id,
+                                    Username = username,
+                                    Password = password,
+                                    Nameuser = name_user,
+                                    Surnameuser = surname_user,
+                                    Amka = amka,
+                                    Department = department,
+                                    Userteam = user_team
+                                });
+
+
+
+                                // changes do not take place until SubmitChanges method is called
+                                try
+                                {
+                                    db.SubmitChanges();
+
+                                    loadingProgressBar.IsVisible = false;
+
+                                    uri = "/MainMenuPage.xaml";
+                                    NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
+                                }
+                                catch (Exception ex)
+                                {
+                                    MessageBox.Show(ex.Message);
+                                }
+
+
+
+
+
+                            }
 
 
 
                         }
+                        else
+                        {
+
+                            loadingProgressBar.IsVisible = false;
+
+                            if (Convert.ToBoolean(gr.IsChecked)) MessageBox.Show("Λάθος κωδικός. Προσπαθήστε ξανά.");
+                            else MessageBox.Show("Wrong password. Please try again.");
+
+                            password_box.Focus();
+                        }
 
 
-                        
                     }
+                    // if (id!=null)
                     else
                     {
-                        if (Convert.ToBoolean(gr.IsChecked)) MessageBox.Show("Λάθος κωδικός. Προσπαθήστε ξανά.");
-                        else MessageBox.Show("Wrong password. Please try again.");
 
-                        password_box.Focus();
+                        loadingProgressBar.IsVisible = false;
+
+                        if (Convert.ToBoolean(gr.IsChecked)) MessageBox.Show("Δεν υπάρχει αυτός ο χρήστης.");
+                        else MessageBox.Show("No such user.");
+
+                        username_box.Focus();
                     }
 
                 }
@@ -585,8 +620,11 @@ namespace HFPMApp
             }
             catch (TargetInvocationException ex)
             {
-                if (Convert.ToBoolean(gr.IsChecked)) MessageBox.Show("Δεν υπάρχει αυτός ο χρήστης. Προσπαθήστε ξανά.");
-                else MessageBox.Show("No such user. Please try again.");
+
+                loadingProgressBar.IsVisible = false;
+
+                if (Convert.ToBoolean(gr.IsChecked)) MessageBox.Show("Ανεπιτυχής προσπάθεια σύνδεσης στον εξυπηρέτη ή δεν υπάρχει αυτός ο χρήστης.");
+                else MessageBox.Show("Could not connect to server or no such user.");
 
                 username_box.Focus();
                 System.Diagnostics.Debug.WriteLine("TargetInvocationException: " + ex.Message);

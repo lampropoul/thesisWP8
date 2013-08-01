@@ -15,6 +15,10 @@
     SupportedOrientations="Portrait" Orientation="Portrait"
     shell:SystemTray.IsVisible="True">
 
+    <shell:SystemTray.ProgressIndicator>
+        <shell:ProgressIndicator IsIndeterminate="True" IsVisible="False" x:Name="loadingProgressBar" />
+    </shell:SystemTray.ProgressIndicator>
+    
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="#FF0388B8">
 		<Grid.RowDefinitions>
@@ -72,7 +76,6 @@
 			<Button x:Name="login_btn" Click="login_btn_click1" Content="Login" Grid.Column="2" HorizontalAlignment="Center" Margin="0,383,0,0" VerticalAlignment="Top" Width="274" Height="72"/>
 			<CheckBox x:Name="remember_me" Content="Remember Me" Grid.Column="2" HorizontalAlignment="Center" Margin="0,306,0,0" VerticalAlignment="Top"/>
 			<CheckBox x:Name="gr" Content="Greek" Grid.Column="2" HorizontalAlignment="Center" Margin="0,234,0,0" VerticalAlignment="Top" IsChecked="True"/>
-			<ProgressBar x:Name="progress" Grid.Column="2" HorizontalAlignment="Center" Height="15" Margin="0" VerticalAlignment="Top" Width="450" Value="0" Visibility="Collapsed"/>
 		</Grid>
 
 	</Grid>

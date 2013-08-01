@@ -105,7 +105,7 @@ namespace HFPMApp
             menuItem1.Click += new EventHandler(logout_Click);
 
             ApplicationBarMenuItem menuItem2 = new ApplicationBarMenuItem();
-            if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") menuItem2.Text = "Εκκαθάριση περασμένων καθηκόντων";
+            if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") menuItem2.Text = "Εκκαθάριση  καθηκόντων";
             else menuItem2.Text = "Clear old entries";
             ApplicationBar.MenuItems.Add(menuItem2);
             menuItem2.Click += new EventHandler(clear_old_entries_Click);
@@ -130,6 +130,8 @@ namespace HFPMApp
         {
             base.OnNavigatedTo(e);
 
+            loadingProgressBar.IsVisible = true;
+
             // pairnw ta parameters (username)
             given_username = PhoneApplicationService.Current.State["Username"].ToString();
 
@@ -138,14 +140,14 @@ namespace HFPMApp
             int rand = rnd.Next(1, 1000);
 
 
-            progress.Visibility = Visibility.Visible;
+            
 
             
             // ean exw internet proxwraw kai kanw to REST call
             if (Convert.ToBoolean(PhoneApplicationService.Current.State["hasInternet"]))
             {
 
-                progress.Value = 25;
+                
 
                 // REST CALL
                 url = "http://" + server_ip + "/HFPM_Server_CI/index.php/restful/api/program/username/" + given_username + "/randomnum/" + rand;
@@ -268,7 +270,7 @@ namespace HFPMApp
             else
             {
 
-                progress.Value = 50;
+                
 
                 using (HospitalContext db = new HospitalContext(HospitalContext.ConnectionString))
                 {
@@ -307,7 +309,7 @@ namespace HFPMApp
 
                 }
 
-               
+                loadingProgressBar.IsVisible = false;
 
             }
 
@@ -386,9 +388,10 @@ namespace HFPMApp
             if (!Convert.ToBoolean(PhoneApplicationService.Current.State["hasInternet"]))
             {
                 please_wait.Visibility = Visibility.Collapsed;
-                progress.Value = 100;
-                progress.Visibility = Visibility.Collapsed;
             }
+
+
+            
 
         }
 
@@ -580,6 +583,8 @@ namespace HFPMApp
             CalendarWrapPanel.UpdateLayout();
             CalendarListBox.Visibility = Visibility.Visible;
 
+            
+
         }
 
 
@@ -627,7 +632,9 @@ namespace HFPMApp
         // function that retreives json data from web server
         void client_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
         {
-            progress.Value = 50;
+
+            loadingProgressBar.IsVisible = true;
+            
             try
             {
 
@@ -676,7 +683,7 @@ namespace HFPMApp
                     }
 
 
-                    progress.Value = 100;
+                    
 
 
                     for (int i = 0; i < length; i++)
@@ -744,11 +751,13 @@ namespace HFPMApp
 
                 }// using
 
-                
+                loadingProgressBar.IsVisible = false;
 
             }
             catch (TargetInvocationException ex)
             {
+                loadingProgressBar.IsVisible = false;
+
                 MessageBox.Show("TargetInvocationException: " + ex.Message);
                 System.Diagnostics.Debug.WriteLine("TargetInvocationException: " + ex.Message);
             }
@@ -759,8 +768,6 @@ namespace HFPMApp
             }
 
 
-            
-            progress.Visibility = Visibility.Collapsed;
             please_wait.Visibility = Visibility.Collapsed;
 
 
@@ -798,6 +805,9 @@ namespace HFPMApp
 
                                 if (previous_requests == "pending")
                                 {
+
+                                    loadingProgressBar.IsVisible = false;
+
                                     if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") MessageBox.Show("Οι εκκρεμείς αιτήσεις εστάλησαν στην γραμματεία.");
                                     else MessageBox.Show("Your previous requests are sent to server.");
                                 }
@@ -826,6 +836,9 @@ namespace HFPMApp
                     }
                     else
                     {
+
+                        loadingProgressBar.IsVisible = false;
+
                         if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") MessageBox.Show("Κάτι δεν πήγε καθόλου καλά. Προσπαθήστε ξανά.");
                         else MessageBox.Show("Something went terribly wrong. Please try again.");
                     }
@@ -840,6 +853,9 @@ namespace HFPMApp
             }
             catch (TargetInvocationException ex)
             {
+
+                loadingProgressBar.IsVisible = false;
+
                 MessageBox.Show("TargetInvocationException: " + ex.Message);
                 System.Diagnostics.Debug.WriteLine("TargetInvocationException: " + ex.Message);
             }

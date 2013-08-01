@@ -65,7 +65,7 @@ namespace HFPMApp
             menuItem1.Click += new EventHandler(logout_Click);
 
             ApplicationBarMenuItem menuItem2 = new ApplicationBarMenuItem();
-            if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") menuItem2.Text = "Εκκαθάριση περασμένων καθηκόντων";
+            if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") menuItem2.Text = "Εκκαθάριση  καθηκόντων";
             else menuItem2.Text = "Clear old entries";
             ApplicationBar.MenuItems.Add(menuItem2);
 

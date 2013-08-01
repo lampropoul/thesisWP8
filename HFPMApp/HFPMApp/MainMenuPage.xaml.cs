@@ -93,18 +93,14 @@ namespace HFPMApp
             base.OnNavigatedTo(e);
 
             
-            
-            
-            
+            // TODO
 
+            // edw erxomai otan kanw logout kai pataw to hardware back
+            // 8elei dior8wsi
 
             // pairnw ta parameters (username kai password) apo tin MainPage.xaml
             string given_username = PhoneApplicationService.Current.State["Username"].ToString();
 
-            //edit_username.Text = given_username;
-
-            Random rnd = new Random();
-            int rand = rnd.Next(1, 1000);
 
             
 

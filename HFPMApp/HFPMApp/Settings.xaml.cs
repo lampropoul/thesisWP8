@@ -37,17 +37,7 @@ namespace HFPMApp
                 title.Text = "Εφαρμογή Διαχείρισης Μονάδων Υγείας";
                 settings.Text = "Ρυθμίσεις";
 
-                //list
-                list_all_departments.Content = "Όλα";
-                list_call.Content = "Εφημερία";
-                list_shift.Content = "Βάρδια";
-                list_everyday.Content = "Καθημερινά Ιατρεία";
-
-                list_all_types.Content = "Όλα";
-                list_swtiria.Content = "ΣΩΤΗΡΙΑ";
-                list_ges.Content = "ΓΕΣ";
-
-                submit_button.Content = "Ολοκλήρωση";
+                submit_button.Content = "Αποθήκευση";
 
 
             }
@@ -92,45 +82,71 @@ namespace HFPMApp
         {
             base.OnNavigatedTo(e);
 
-            using (HospitalContext db = new HospitalContext(HospitalContext.ConnectionString))
+            ListPickerItem new_item1 = new ListPickerItem();
+            types.Items.Add(new_item1);
+            new_item1.Content = "All Types";
+
+            ListPickerItem new_item2 = new ListPickerItem();
+            departments.Items.Add(new_item2);
+            new_item2.Content = "All Departments";
+
+
+            if (Convert.ToBoolean(PhoneApplicationService.Current.State["hasInternet"]))
             {
 
-                // -------------------------------------------------------------------//
-                // -------------------------- LOCAL DATABASE -------------------------//
-                // -------------------------------------------------------------------//
+                // edw kalw kai pairw apo ton server ola ta tmimata kai olous tous typous ka8ikontwn
+                
 
-                db.CreateIfNotExists();
-                db.LogDebug = true;
 
 
                 
-                IEnumerable<Declared_types> query1 =
-                            from types in db.Declared_types
-                            //where student.Scores[0] > 90
-                            select types;
-
-
-                //MessageBox.Show("Query 1: " + query);
-                
-                foreach (Declared_types dectyp in query1)
-                {
-                    types.SelectedIndex = Int32.Parse(dectyp.Type);
-                }
-
-
-                IEnumerable<Declared_locations> query2 =
-                            from locations in db.Declared_locations
-                            //where student.Scores[0] > 90
-                            select locations;
-
-                foreach (Declared_locations decloc in query2)
-                {
-                    departments.SelectedIndex = Int32.Parse(decloc.Location);
-                }
-
-
-
             }
+
+
+
+
+            //using (HospitalContext db = new HospitalContext(HospitalContext.ConnectionString))
+            //{
+
+            //    // -------------------------------------------------------------------//
+            //    // -------------------------- LOCAL DATABASE -------------------------//
+            //    // -------------------------------------------------------------------//
+
+            //    db.CreateIfNotExists();
+            //    db.LogDebug = true;
+
+
+                
+            //    IEnumerable<Declared_types> query1 =
+            //                from types_db in db.Declared_types
+            //                select types_db;
+
+
+                
+                
+            //    foreach (Declared_types dectyp in query1)
+            //    {
+            //        ListPickerItem new_item = new ListPickerItem();
+            //        types.Items.Add(new_item);
+            //        new_item.Content = dectyp.Type;
+            //    }
+
+
+
+            //    IEnumerable<Declared_locations> query2 =
+            //                from locations in db.Declared_locations
+            //                select locations;
+
+            //    foreach (Declared_locations decloc in query2)
+            //    {
+            //        ListPickerItem new_item = new ListPickerItem();
+            //        departments.Items.Add(new_item);
+            //        new_item.Content = decloc.Location;
+            //    }
+
+
+
+            //}
 
         }
 

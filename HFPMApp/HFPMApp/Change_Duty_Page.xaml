@@ -69,6 +69,7 @@
 " FontSize="37.333" Height="62" Width="164"/>
 			<TextBlock x:Name="cur_end_time" HorizontalAlignment="Right" Margin="0,93,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="37.333" Height="43" Text="00:00:00" Width="150"/>
 			<TextBlock x:Name="to" HorizontalAlignment="Left" Margin="354,70,0,0" TextWrapping="Wrap" Text="to" VerticalAlignment="Top"/>
+			<CheckBox x:Name="any_time" Content="Any" HorizontalAlignment="Left" Margin="112,367,0,0" VerticalAlignment="Top" Width="108"/>
 
 		</Grid>
 	</Grid>

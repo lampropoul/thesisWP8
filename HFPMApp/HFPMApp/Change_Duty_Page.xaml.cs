@@ -124,8 +124,19 @@ namespace HFPMApp
             client_up.UploadStringCompleted += client_UploadStringCompleted;
 
 
+            any_time.Checked += any_time_Checked;
+            any_time.Unchecked += any_time_Unchecked;
 
+        }
 
+        void any_time_Unchecked(object sender, RoutedEventArgs e)
+        {
+            timepicked.Visibility = Visibility.Visible;
+        }
+
+        void any_time_Checked(object sender, RoutedEventArgs e)
+        {
+            timepicked.Visibility = Visibility.Collapsed;
         }
 
 
@@ -286,11 +297,18 @@ namespace HFPMApp
                     jsonObject.user_id = Int32.Parse(PhoneApplicationService.Current.State["UserId"].ToString());
                     jsonObject.id = Int32.Parse(progid);
                     jsonObject.request_date = datepicked.ValueString;
-                    jsonObject.request_start_time = timepicked.ValueString;
+                    if (Convert.ToBoolean(any_time.IsChecked))
+                    {
+                        jsonObject.request_start_time = "Any";
+                    }
+                    else
+                    {
+                        jsonObject.request_start_time = timepicked.ValueString;
+                    }
 
                     this.json_to_send = JsonConvert.SerializeObject(jsonObject, Formatting.Indented, new JsonSerializerSettings { });
 
-
+                    MessageBox.Show(json_to_send);
                     // REST CALL
                     client_up.Headers["Method"] = "POST";
                     client_up.Headers[HttpRequestHeader.ContentType] = "application/json";

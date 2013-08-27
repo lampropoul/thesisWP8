@@ -22,24 +22,27 @@ using System.Windows.Navigation;
 
 namespace HFPMApp
 {
-    public partial class Declared : PhoneApplicationPage
+    public partial class Duties_Exchange : PhoneApplicationPage
     {
+
 
         public string downloadedText;
         WebClient client;
+        WebClient client2;
         string url;
         string uri;
         RootObject jsonObject;
+        RootObject2 jsonObject2;
+        string program_id_from = string.Empty;
+        int program_id_to = 0;
+
+
+
         String server_ip;
-        string file_contents = null;
-        string settings_type = null;
-        string settings_department = null;
-
-
-        
-        public Declared()
+        public Duties_Exchange()
         {
             InitializeComponent();
+
 
 
 
@@ -99,26 +102,6 @@ namespace HFPMApp
             }
 
 
-            try
-            {
-                using (StreamReader sr = new StreamReader("settings.txt"))
-                {
-                    file_contents = sr.ReadToEnd();
-                    sr.Close();
-                }
-            }
-            catch (Exception esr)
-            {
-                MessageBox.Show("The file could not be read:");
-                MessageBox.Show(esr.Message);
-            }
-
-
-
-            string[] words = file_contents.Split(',');
-            settings_type = words[2];
-            settings_department = words[3];
-
 
 
             if (PhoneApplicationService.Current.State["Language"].ToString() == "GR")
@@ -129,18 +112,14 @@ namespace HFPMApp
 
 
 
-            // CLIENT
+            // CLIENTS
             client = new WebClient();
             client.DownloadStringCompleted += client_DownloadStringCompleted;
 
-
+            client2 = new WebClient();
+            client2.DownloadStringCompleted += client_DownloadStringCompleted2;
 
         }
-
-
-
-
-
 
 
 
@@ -156,32 +135,27 @@ namespace HFPMApp
 
             loadingProgressBar.IsVisible = true;
 
-            if (Convert.ToBoolean(PhoneApplicationService.Current.State["hasInternet"]))
-            {
 
-                Random rnd = new Random();
-                int rand = rnd.Next(1, 10000);
-                string user_id = PhoneApplicationService.Current.State["UserId"].ToString();
-
-                // edw kalw kai pairw apo ton server ola ta tmimata kai olous tous typous ka8ikontwn
-
-                // REST Call
-                url = "http://" + server_ip + "/HFPM_Server_CI/index.php/restful/api/populatedeclared/id/" + user_id +"/randomnum/" + rand;
-                client.DownloadStringAsync(new Uri(url));
+            NavigationContext.QueryString.TryGetValue("duty_id", out program_id_from);
 
 
 
-            }
-            else
-            {
-                if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") MessageBox.Show("Δεν υπάρχει σύνδεση στο Internet.");
-                else MessageBox.Show("Sorry, no internet connectivity.");
+            Random rnd = new Random();
+            int rand = rnd.Next(1, 10000);
+            string user_id = PhoneApplicationService.Current.State["UserId"].ToString();
 
-                uri = "/MainMenuPage.xaml";
-                NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
-            }
+            // edw kalw kai pairw apo ton server ola ta tmimata kai olous tous typous ka8ikontwn
+
+            // REST Call
+            url = "http://" + server_ip + "/HFPM_Server_CI/index.php/restful/api/populatedutiesavail/dutyid/" + program_id_from + "/randomnum/" + rand;
+            client.DownloadStringAsync(new Uri(url));
+
+
 
         }
+
+
+
 
 
 
@@ -204,36 +178,33 @@ namespace HFPMApp
 
                 List<string> StringsList = new List<string> { };
 
-                for (int i = 0; i < duties_count; i++)
+                if (jsonObject.duties[0].program_id != 0)
                 {
 
-                    int program_id = jsonObject.duties[i].program_id;
-                    string name = jsonObject.duties[i].name;
-                    string surname = jsonObject.duties[i].surname;
-                    string type = jsonObject.duties[i].type;
-                    string department = jsonObject.duties[i].department;
-                    string date = jsonObject.duties[i].date;
-                    string start = jsonObject.duties[i].start;
-                    string end = jsonObject.duties[i].end;
-                    string req_date = jsonObject.duties[i].req_date;
-                    string req_time = jsonObject.duties[i].req_time;
-
-                    int r = i+1;
-                    string item = r.ToString() + ".  User " + name + " " + surname + "\n    (" + type + ")\n    on date " + date + "\n    with start time " + start + "\n    and end time " + end + "\n    requested change at " + req_date + "\n    and start time " + req_time;
-
-
-                    if ( (settings_type == type || settings_type == "All types" )  &&  (settings_department == department || settings_department == "All departments") )
+                    for (int i = 0; i < duties_count; i++)
                     {
+
+                        program_id_to = jsonObject.duties[i].program_id;
+                        string type = jsonObject.duties[i].type;
+                        string date = jsonObject.duties[i].date;
+                        string start = jsonObject.duties[i].start;
+                        string end = jsonObject.duties[i].end;
+
+                        string item = "Exchange with your duty:\n    (" + type + ")\n    on date " + date + "\n    with start time " + start + "\n    and end time " + end + "\n    (" + program_id_from + "->" + program_id_to + ")";
+                        
                         StringsList.Add(item);
-                    }
 
 
-                }// for
+                    }// for
 
 
-                declared_duties.ItemsSource = StringsList;
+                    duties_avail.ItemsSource = StringsList;
 
-
+                }
+                else
+                {
+                    MessageBox.Show("No duties to exchange");
+                }
 
 
 
@@ -262,16 +233,64 @@ namespace HFPMApp
 
 
 
-        private void declared_duties_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+
+
+        private void duties_avail_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
 
-            string[] words = declared_duties.SelectedItem.ToString().Split('.');
-            int index = Convert.ToInt32(words[0]) - 1;
-            int program_id = jsonObject.duties[index].program_id;
+            Random rnd = new Random();
+            int rand = rnd.Next(1, 10000);
+            string user_id = PhoneApplicationService.Current.State["UserId"].ToString();
+
+            // edw kalw kai pairw apo ton server ola ta tmimata kai olous tous typous ka8ikontwn
+
+            // REST Call
+            url = "http://" + server_ip + "/HFPM_Server_CI/index.php/restful/api/exchangeduties/from/" + program_id_from + "/to/" + program_id_to + "/randomnum/" + rand;
+            client2.DownloadStringAsync(new Uri(url));
+
+        }
 
 
-            uri = "/Duties_Exchange.xaml?duty_id=" + program_id.ToString();
-            NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
+
+
+
+
+        // function that retreives json data from web server
+        void client_DownloadStringCompleted2(object sender, DownloadStringCompletedEventArgs e)
+        {
+            try
+            {
+
+
+                this.downloadedText = e.Result;
+
+                // decode JSON
+                jsonObject2 = JsonConvert.DeserializeObject<RootObject2>(this.downloadedText);
+
+                if (jsonObject2.error == "none")
+                {
+                    MessageBox.Show("OK");
+                    uri = "/Declared.xaml";
+                    NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
+                }
+
+            }
+            catch (TargetInvocationException ex)
+            {
+
+                if (Convert.ToString(PhoneApplicationService.Current.State["Language"]) == "GR") MessageBox.Show("Ανεπιτυχής προσπάθεια σύνδεσης στον εξυπηρέτη ή δεν υπάρχουν αιτήματα από άλλους χρήστες.");
+                else MessageBox.Show("Could not connect to server or no declared duties from other users.");
+                System.Diagnostics.Debug.WriteLine("TargetInvocationException: " + ex.Message);
+            }
+            catch (WebException ex)
+            {
+                MessageBox.Show("WebException: " + ex.Message);
+                System.Diagnostics.Debug.WriteLine("WebException: " + ex.Message);
+            }
+
+
+            loadingProgressBar.IsVisible = false;
+
         }
 
 
@@ -293,7 +312,7 @@ namespace HFPMApp
         private void back_Click(object sender, EventArgs e)
         {
 
-            uri = "/MainMenuPage.xaml";
+            uri = "/Declared.xaml";
             NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
         }
 
@@ -335,15 +354,16 @@ namespace HFPMApp
         public class Duties
         {
             public int program_id { get; set; }
-            public string name { get; set; }
-            public string surname { get; set; }
             public string type { get; set; }
-            public string department { get; set; }
             public string date { get; set; }
             public string start { get; set; }
             public string end { get; set; }
-            public string req_date { get; set; }
-            public string req_time { get; set; }
+        }
+
+
+        public class RootObject2
+        {
+            public string error { get; set; }
         }
 
 

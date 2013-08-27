@@ -758,7 +758,8 @@ namespace HFPMApp
             {
                 loadingProgressBar.IsVisible = false;
 
-                MessageBox.Show("TargetInvocationException: " + ex.Message);
+                if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") MessageBox.Show("Δεν υπάρχουν καθήκοντα");
+                else MessageBox.Show("No duties");
                 System.Diagnostics.Debug.WriteLine("TargetInvocationException: " + ex.Message);
             }
             catch (WebException ex)

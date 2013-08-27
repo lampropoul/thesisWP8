@@ -25,7 +25,14 @@ namespace HFPMApp
     public partial class Settings : PhoneApplicationPage
     {
 
+        public string downloadedText;
+        WebClient client;
+        string url;
         string uri;
+
+        String server_ip;
+        string file_contents = null;
+        RootObjectPop jsonObject;
 
 
         public Settings()
@@ -41,6 +48,23 @@ namespace HFPMApp
 
 
             }
+
+
+
+            try
+            {
+                using (StreamReader sr = new StreamReader("server_ip.txt"))
+                {
+                    server_ip = sr.ReadToEnd();
+                    sr.Close();
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("The file could not be read:");
+                MessageBox.Show(e.Message);
+            }
+
 
 
             // APP BAR
@@ -75,190 +99,207 @@ namespace HFPMApp
             menuItem1.Click += new EventHandler(logout_Click);
 
 
+            // CLIENT
+            client = new WebClient();
+            client.DownloadStringCompleted += client_DownloadStringCompleted;
+
+
+
         }
+
+
+
+
+
 
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
+            loadingProgressBar.IsVisible = true;
+
             ListPickerItem new_item1 = new ListPickerItem();
             types.Items.Add(new_item1);
-            new_item1.Content = "All Types";
+            new_item1.Content = "All types";
 
             ListPickerItem new_item2 = new ListPickerItem();
             departments.Items.Add(new_item2);
-            new_item2.Content = "All Departments";
+            new_item2.Content = "All departments";
 
 
             if (Convert.ToBoolean(PhoneApplicationService.Current.State["hasInternet"]))
             {
 
+                Random rnd = new Random();
+                int rand = rnd.Next(1, 10000);
+
                 // edw kalw kai pairw apo ton server ola ta tmimata kai olous tous typous ka8ikontwn
-                
+
+                // REST Call
+                url = "http://" + server_ip + "/HFPM_Server_CI/index.php/restful/api/populatesettings/randomnum/" + rand;
+                client.DownloadStringAsync(new Uri(url));
 
 
 
-                
             }
+            else
+            {
+                if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") MessageBox.Show("Δεν υπάρχει σύνδεση στο Internet.");
+                else MessageBox.Show("Sorry, no internet connectivity.");
 
-
-
-
-            //using (HospitalContext db = new HospitalContext(HospitalContext.ConnectionString))
-            //{
-
-            //    // -------------------------------------------------------------------//
-            //    // -------------------------- LOCAL DATABASE -------------------------//
-            //    // -------------------------------------------------------------------//
-
-            //    db.CreateIfNotExists();
-            //    db.LogDebug = true;
-
-
-                
-            //    IEnumerable<Declared_types> query1 =
-            //                from types_db in db.Declared_types
-            //                select types_db;
-
-
-                
-                
-            //    foreach (Declared_types dectyp in query1)
-            //    {
-            //        ListPickerItem new_item = new ListPickerItem();
-            //        types.Items.Add(new_item);
-            //        new_item.Content = dectyp.Type;
-            //    }
-
-
-
-            //    IEnumerable<Declared_locations> query2 =
-            //                from locations in db.Declared_locations
-            //                select locations;
-
-            //    foreach (Declared_locations decloc in query2)
-            //    {
-            //        ListPickerItem new_item = new ListPickerItem();
-            //        departments.Items.Add(new_item);
-            //        new_item.Content = decloc.Location;
-            //    }
-
-
-
-            //}
+                uri = "/MainMenuPage.xaml";
+                NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
+            }
 
         }
 
 
 
 
+
+
+
         private void selectionSubmitted(object sender, RoutedEventArgs e)
         {
-            
 
-            using (HospitalContext db = new HospitalContext(HospitalContext.ConnectionString))
+            // pairnw ta indices apo tin lista kai pairnw to antistoixo onoma 
+
+            int type_index = types.SelectedIndex;
+            string type_selected = null;
+            if (type_index == 0)
             {
-
-                // ------------------------------------------------------------------- //
-                // -------------------------- LOCAL DATABASE ------------------------- //
-                // ------------------------------------------------------------------- //
-
-                db.CreateIfNotExists();
-                db.LogDebug = true;
-
-
-                // retreive user id from table users
-
-                IEnumerable<Users> query =
-                            from user in db.Users
-                            where user.Username == PhoneApplicationService.Current.State["Username"].ToString()
-                            select user;
-
-                int id=0;
-                foreach (Users us in query)
-                {
-                    id = us.Userid;
-                }
-
-
-
-                IEnumerable<Declared_types> query2 =
-                            from types in db.Declared_types
-                            where types.Userid == id
-                            select types;
-
-
-                foreach (Declared_types dectyp in query2)
-                {
-                    db.Declared_types.DeleteOnSubmit(dectyp);
-                }
-
-
-                IEnumerable<Declared_locations> query3 =
-                            from locations in db.Declared_locations
-                            where locations.Userid == id
-                            select locations;
-
-
-                foreach (Declared_locations decloc in query3)
-                {
-                    db.Declared_locations.DeleteOnSubmit(decloc);
-                }
-
-
-                // changes do not take place until SubmitChanges method is called
-                try
-                {
-                    db.SubmitChanges();                    
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-
-
-
-
-                if (id!=0)
-                {
-                    // insert entry in DB
-                    db.Declared_types.InsertOnSubmit(new Declared_types
-                    {
-                        Userid = id,
-                        Type = types.SelectedIndex.ToString()
-                    });
-
-                    db.Declared_locations.InsertOnSubmit(new Declared_locations
-                    {
-                        Userid = id,
-                        Location = departments.SelectedIndex.ToString()
-                    });
-                }
-
-
-                // changes do not take place until SubmitChanges method is called
-                try
-                {
-                    db.SubmitChanges();
-                    MessageBox.Show("OK.");
-                    string uri = "/MainMenuPage.xaml";
-                    NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-
-
-                
-
-
+                type_selected = "All types";
             }
+            else
+            {
+                type_selected = jsonObject.duties[type_index - 1].duty_name;
+            }
+
+            int department_index = departments.SelectedIndex;
+            string department_selected = null;
+            if (department_index == 0)
+            {
+                department_selected = "All departments";
+            }
+            else
+            {
+                department_selected = jsonObject.departments[department_index - 1].department_name;
+            }
+
+            //MessageBox.Show(type_index + ":" + type_selected + ", " + department_index + ":" + department_selected);
+
+
+
+            // twra ta grafw sto arxeio gia na ta exw kai stin selida Declared.xaml
+            using (StreamWriter writer = new StreamWriter("settings.txt"))
+            {
+                writer.Write(type_index.ToString() + "," + department_index.ToString() + "," + type_selected + "," + department_selected);
+                writer.Close();
+            }
+
+
+            uri = "/MainMenuPage.xaml";
+            NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
 
 
         }// end selectionSubmitted
 
+
+
+
+
+        // function that retreives json data from web server
+        void client_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
+        {
+            try
+            {
+
+
+
+                this.downloadedText = e.Result;
+
+                // decode JSON
+                jsonObject = JsonConvert.DeserializeObject<RootObjectPop>(this.downloadedText);
+
+                int departments_count = jsonObject.departments.Count;
+                int duties_count = jsonObject.duties.Count;
+
+
+                for (int i = 0; i < duties_count; i++)
+                {
+
+
+                    string duty = jsonObject.duties[i].duty_name;
+
+
+                    // populate list
+                    ListPickerItem new_item = new ListPickerItem();
+                    types.Items.Add(new_item);
+                    new_item.Content = duty;
+
+                }// for
+
+
+                for (int i = 0; i < departments_count; i++)
+                {
+
+
+                    string department = jsonObject.departments[i].department_name;
+
+
+                    // populate list
+                    ListPickerItem new_item = new ListPickerItem();
+                    departments.Items.Add(new_item);
+                    new_item.Content = department;
+
+                }// for
+
+
+
+
+                
+
+                try
+                {
+                    using (StreamReader sr = new StreamReader("settings.txt"))
+                    {
+                        file_contents = sr.ReadToEnd();
+                        sr.Close();
+                    }
+                }
+                catch (Exception esr)
+                {
+                    MessageBox.Show("The file could not be read:");
+                    MessageBox.Show(esr.Message);
+                }
+
+
+
+                string[] words = file_contents.Split(',');
+                types.SelectedIndex = Convert.ToInt32(words[0]);
+                departments.SelectedIndex = Convert.ToInt32(words[1]);
+
+
+
+            }
+            catch (TargetInvocationException ex)
+            {
+
+                if (Convert.ToString(PhoneApplicationService.Current.State["Language"]) == "GR") MessageBox.Show("Ανεπιτυχής προσπάθεια σύνδεσης στον εξυπηρέτη ή δεν υπάρχει αυτός ο χρήστης.");
+                else MessageBox.Show("Could not connect to server or no such user.");
+                System.Diagnostics.Debug.WriteLine("TargetInvocationException: " + ex.Message);
+            }
+            catch (WebException ex)
+            {
+                MessageBox.Show("WebException: " + ex.Message);
+                System.Diagnostics.Debug.WriteLine("WebException: " + ex.Message);
+            }
+
+
+            loadingProgressBar.IsVisible = false;
+
+        }
 
 
 
@@ -296,7 +337,31 @@ namespace HFPMApp
             NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
         }
 
-        
+
+
+
+
+        // the classes which contain the properties of the specific JSON response
+        public class RootObjectPop
+        {
+            public List<Departments> departments { get; set; }
+            public List<Duties> duties { get; set; }
+        }
+
+
+
+
+
+
+        public class Duties
+        {
+            public string duty_name;
+        }
+
+        public class Departments
+        {
+            public string department_name;
+        }
 
     }
 }

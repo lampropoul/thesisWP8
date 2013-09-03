@@ -512,11 +512,12 @@ namespace HFPMApp
                 {
 
                     this.downloadedText = e.Result;
-                    RootObject jsonObject_res = JsonConvert.DeserializeObject<RootObject>(this.downloadedText);
+                    MessageBox.Show(downloadedText);
+                    //RootObject jsonObject_res = JsonConvert.DeserializeObject<RootObject>(this.downloadedText);
 
 
-                    if (jsonObject_res.message == "InsertedOrUpdated")
-                    {
+                    //if (jsonObject_res.message == "InsertedOrUpdated")
+                    //{
 
                         //using (HospitalContext db = new HospitalContext(HospitalContext.ConnectionString))
                         //{
@@ -584,12 +585,12 @@ namespace HFPMApp
                         uri = "/Personal_Program.xaml";
                         NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
                         
-                    }
-                    else
-                    {
-                        if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") MessageBox.Show("Κάτι δεν πήγε καθόλου καλά. Προσπαθήστε ξανά.");
-                        else MessageBox.Show("Something went terribly wrong. Please try again.");
-                    }
+                    //}
+                    //else
+                    //{
+                    //    if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") MessageBox.Show("Κάτι δεν πήγε καθόλου καλά. Προσπαθήστε ξανά.");
+                    //    else MessageBox.Show("Something went terribly wrong. Please try again.");
+                    //}
 
 
                 }

@@ -5,6 +5,7 @@
     <AssemblyPart x:Name="Microsoft.Phone.Controls" Source="Microsoft.Phone.Controls.dll" />
     <AssemblyPart x:Name="Microsoft.Phone.Controls.Toolkit" Source="Microsoft.Phone.Controls.Toolkit.dll" />
     <AssemblyPart x:Name="Newtonsoft.Json" Source="Newtonsoft.Json.dll" />
+    <AssemblyPart x:Name="ScheduledTaskAgent1" Source="ScheduledTaskAgent1.dll" />
     <AssemblyPart Source="el-GR/HFPMApp.resources.dll" />
     <AssemblyPart Source="el-GR/Microsoft.Phone.Controls.Toolkit.resources.dll" />
   </Deployment.Parts>

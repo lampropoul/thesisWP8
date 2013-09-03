@@ -36,8 +36,7 @@ namespace HFPMApp
         string url;
         string url_post;
         string uri;
-        string json_to_send = "";
-        string clear_old = "";
+        string server_ip = String.Empty;
 
 
         public MainMenuPage()
@@ -82,6 +81,27 @@ namespace HFPMApp
                 declared_button.Content = "Αιτήματα";
                 edit_button.Content = "Επεξεργασία";
             }
+
+
+
+            try
+            {
+                using (StreamReader sr = new StreamReader("server_ip.txt"))
+                {
+                    server_ip = sr.ReadToEnd();
+                    sr.Close();
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("The file could not be read:");
+                MessageBox.Show(e.Message);
+            }
+
+
+
+            client = new WebClient();
+            client.DownloadStringCompleted += client_DownloadStringCompleted;
             
         }
 
@@ -100,11 +120,192 @@ namespace HFPMApp
 
             // pairnw ta parameters (username kai password) apo tin MainPage.xaml
             string given_username = PhoneApplicationService.Current.State["Username"].ToString();
+            string user_id = PhoneApplicationService.Current.State["UserId"].ToString();
 
+            Random rnd = new Random();
+            int rand = rnd.Next(1, 10000);
 
-            
+            // REST Call
+            url = "http://" + server_ip + "/HFPM_Server_CI/index.php/restful/api/notifications/id/" + user_id + "/randomnum/" + rand;
+            client.DownloadStringAsync(new Uri(url));
 
         }
+
+
+
+
+
+
+
+        void client_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
+        {
+
+
+            try
+            {
+
+
+
+                this.downloadedText = e.Result;
+                // decode JSON
+                RootObject jsonObject = JsonConvert.DeserializeObject<RootObject>(this.downloadedText);
+
+                
+                if (jsonObject.error == "")
+                {
+
+                    int count = jsonObject.program_id.Count;
+                    
+                    for (int i = 0; i < count; i++)
+                    {
+
+
+                        string req_date = String.Empty;
+                        string req_time = String.Empty;
+
+
+                        using (HospitalContext db = new HospitalContext(HospitalContext.ConnectionString))
+                        {
+
+                            // -------------------------------------------------------------------//
+                            // -------------------------- LOCAL DATABASE -------------------------//
+                            // -------------------------------------------------------------------//
+
+                            db.CreateIfNotExists();
+                            db.LogDebug = true;
+
+
+
+
+
+
+
+                            // ***************** GET DATE & TIME FROM CHANGE_LIST *************** //
+
+                            IEnumerable<Change_list> query1 =
+                                            from change in db.Change_list
+                                            where change.Programid == jsonObject.program_id[i]
+                                            select change;
+
+                            foreach (Change_list cl in query1)
+                            {
+                                req_date = cl.RequestDate;
+                                req_time = cl.RequestStartTime;
+                            }
+
+
+
+
+
+
+
+                            // **************** UPDATE PROGRAM *************** //
+
+                            IEnumerable<Program> query2 =
+                                            from programs in db.Program
+                                            where programs.Programid == jsonObject.program_id[i]
+                                            select programs;
+
+
+                            foreach (Program p in query2)
+                            {
+                                // retreive difference
+
+                                string[] words1 = p.Start.Split(':');
+                                int hour_start = Convert.ToInt32(words1[0]);
+                                string[] words2 = p.End.Split(':');
+                                int hour_end = Convert.ToInt32(words2[0]);
+
+                                int diff = hour_end - hour_start;
+                                if (diff < 0) diff += 24;
+
+
+                                string[] words3 = req_time.Split(':');
+                                int hour_start_new = Convert.ToInt32(words3[0]);
+                                int hour_end_new = hour_start_new + diff;
+
+                                p.Date = req_date;
+                                p.Start = req_time;
+
+                                if (hour_end_new < 10) p.End = "0" + hour_end_new.ToString() + ":00:00";
+                                else p.End = hour_end_new.ToString() + ":00:00";
+
+                            }
+
+
+                            try
+                            {
+                                db.SubmitChanges();
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex);
+                            }
+
+
+
+
+
+
+
+                            // ************* DELETE FROM CHANGE_LIST *************** //
+
+
+                            IEnumerable<Change_list> query3 =
+                                            from change in db.Change_list
+                                            where change.Programid == jsonObject.program_id[i]
+                                            select change;
+
+                            foreach (Change_list cl in query3)
+                            {
+                                db.Change_list.DeleteOnSubmit(cl);
+                            }
+
+
+                            try
+                            {
+                                db.SubmitChanges();
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex);
+                            }
+
+
+
+
+                        }
+
+
+
+                        MessageBox.Show(jsonObject.description[i]);
+
+
+                    }// for
+
+                }// if
+
+
+            }
+            catch (TargetInvocationException ex)
+            {
+
+
+
+                if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") MessageBox.Show("Σφάλμα τοπικής βάσης.");
+                else MessageBox.Show("Local DB fault.");
+
+                System.Diagnostics.Debug.WriteLine("TargetInvocationException: " + ex.Message);
+            }
+            catch (WebException ex)
+            {
+                MessageBox.Show("WebException: " + ex.Message);
+                System.Diagnostics.Debug.WriteLine("WebException: " + ex.Message);
+            }
+
+
+        }
+
 
 
 
@@ -246,8 +447,16 @@ namespace HFPMApp
             NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
         }
 
-        
 
+
+
+        public class RootObject
+        {
+            public List<int> program_id { get; set; }
+            public List<int> isSecretary { get; set; }
+            public List<string> description { get; set; }
+            public string error { get; set; }
+        }
 
     }
 }

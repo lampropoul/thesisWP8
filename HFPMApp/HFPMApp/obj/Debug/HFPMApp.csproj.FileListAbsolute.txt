@@ -88,3 +88,5 @@ C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\obj\Debug
 C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\Bin\Debug\Microsoft.Expression.Drawing.dll
 C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\obj\Debug\Search_Results.g.cs
 C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\obj\Debug\Duties_Exchange.g.cs
+C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\Bin\Debug\ScheduledTaskAgent1.dll
+C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\Bin\Debug\ScheduledTaskAgent1.pdb

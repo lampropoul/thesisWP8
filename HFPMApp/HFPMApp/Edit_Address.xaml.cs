@@ -102,6 +102,8 @@ namespace HFPMApp
         {
             base.OnNavigatedTo(e);
 
+            loadingProgressBar.IsVisible = true;
+
             if (PhoneApplicationService.Current.State["Language"].ToString() == "GR")
             {
                 app_title.Text = "Εφαρμογή Διαχείρισης Μονάδων Υγείας";
@@ -145,7 +147,8 @@ namespace HFPMApp
 
             // REST Call
 
-            
+            loadingProgressBar.IsVisible = true;
+
             Random rnd = new Random();
             int rand = rnd.Next(1, 1000);
 
@@ -194,7 +197,6 @@ namespace HFPMApp
 
                     if (jsonObject_res.message == "Updated")
                     {
-                        MessageBox.Show("Edit OK.");
                         uri = "/Edit.xaml";
                         NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
                     }
@@ -222,6 +224,9 @@ namespace HFPMApp
                 MessageBox.Show("WebException: " + ex.Message);
                 System.Diagnostics.Debug.WriteLine("WebException: " + ex.Message);
             }
+
+            loadingProgressBar.IsVisible = false;
+
         }
 
 
@@ -268,6 +273,9 @@ namespace HFPMApp
                 MessageBox.Show("WebException: " + ex.Message);
                 System.Diagnostics.Debug.WriteLine("WebException: " + ex.Message);
             }
+
+            loadingProgressBar.IsVisible = false;
+
         }
 
 

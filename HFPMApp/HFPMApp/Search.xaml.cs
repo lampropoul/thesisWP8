@@ -54,6 +54,14 @@ namespace HFPMApp
             {
                 app_title.Text = "Εφαρμογή Διαχείρισης Μονάδων Υγείας";
                 page_title.Text = "Αναζήτηση";
+
+                any_date.Content = "Οποιαδήποτε ημ/νία";
+
+                list_duties.Header = "Τύπος καθήκοντος";
+                list_locations.Header = "Νοσοκομείο";
+                list_program_names.Header = "Όνομα προγράμματος";
+
+                search.Content = "Αναζήτηση";
             }
 
 
@@ -131,19 +139,21 @@ namespace HFPMApp
             
             // kalw gia na gemisw tis listes
 
-
-
+            
             ListPickerItem new_item1 = new ListPickerItem();
             list_duties.Items.Add(new_item1);
-            new_item1.Content = "All";
+            if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") new_item1.Content = "Όλα";
+            else new_item1.Content = "All";
 
             ListPickerItem new_item2 = new ListPickerItem();
             list_locations.Items.Add(new_item2);
-            new_item2.Content = "All";
+            if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") new_item2.Content = "Όλα";
+            else new_item2.Content = "All";
 
             ListPickerItem new_item3 = new ListPickerItem();
             list_program_names.Items.Add(new_item3);
-            new_item3.Content = "All";
+            if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") new_item3.Content = "Όλα";
+            else new_item3.Content = "All";
 
 
             if (Convert.ToBoolean(PhoneApplicationService.Current.State["hasInternet"]))

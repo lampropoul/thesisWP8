@@ -32,9 +32,8 @@ namespace HFPMApp
 
         public string downloadedText;
         WebClient client;
-        WebClient client_up;
+        WebClient client2;
         string url;
-        string url_post;
         string uri;
         string server_ip = String.Empty;
 
@@ -80,6 +79,7 @@ namespace HFPMApp
                 search_button.Content = "Αναζήτηση";
                 declared_button.Content = "Αιτήματα";
                 edit_button.Content = "Επεξεργασία";
+                camera_button.Content = "Φωτογραφία";
             }
 
 
@@ -102,6 +102,9 @@ namespace HFPMApp
 
             client = new WebClient();
             client.DownloadStringCompleted += client_DownloadStringCompleted;
+
+            client2 = new WebClient();
+            client2.DownloadStringCompleted += client2_DownloadStringCompleted;
             
         }
 
@@ -112,18 +115,37 @@ namespace HFPMApp
         {
             base.OnNavigatedTo(e);
 
-            
+            loadingProgressBar.IsVisible = true;
+
+            string user_id = String.Empty;
+            string given_username = PhoneApplicationService.Current.State["Username"].ToString();
+
+            using (HospitalContext db = new HospitalContext(HospitalContext.ConnectionString))
+            {
+                IEnumerable<Users> query =
+                    from user in db.Users
+                    where user.Username == given_username
+                    select user;
+                
+
+                foreach (Users us in query)
+                {
+                    user_id = us.Userid.ToString();
+                }
+            }
+
+            PhoneApplicationService.Current.State["UserId"] = user_id;
             // TODO
 
             // edw erxomai otan kanw logout kai pataw to hardware back
             // 8elei dior8wsi
 
-            // pairnw ta parameters (username kai password) apo tin MainPage.xaml
-            string given_username = PhoneApplicationService.Current.State["Username"].ToString();
-            string user_id = PhoneApplicationService.Current.State["UserId"].ToString();
+            
 
             Random rnd = new Random();
             int rand = rnd.Next(1, 10000);
+
+
 
             // REST Call
             url = "http://" + server_ip + "/HFPM_Server_CI/index.php/restful/api/notifications/id/" + user_id + "/randomnum/" + rand;
@@ -160,8 +182,8 @@ namespace HFPMApp
                     {
 
 
-                        string req_date = String.Empty;
-                        string req_time = String.Empty;
+                        //string req_date = String.Empty;
+                        //string req_time = String.Empty;
 
 
                         using (HospitalContext db = new HospitalContext(HospitalContext.ConnectionString))
@@ -182,16 +204,16 @@ namespace HFPMApp
 
                             // ***************** GET DATE & TIME FROM CHANGE_LIST *************** //
 
-                            IEnumerable<Change_list> query1 =
-                                            from change in db.Change_list
-                                            where change.Programid == jsonObject.program_id[i]
-                                            select change;
+                            //IEnumerable<Change_list> query1 =
+                            //                from change in db.Change_list
+                            //                where change.Programid == jsonObject.program_id[i]
+                            //                select change;
 
-                            foreach (Change_list cl in query1)
-                            {
-                                req_date = cl.RequestDate;
-                                req_time = cl.RequestStartTime;
-                            }
+                            //foreach (Change_list cl in query1)
+                            //{
+                            //    req_date = cl.RequestDate;
+                            //    req_time = cl.RequestStartTime;
+                            //}
 
 
 
@@ -210,7 +232,7 @@ namespace HFPMApp
                             foreach (Program p in query2)
                             {
                                 // retreive difference
-
+                                /*
                                 string[] words1 = p.Start.Split(':');
                                 int hour_start = Convert.ToInt32(words1[0]);
                                 string[] words2 = p.End.Split(':');
@@ -223,12 +245,15 @@ namespace HFPMApp
                                 string[] words3 = req_time.Split(':');
                                 int hour_start_new = Convert.ToInt32(words3[0]);
                                 int hour_end_new = hour_start_new + diff;
+                                */
+                                p.Date = jsonObject.date[i];
+                                p.Start = jsonObject.start_time[i];
+                                p.End = jsonObject.end_time[i];
 
-                                p.Date = req_date;
-                                p.Start = req_time;
-
+                                /*
                                 if (hour_end_new < 10) p.End = "0" + hour_end_new.ToString() + ":00:00";
                                 else p.End = hour_end_new.ToString() + ":00:00";
+                                 * */
 
                             }
 
@@ -277,7 +302,7 @@ namespace HFPMApp
                         }
 
 
-
+                        loadingProgressBar.IsVisible = false;
                         MessageBox.Show(jsonObject.description[i]);
 
 
@@ -303,6 +328,7 @@ namespace HFPMApp
                 System.Diagnostics.Debug.WriteLine("WebException: " + ex.Message);
             }
 
+            loadingProgressBar.IsVisible = false;
 
         }
 
@@ -315,9 +341,21 @@ namespace HFPMApp
         private void logout_Click(object sender, EventArgs e)
         {
 
+            loadingProgressBar.IsVisible = true;
+
+
+            string user_id = PhoneApplicationService.Current.State["UserId"].ToString();
+
+            string given_username = PhoneApplicationService.Current.State["Username"].ToString();
+            Random rnd = new Random();
+            int rand = rnd.Next(1, 10000);
+
+            url = "http://" + server_ip + "/HFPM_Server_CI/index.php/restful/api/logout/id/" + user_id + "/randomnum/" + rand;
+            client2.DownloadStringAsync(new Uri(url));
+
             PhoneApplicationService.Current.State["Username"] = null;
-            
-            
+
+
             using (StreamWriter writer = new StreamWriter("already_logged.txt"))
             {
                 writer.Write(PhoneApplicationService.Current.State["Username"]);
@@ -421,6 +459,28 @@ namespace HFPMApp
 
 
 
+
+
+
+
+
+        void client2_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
+        {
+            loadingProgressBar.IsVisible = false;
+        }
+
+
+
+
+
+        private void camera_button_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Not yet implemented!");
+        }
+
+
+
+
        
 
         private void pers_prog_button_Click(object sender, RoutedEventArgs e)
@@ -455,8 +515,59 @@ namespace HFPMApp
             public List<int> program_id { get; set; }
             public List<int> isSecretary { get; set; }
             public List<string> description { get; set; }
+            public List<string> date { get; set; }
+            public List<string> start_time { get; set; }
+            public List<string> end_time { get; set; }
             public string error { get; set; }
         }
+
+
+
+
+
+
+
+        private void background_button_Click(object sender, RoutedEventArgs e)
+        {
+
+
+            // ************  TILE  ************* //
+
+            IconicTileData oIcontile = new IconicTileData();
+            oIcontile.Title = "HFPM Notifications";
+            oIcontile.Count = 1;
+
+            oIcontile.IconImage = new Uri("Assets/Tiles/110x110.png", UriKind.Relative);
+            oIcontile.SmallIconImage = new Uri("Assets/Tiles/220x220.png", UriKind.Relative);
+
+            oIcontile.WideContent1 = "windows phone 8 Live tile";
+            oIcontile.WideContent2 = "Icon tile";
+            oIcontile.WideContent3 = "All about Live tiles By WmDev";
+
+            oIcontile.BackgroundColor = System.Windows.Media.Colors.Orange;
+
+            // find the tile object for the application tile that using "Iconic" contains string in it.
+            ShellTile TileToFind = ShellTile.ActiveTiles.FirstOrDefault(x => x.NavigationUri.ToString().Contains("Iconic".ToString()));
+
+            if (TileToFind != null && TileToFind.NavigationUri.ToString().Contains("Iconic"))
+            {
+                TileToFind.Delete();
+                ShellTile.Create(new Uri("/MainPage.xaml?id=Iconic", UriKind.Relative), oIcontile, true);
+            }
+            else
+            {
+                ShellTile.Create(new Uri("/MainPage.xaml?id=Iconic", UriKind.Relative), oIcontile, true);
+            }
+
+
+
+        }
+
+
+
+
+
+
 
     }
 }

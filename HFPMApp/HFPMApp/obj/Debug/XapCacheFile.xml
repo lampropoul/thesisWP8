@@ -1,9 +1,11 @@
-﻿<xapCache source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\Bin\Debug\HFPMApp_Debug_AnyCPU.xap" wasSigned="False" wasTritonized="False" certificateThumbprint="" TimeStampUrl="" signKeyFile="" signKeyPassword="" lastWriteTime="03/09/2013 22:03:35">
-  <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\obj\Debug\HFPMApp.dll" archivePath="HFPMApp.dll" lastWriteTime="03/09/2013 22:03:34" />
-  <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\obj\Debug\el-GR\HFPMApp.resources.dll" archivePath="el-GR\HFPMApp.resources.dll" lastWriteTime="03/09/2013 22:03:34" />
+﻿<xapCache source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\Bin\Debug\HFPMApp_Debug_AnyCPU.xap" wasSigned="False" wasTritonized="False" certificateThumbprint="" TimeStampUrl="" signKeyFile="" signKeyPassword="" lastWriteTime="05/09/2013 23:42:23">
+  <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\obj\Debug\HFPMApp.dll" archivePath="HFPMApp.dll" lastWriteTime="05/09/2013 23:42:22" />
+  <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\obj\Debug\el-GR\HFPMApp.resources.dll" archivePath="el-GR\HFPMApp.resources.dll" lastWriteTime="05/09/2013 23:42:22" />
   <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\packages\WPToolkit.4.2013.06.11\lib\wp8\el-GR\Microsoft.Phone.Controls.Toolkit.resources.dll" archivePath="el-GR\Microsoft.Phone.Controls.Toolkit.resources.dll" lastWriteTime="23/07/2013 21:19:34" />
   <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\already_logged.txt" archivePath="already_logged.txt" lastWriteTime="18/07/2013 23:05:23" />
   <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\Assets\AlignmentGrid.png" archivePath="Assets\AlignmentGrid.png" lastWriteTime="07/04/2013 12:59:49" />
+  <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\Assets\Tiles\110x110.png" archivePath="Assets\Tiles\110x110.png" lastWriteTime="07/12/2012 15:12:22" />
+  <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\Assets\Tiles\202x202.png" archivePath="Assets\Tiles\202x202.png" lastWriteTime="07/12/2012 15:12:42" />
   <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\Assets\Tiles\FlipCycleTileLarge.png" archivePath="Assets\Tiles\FlipCycleTileLarge.png" lastWriteTime="07/04/2013 12:59:49" />
   <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\Assets\Tiles\FlipCycleTileSmall.png" archivePath="Assets\Tiles\FlipCycleTileSmall.png" lastWriteTime="07/04/2013 12:59:49" />
   <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\Assets\Tiles\IconicTileMediumLarge.png" archivePath="Assets\Tiles\IconicTileMediumLarge.png" lastWriteTime="07/04/2013 12:59:49" />
@@ -42,8 +44,8 @@
   <file source="C:\Program Files (x86)\Microsoft SDKs\Windows Phone\v8.0\Libraries\Microsoft.Phone.Controls.dll" archivePath="Microsoft.Phone.Controls.dll" lastWriteTime="03/03/2013 18:40:38" />
   <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\packages\WPToolkit.4.2013.06.11\lib\wp8\Microsoft.Phone.Controls.Toolkit.dll" archivePath="Microsoft.Phone.Controls.Toolkit.dll" lastWriteTime="23/07/2013 21:19:34" />
   <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\packages\Newtonsoft.Json.5.0.6\lib\portable-net45+wp80+win8\Newtonsoft.Json.dll" archivePath="Newtonsoft.Json.dll" lastWriteTime="05/07/2013 22:11:38" />
-  <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\ScheduledTaskAgent1\Bin\Debug\ScheduledTaskAgent1.dll" archivePath="ScheduledTaskAgent1.dll" lastWriteTime="28/08/2013 22:41:00" />
+  <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\ScheduledTaskAgent1\Bin\Debug\ScheduledTaskAgent1.dll" archivePath="ScheduledTaskAgent1.dll" lastWriteTime="05/09/2013 23:07:46" />
   <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\packages\Newtonsoft.Json.5.0.6\lib\portable-net45+wp80+win8\Newtonsoft.Json.xml" archivePath="Newtonsoft.Json.xml" lastWriteTime="05/07/2013 22:11:38" />
   <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\ScheduledTaskAgent1\server_ip.txt" archivePath="server_ip.txt" lastWriteTime="27/08/2013 22:04:42" />
-  <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\Bin\Debug\Properties\WMAppManifest.xml" archivePath="WMAppManifest.xml" lastWriteTime="03/09/2013 22:03:35" />
+  <file source="C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFPMApp\Bin\Debug\Properties\WMAppManifest.xml" archivePath="WMAppManifest.xml" lastWriteTime="05/09/2013 23:42:23" />
 </xapCache>

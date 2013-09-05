@@ -83,6 +83,7 @@ namespace HFPMApp
                 min60.Content = "1 ώρα πριν";
                 min120.Content = "2 ώρες πριν";
                 alarm_button.Content = "Ορισμός";
+                any_time.Content = "Ο/Δ";
             }
 
 
@@ -257,14 +258,26 @@ namespace HFPMApp
 
 
 
-
-                db.Change_list.InsertOnSubmit(new Change_list
+                if (Convert.ToBoolean(any_time.IsChecked))
                 {
-                    Userid = Int32.Parse(PhoneApplicationService.Current.State["UserId"].ToString()),
-                    Programid = Int32.Parse(progid),
-                    RequestDate = datepicked.ValueString,
-                    RequestStartTime = timepicked.ValueString
-                });
+                    db.Change_list.InsertOnSubmit(new Change_list
+                    {
+                        Userid = Int32.Parse(PhoneApplicationService.Current.State["UserId"].ToString()),
+                        Programid = Int32.Parse(progid),
+                        RequestDate = datepicked.ValueString,
+                        RequestStartTime = "Any"
+                    });
+                }
+                else
+                {
+                    db.Change_list.InsertOnSubmit(new Change_list
+                    {
+                        Userid = Int32.Parse(PhoneApplicationService.Current.State["UserId"].ToString()),
+                        Programid = Int32.Parse(progid),
+                        RequestDate = datepicked.ValueString,
+                        RequestStartTime = timepicked.ValueString
+                    });
+                }
 
 
 
@@ -293,10 +306,12 @@ namespace HFPMApp
 
                     // encode JSON
                     RootObject jsonObject = new RootObject();
+
                     // put fields' values to json object
                     jsonObject.user_id = Int32.Parse(PhoneApplicationService.Current.State["UserId"].ToString());
                     jsonObject.id = Int32.Parse(progid);
                     jsonObject.request_date = datepicked.ValueString;
+
                     if (Convert.ToBoolean(any_time.IsChecked))
                     {
                         jsonObject.request_start_time = "Any";
@@ -308,7 +323,7 @@ namespace HFPMApp
 
                     this.json_to_send = JsonConvert.SerializeObject(jsonObject, Formatting.Indented, new JsonSerializerSettings { });
 
-                    MessageBox.Show(json_to_send);
+                    
                     // REST CALL
                     client_up.Headers["Method"] = "POST";
                     client_up.Headers[HttpRequestHeader.ContentType] = "application/json";
@@ -512,7 +527,7 @@ namespace HFPMApp
                 {
 
                     this.downloadedText = e.Result;
-                    MessageBox.Show(downloadedText);
+                    //MessageBox.Show(downloadedText);
                     //RootObject jsonObject_res = JsonConvert.DeserializeObject<RootObject>(this.downloadedText);
 
 

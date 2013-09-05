@@ -33,15 +33,17 @@
 
         <!--ContentPanel - place additional content here-->
 		<Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-			<StackPanel Margin="-11,0,0,0" Orientation="Vertical">
-				<CheckBox x:Name="any_date" Content="Check for any date" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+			<ScrollViewer Margin="-11,0,0,0" >
+				<StackPanel Orientation="Vertical" Height="607" Width="467">
+					<CheckBox x:Name="any_date" Content="Check for any date" HorizontalAlignment="Center" VerticalAlignment="Top" IsChecked="True"/>
 
-				<toolkit:DatePicker x:Name="pick_date" ValueStringFormat="{}{0:yyyy-MM-dd}" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Top" Height="82" Width="160"/>
-				<toolkit:ListPicker x:Name="list_duties" Header="Duty Type" HorizontalAlignment="Center" Margin="89,0,78,0" VerticalAlignment="Top" Width="300"/>
-				<toolkit:ListPicker x:Name="list_locations" Header="Location" HorizontalAlignment="Center" Margin="89,0,78,0" VerticalAlignment="Top" Width="300"/>
-				<toolkit:ListPicker x:Name="list_program_names" Header="Program Name" HorizontalAlignment="Center" Margin="89,0,78,0" VerticalAlignment="Top" Width="300"/>
-				<Button x:Name="search" Click="search_Click" Content="Search" HorizontalAlignment="Center" Margin="21,0,10,0" VerticalAlignment="Top" Width="436" Height="100"/>
-			</StackPanel>
+					<toolkit:DatePicker x:Name="pick_date" ValueStringFormat="{}{0:yyyy-MM-dd}" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Top" Height="82" Width="165" Visibility="Collapsed"/>
+					<toolkit:ListPicker x:Name="list_duties" Header="Duty Type" HorizontalAlignment="Center" Margin="89,0,78,0" VerticalAlignment="Top" Width="300"/>
+					<toolkit:ListPicker x:Name="list_locations" Header="Location" HorizontalAlignment="Center" Margin="89,0,78,0" VerticalAlignment="Top" Width="300"/>
+					<toolkit:ListPicker x:Name="list_program_names" Header="Program Name" HorizontalAlignment="Center" Margin="89,0,78,0" VerticalAlignment="Top" Width="300"/>
+					<Button x:Name="search" Click="search_Click" Content="Search" HorizontalAlignment="Center" Margin="21,0,10,0" VerticalAlignment="Top" Width="436" Height="100"/>
+				</StackPanel>
+			</ScrollViewer>
 		</Grid>
 	</Grid>
 

@@ -219,7 +219,16 @@ namespace HFPMApp
                     string req_time = jsonObject.duties[i].req_time;
 
                     int r = i+1;
-                    string item = r.ToString() + ".  User " + name + " " + surname + "\n    (" + type + ")\n    on date " + date + "\n    with start time " + start + "\n    and end time " + end + "\n    requested change at " + req_date + "\n    and start time " + req_time;
+                    string item = String.Empty;
+
+                    if (PhoneApplicationService.Current.State["Language"].ToString() == "GR")
+                    {
+                        item = r.ToString() + ".  Ο χρήστης " + name + " " + surname + "\n    (" + type + ")\n    την ημέρα " + date + "\n    με έναρξη στις " + start + "\n    και λήξη στις " + end + "\n    αιτήθηκε αλλαγής την ημέρα " + req_date + "\n    με έναρξη στις " + req_time;
+                    }
+                    else
+                    {
+                        item = r.ToString() + ".  User " + name + " " + surname + "\n    (" + type + ")\n    on date " + date + "\n    with start time " + start + "\n    and end time " + end + "\n    requested change at " + req_date + "\n    and start time " + req_time;
+                    }
 
 
                     if ( (settings_type == type || settings_type == "All types" )  &&  (settings_department == department || settings_department == "All departments") )

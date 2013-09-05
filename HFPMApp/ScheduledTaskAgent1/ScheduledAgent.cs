@@ -2,7 +2,6 @@
 using Microsoft.Phone.Notification;
 using Microsoft.Phone.Scheduler;
 using Microsoft.Phone.Shell;
-using Microsoft.Phone.Shell;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,7 +15,6 @@ using System.Net.Sockets;
 using System.Reflection;
 using System.ServiceModel;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -84,16 +82,16 @@ namespace ScheduledTaskAgent1
 
 
             // CLIENT
-            client = new WebClient();
-            client.DownloadStringCompleted += client_DownloadStringCompleted;
+            //client = new WebClient();
+            //client.DownloadStringCompleted += client_DownloadStringCompleted;
 
-            Random rnd = new Random();
-            int rand = rnd.Next(1, 10000);
-            string user_id = PhoneApplicationService.Current.State["UserId"].ToString();
+            //Random rnd = new Random();
+            //int rand = rnd.Next(1, 10000);
+            //string user_id = PhoneApplicationService.Current.State["UserId"].ToString();
 
-            // REST Call
-            url = "http://" + server_ip + "/HFPM_Server_CI/index.php/restful/api/notifications/id/" + user_id + "/randomnum/" + rand;
-            client.DownloadStringAsync(new Uri(url));
+            //// REST Call
+            //url = "http://" + server_ip + "/HFPM_Server_CI/index.php/restful/api/notifications/id/" + user_id + "/randomnum/" + rand;
+            //client.DownloadStringAsync(new Uri(url));
 
 
 

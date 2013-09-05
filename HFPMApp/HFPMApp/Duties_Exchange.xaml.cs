@@ -190,7 +190,16 @@ namespace HFPMApp
                         string start = jsonObject.duties[i].start;
                         string end = jsonObject.duties[i].end;
 
-                        string item = "Exchange with your duty:\n    (" + type + ")\n    on date " + date + "\n    with start time " + start + "\n    and end time " + end + "\n    (" + program_id_from + "->" + program_id_to + ")";
+                        string item = String.Empty;
+
+                        if (Convert.ToString(PhoneApplicationService.Current.State["Language"]) == "GR")
+                        {
+                            item = "Ανταλλάξτε με το καθήκον σας:\n    (" + type + ")\n    την ημέρα " + date + "\n    με ώρα έναρξης " + start + "\n    και ώρα λήξης " + end + "\n    (" + program_id_from + "->" + program_id_to + ")";
+                        }
+                        else
+                        {
+                            item = "Exchange with your duty:\n    (" + type + ")\n    on date " + date + "\n    with start time " + start + "\n    and end time " + end + "\n    (" + program_id_from + "->" + program_id_to + ")";
+                        }
                         
                         StringsList.Add(item);
 
@@ -203,7 +212,8 @@ namespace HFPMApp
                 }
                 else
                 {
-                    MessageBox.Show("No duties to exchange");
+                    if (Convert.ToString(PhoneApplicationService.Current.State["Language"]) == "GR") MessageBox.Show("Δεν υπάρχουν δικά σας καθήκοντα προς ανταλλαγή.");
+                    else MessageBox.Show("No duties to exchange.");
                 }
 
 

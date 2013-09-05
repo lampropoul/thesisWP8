@@ -13,6 +13,10 @@
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="True">
 
+    <shell:SystemTray.ProgressIndicator>
+        <shell:ProgressIndicator IsIndeterminate="True" IsVisible="False" x:Name="loadingProgressBar" />
+    </shell:SystemTray.ProgressIndicator>
+
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="#FF0388B8">
         <Grid.RowDefinitions>
@@ -30,10 +34,12 @@
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
         	<ScrollViewer Margin="10,10,10,39">
         		<Grid>
-        			<Button x:Name="pers_prog_button" Click="pers_prog_button_Click" Content="Personal Program" HorizontalAlignment="Center" VerticalAlignment="Top" Height="130" Width="400"/>
-                    <Button x:Name="search_button" Click="search_button_Click" Content="Search" HorizontalAlignment="Center" Margin="0,130,0,0" VerticalAlignment="Top" Height="130" Width="400"/>
-                    <Button x:Name="declared_button" Click="declared_button_Click" Content="Declared Duties" HorizontalAlignment="Center" Margin="0,260,0,0" VerticalAlignment="Top" Height="130" Width="400"/>
-                    <Button x:Name="edit_button" Click="edit_button_Click" Content="Edit Personal Info" HorizontalAlignment="Center" Margin="0,390,0,0" VerticalAlignment="Top" Height="130" Width="400"/>
+        			<Button x:Name="pers_prog_button" Click="pers_prog_button_Click" Content="Personal Program" HorizontalAlignment="Center" VerticalAlignment="Top" Height="190" Width="200" Margin="10,0,237,0" FontSize="16"/>
+                    <Button x:Name="search_button" Click="search_button_Click" Content="Search" HorizontalAlignment="Center" Margin="230,0,6,0" VerticalAlignment="Top" Height="190" Width="200" FontSize="16"/>
+                    <Button x:Name="declared_button" Click="declared_button_Click" Content="Declared Duties" HorizontalAlignment="Center" Margin="5,180,231,0" VerticalAlignment="Top" Height="190" Width="200" FontSize="16"/>
+                    <Button x:Name="edit_button" Click="edit_button_Click" Content="Edit Personal Info" HorizontalAlignment="Center" Margin="224,180,0,0" VerticalAlignment="Top" Height="190" Width="200" FontSize="16"/>
+                    <Button x:Name="camera_button" Click="camera_button_Click" Content="Take Photo" HorizontalAlignment="Center" Margin="5,360,231,0" VerticalAlignment="Top" Height="190" Width="200" FontSize="16"/>
+                    <Button x:Name="background_button" Click="background_button_Click" Content="Run in BG" HorizontalAlignment="Center" Margin="230,360,6,0" VerticalAlignment="Top" Height="190" Width="200" FontSize="16"/>
         		</Grid>
         	</ScrollViewer>
         </Grid>

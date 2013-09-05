@@ -127,6 +127,10 @@ namespace HFPMApp
             NavigationContext.QueryString.TryGetValue("progname", out progname);
 
 
+            if (type == "Όλα") date = "All";
+            if (location == "Όλα") location = "All";
+            if (progname == "Όλα") progname = "All";
+
             if (Convert.ToBoolean(PhoneApplicationService.Current.State["hasInternet"]))
             {
 

@@ -28,9 +28,9 @@
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-        	<Button x:Name="edit_user" Click="edit_user_Click" Content="User Info" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="436" Height="144"/>
-        	<Button x:Name="edit_address" Click="edit_address_Click"  Content="Address Info" HorizontalAlignment="Left" Margin="10,159,0,0" VerticalAlignment="Top" Width="436" Height="141"/>
-        	<Button x:Name="edit_phones" Click="edit_phones_Click" Content="Phone Info" HorizontalAlignment="Left" Margin="10,305,0,0" VerticalAlignment="Top" Height="137" Width="436"/>
+        	<Button x:Name="edit_user" Click="edit_user_Click" Content="User Info" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Width="200" Height="190" Background="#FFAE0707" BorderThickness="0"/>
+        	<Button x:Name="edit_address" Click="edit_address_Click"  Content="Address Info" HorizontalAlignment="Left" Margin="246,0,0,0" VerticalAlignment="Top" Width="200" Height="190" Background="#FFAE0707" BorderThickness="0"/>
+        	<Button x:Name="edit_phones" Click="edit_phones_Click" Content="Phone Info" HorizontalAlignment="Left" Margin="10,190,0,0" VerticalAlignment="Top" Height="190" Width="200" Background="#FFAE0707" BorderThickness="0"/>
             
         </Grid>
     </Grid>

@@ -117,8 +117,8 @@ namespace HFPMApp
                 postal_code.Text = "ΤΚ";
                 area.Text = "Περιοχή";
                 country.Text = "Χώρα";
-                
-                send_address_info.Content = "Ολοκλήρωση";
+
+                send_address_info.Content = "Αποθήκευση";
 
                 
 

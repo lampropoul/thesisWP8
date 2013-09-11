@@ -117,11 +117,35 @@ namespace ScheduledTaskAgent1
             toast.Content = toastMessage;
             toast.Show();
 
-            MessageBox.Show("Agent is running...");
+            IconicTileData oIcontile = new IconicTileData();
+            oIcontile.Title = "HFPM Notifications";
+            oIcontile.Count = 2;
+
+            oIcontile.IconImage = new Uri("Assets/Tiles/110x110.png", UriKind.Relative);
+            oIcontile.SmallIconImage = new Uri("Assets/Tiles/220x220.png", UriKind.Relative);
+
+            oIcontile.WideContent1 = "windows phone 8 Live tile";
+            oIcontile.WideContent2 = "Icon tile";
+            oIcontile.WideContent3 = "All about Live tiles By WmDev";
+
+            oIcontile.BackgroundColor = System.Windows.Media.Colors.Orange;
+
+            // find the tile object for the application tile that using "Iconic" contains string in it.
+            ShellTile TileToFind = ShellTile.ActiveTiles.FirstOrDefault(x => x.NavigationUri.ToString().Contains("Iconic".ToString()));
+
+            if (TileToFind != null && TileToFind.NavigationUri.ToString().Contains("Iconic"))
+            {
+                TileToFind.Delete();
+                ShellTile.Create(new Uri("/MainPage.xaml?id=Iconic", UriKind.Relative), oIcontile, true);
+            }
+            else
+            {
+                ShellTile.Create(new Uri("/MainPage.xaml?id=Iconic", UriKind.Relative), oIcontile, true);
+            }
 
             // If debugging is enabled, launch the agent again in one minute.
             #if DEBUG_AGENT
-              ScheduledActionService.LaunchForTest(task.Name, TimeSpan.FromSeconds(5));
+              ScheduledActionService.LaunchForTest(task.Name, TimeSpan.FromSeconds(20));
             #endif
 
 

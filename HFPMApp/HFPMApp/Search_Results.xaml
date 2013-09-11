@@ -33,7 +33,7 @@
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
         	<ScrollViewer>
-        		<phone:LongListSelector x:Name="search_results" Height="614" Width="456"/>
+        		<phone:LongListSelector x:Name="search_results" Height="614" Width="456" BorderThickness="5"/>
 
         	</ScrollViewer>
         </Grid>

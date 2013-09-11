@@ -201,6 +201,14 @@ namespace HFPMApp
 
                 int duties_count = jsonObject.duties.Count;
 
+                if (duties_count == 0)
+                {
+                    if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") MessageBox.Show("Δεν βρέθηκε κάτι.");
+                    else MessageBox.Show("No results");
+
+                    uri = "/MainMenuPage.xaml";
+                    NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
+                }
 
                 List<string> StringsList = new List<string> { };
 
@@ -230,11 +238,14 @@ namespace HFPMApp
                         item = r.ToString() + ".  User " + name + " " + surname + "\n    (" + type + ")\n    on date " + date + "\n    with start time " + start + "\n    and end time " + end + "\n    requested change at " + req_date + "\n    and start time " + req_time;
                     }
 
+                    if (i != duties_count - 1) item += "\n    -----------------------------------";
 
                     if ( (settings_type == type || settings_type == "All types" )  &&  (settings_department == department || settings_department == "All departments") )
                     {
                         StringsList.Add(item);
                     }
+
+
 
 
                 }// for

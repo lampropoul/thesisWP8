@@ -140,20 +140,20 @@ namespace HFPMApp
             // kalw gia na gemisw tis listes
 
             
-            ListPickerItem new_item1 = new ListPickerItem();
-            list_duties.Items.Add(new_item1);
-            if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") new_item1.Content = "Όλα";
-            else new_item1.Content = "All";
+            //ListPickerItem new_item1 = new ListPickerItem();
+            //list_duties.Items.Add(new_item1);
+            //if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") new_item1.Content = "Όλα";
+            //else new_item1.Content = "All";
 
-            ListPickerItem new_item2 = new ListPickerItem();
-            list_locations.Items.Add(new_item2);
-            if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") new_item2.Content = "Όλα";
-            else new_item2.Content = "All";
+            //ListPickerItem new_item2 = new ListPickerItem();
+            //list_locations.Items.Add(new_item2);
+            //if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") new_item2.Content = "Όλα";
+            //else new_item2.Content = "All";
 
-            ListPickerItem new_item3 = new ListPickerItem();
-            list_program_names.Items.Add(new_item3);
-            if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") new_item3.Content = "Όλα";
-            else new_item3.Content = "All";
+            //ListPickerItem new_item3 = new ListPickerItem();
+            //list_program_names.Items.Add(new_item3);
+            //if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") new_item3.Content = "Όλα";
+            //else new_item3.Content = "All";
 
 
             if (Convert.ToBoolean(PhoneApplicationService.Current.State["hasInternet"]))
@@ -250,7 +250,6 @@ namespace HFPMApp
             {
 
                 this.downloadedText = e.Result;
-                
                 // decode JSON
                 RootObjectPop jsonObject = JsonConvert.DeserializeObject<RootObjectPop>(this.downloadedText);
 
@@ -273,7 +272,7 @@ namespace HFPMApp
 
 
 
-                    // delete all programs just to fetch the (possibly) updated ones
+                    
                     IEnumerable<Declared_types> query1 =
                                     from types in db.Declared_types
                                     select types;
@@ -281,6 +280,7 @@ namespace HFPMApp
                     // delete
                     foreach (Declared_types dt in query1)
                     {
+                        //MessageBox.Show(dt.Userid + ", " + dt.Type + " ready to delete.");
                         db.Declared_types.DeleteOnSubmit(dt);
                     }
 
@@ -349,6 +349,7 @@ namespace HFPMApp
                     // delete
                     foreach (Declared_locations dl in query2)
                     {
+                        //MessageBox.Show(dl.Userid + ", " + dl.Location + " ready to delete.");
                         db.Declared_locations.DeleteOnSubmit(dl);
                     }
 
@@ -415,6 +416,7 @@ namespace HFPMApp
                     // delete
                     foreach (Program_names pn in query3)
                     {
+                        //MessageBox.Show(pn.Name + " ready to delete.");
                         db.Program_names.DeleteOnSubmit(pn);
                     }
 
@@ -438,7 +440,7 @@ namespace HFPMApp
 
                         string program_name = jsonObject.program_names[i];
 
-
+                        
                         // populate list
                         ListPickerItem new_item = new ListPickerItem();
                         list_program_names.Items.Add(new_item);

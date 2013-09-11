@@ -112,7 +112,7 @@ namespace HFPMApp
                 new_status.Text = "Κατάσταση";
                 new_department.Text = "Τμήμα";
 
-                edit_completed_button.Content = "Ολοκλήρωση";
+                edit_completed_button.Content = "Αποθήκευση";
 
                 
 

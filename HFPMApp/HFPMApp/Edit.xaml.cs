@@ -70,7 +70,7 @@ namespace HFPMApp
                 app_title.Text = "Εφαρμογή Διαχείρισης Μονάδων Υγείας";
                 page_title.Text = "Επεξεργασία";
 
-                edit_user.Content = "Στοιχεία χρήστη";
+                edit_user.Content = "Στοιχεία\nχρήστη";
                 edit_address.Content = "Διεύθυνση";
                 edit_phones.Content = "Τηλέφωνα";
             }

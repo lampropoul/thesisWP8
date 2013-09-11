@@ -113,8 +113,8 @@ namespace HFPMApp
                 phone.Text = "Σταθερό";
                 mobile.Text = "Κινητό";
                 fax.Text = "Φαξ";
-                
-                send_phones.Content = "Ολοκλήρωση";
+
+                send_phones.Content = "Αποθήκευση";
 
 
                 

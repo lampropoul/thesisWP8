@@ -50,6 +50,14 @@ namespace HFPMApp
             ApplicationBar.IsMenuEnabled = true;
 
 
+            pers_prog_button.Content = "Personal\nProgram";
+            search_button.Content = "Search";
+            declared_button.Content = "Declared\nDuties";
+            edit_button.Content = "Edit\nPersonal\nInfo";
+            camera_button.Content = "Take\nPhoto";
+            background_button.Content = "Run\nin BG";
+            tile.Title = "No\nnotifs!";
+
 
             ApplicationBarMenuItem menuItem1 = new ApplicationBarMenuItem();
             if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") menuItem1.Text = "Έξοδος (" + PhoneApplicationService.Current.State["Username"] + ")";
@@ -75,11 +83,12 @@ namespace HFPMApp
                 app_title.Text = "Εφαρμογή Διαχείρισης Μονάδων Υγείας";
                 page_title.Text = "Κεντρικό Μενού";
 
-                pers_prog_button.Content = "Πρόγραμμα";
+                pers_prog_button.Content = "Προσωπικό\nΠρόγραμμα";
                 search_button.Content = "Αναζήτηση";
-                declared_button.Content = "Αιτήματα";
-                edit_button.Content = "Επεξεργασία";
-                camera_button.Content = "Φωτογραφία";
+                declared_button.Content = "Αιτήματα\nΆλλων\nΧρηστών";
+                edit_button.Content = "Επεξεργασία\nΣτοιχείων";
+                camera_button.Content = "Τραβήξτε\nΦωτογραφία";
+                background_button.Content = "Στο\nπαρασκήνιο";
             }
 
 
@@ -303,7 +312,9 @@ namespace HFPMApp
 
 
                         loadingProgressBar.IsVisible = false;
-                        MessageBox.Show(jsonObject.description[i]);
+
+                        tile.Title = jsonObject.description[i];
+                        //MessageBox.Show(jsonObject.description[i]);
 
 
                     }// for
@@ -561,6 +572,11 @@ namespace HFPMApp
 
 
 
+        }
+
+        private void tile_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            tile.Title = "No\nnotifs!";
         }
 
 

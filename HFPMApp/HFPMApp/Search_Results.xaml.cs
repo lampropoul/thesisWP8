@@ -394,6 +394,7 @@ namespace HFPMApp
 
                     int num = i+1;
                     string item = num.ToString() + ". " + program_name + "\n    " + date + "\n    " + duty_start_time + " - " + duty_end_time + "\n    " + duty_type + "\n    " + location;
+                    if (i != length - 1) item += "\n    -----------------------------------";
 
                     StringsList.Add(item);
 
@@ -404,7 +405,16 @@ namespace HFPMApp
                 search_results.ItemsSource = StringsList;
 
                 loadingProgressBar.IsVisible = false;
-                
+
+
+                if (length == 0)
+                {
+                    if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") MessageBox.Show("Δεν βρέθηκε κάτι.");
+                    else MessageBox.Show("No results.");
+                    
+                    uri = "/Search.xaml";
+                    NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
+                }
 
             }
             catch (TargetInvocationException ex)
@@ -412,9 +422,13 @@ namespace HFPMApp
 
                 loadingProgressBar.IsVisible = false;
 
-                MessageBox.Show("No results.");
+                if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") MessageBox.Show("Δεν βρέθηκε κάτι.");
+                else MessageBox.Show("No results.");
                 //MessageBox.Show("TargetInvocationException: " + ex.Message);
                 System.Diagnostics.Debug.WriteLine("TargetInvocationException: " + ex.Message);
+
+                uri = "/Search.xaml";
+                NavigationService.Navigate(new Uri(uri, UriKind.RelativeOrAbsolute));
             }
             catch (WebException ex)
             {

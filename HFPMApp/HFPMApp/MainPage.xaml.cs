@@ -116,7 +116,7 @@ namespace HFPMApp
             PhoneApplicationService.Current.State["hasInternet"] = NetworkInterface.GetIsNetworkAvailable();
             
             // test
-            //PhoneApplicationService.Current.State["hasInternet"] = false;
+            PhoneApplicationService.Current.State["hasInternet"] = false;
 
         }
 
@@ -448,7 +448,6 @@ namespace HFPMApp
                 
 
                 this.downloadedText = e.Result;
-
                 // decode JSON
                 RootObject jsonObject = JsonConvert.DeserializeObject<RootObject>(this.downloadedText);
                 

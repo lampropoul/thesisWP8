@@ -39,9 +39,10 @@
 					<Button x:Name="search_button" Click="search_button_Click" Content="Search" HorizontalAlignment="Center" Margin="230,0,6,0" VerticalAlignment="Top" Height="190" Width="200" FontSize="16" Background="#FFAE0707" BorderThickness="0"/>
 					<Button x:Name="declared_button" Click="declared_button_Click" Content="Declared\nDuties" HorizontalAlignment="Center" Margin="5,180,231,0" VerticalAlignment="Top" Height="190" Width="200" FontSize="16" Background="#FFAE0707" BorderThickness="0"/>
 					<Button x:Name="edit_button" Click="edit_button_Click" Content="Edit\nPersonal\nInfo" HorizontalAlignment="Center" Margin="224,180,0,0" VerticalAlignment="Top" Height="190" Width="200" FontSize="16" Background="#FFAE0707" BorderThickness="0"/>
-					<Button x:Name="camera_button" Click="camera_button_Click" Content="Take\nPhoto" HorizontalAlignment="Center" Margin="5,360,231,0" VerticalAlignment="Top" Height="190" Width="200" FontSize="16" Background="#FFAE0707" BorderThickness="0"/>
-					<Button x:Name="background_button" Click="background_button_Click" Content="Run \n in BG" HorizontalAlignment="Center" Margin="5,538,231,-117" VerticalAlignment="Top" Height="190" Width="200" FontSize="16" Background="#FFAE0707" BorderThickness="0" Visibility="Collapsed"/>
-                    <toolkit:HubTile x:Name="tile" Title="sample" Tap="tile_Tap" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="230,360,0,0" Width="200" Height="190" Background="#FFAE0707" FontSize="16"/>
+					<Button x:Name="camera_button" Click="camera_button_Click" Content="Take\nPhoto" HorizontalAlignment="Center" Margin="5,550,231,-129" VerticalAlignment="Top" Height="190" Width="200" FontSize="16" Background="#FFAE0707" BorderThickness="0" Visibility="Collapsed"/>
+					<Button x:Name="background_button" Click="background_button_Click" Content="Run \n in BG" HorizontalAlignment="Center" Margin="230,550,6,-129" VerticalAlignment="Top" Height="190" Width="200" FontSize="16" Background="#FFAE0707" BorderThickness="0" Visibility="Collapsed"/>
+                    <toolkit:HubTile x:Name="tile" Tap="tile_Tap" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="230,360,0,0" Width="200" Height="190" Background="#FFAE0707" FontSize="16"/>
+                    <toolkit:HubTile x:Name="tile_next_duty" Tap="tile_next_duty_Tap" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,360,0,0" Width="200" Height="190" Background="#FFAE0707" FontSize="16"/>
 				</Grid>
 			</ScrollViewer>
 		</Grid>

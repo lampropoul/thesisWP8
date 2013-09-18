@@ -31,6 +31,7 @@ namespace HFPMApp
         string url;
         String server_ip;
 
+        //ListPicker list_duties = new ListPicker();
         
         public Search()
         {
@@ -105,55 +106,42 @@ namespace HFPMApp
             any_date.Checked += any_date_Checked;
             any_date.Unchecked += any_date_Unchecked;
 
-        }
 
-        void any_date_Unchecked(object sender, RoutedEventArgs e)
-        {
-
-            pick_date.Visibility = Visibility.Visible;
-
-        }
-
-        void any_date_Checked(object sender, RoutedEventArgs e)
-        {
-
-            pick_date.Visibility = Visibility.Collapsed;
-
-        }
-
-
-
-
-
-        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
+            // -- OnNavigatedTo() -- //
 
             loadingProgressBar.IsVisible = true;
 
             string user_id = PhoneApplicationService.Current.State["UserId"].ToString();
             Random rnd = new Random();
             int rand = rnd.Next(1, 1000);
-            
-            
-            
+
+
+
+            //list_duties.Header = "Duty Type";
+            //list_duties.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
+            //list_duties.VerticalAlignment = System.Windows.VerticalAlignment.Top;
+            //list_duties.Width = 300;
+            //list_duties.Name = "list_duties";
+            //container.Children.Add(list_duties);
+
+
             // kalw gia na gemisw tis listes
 
-            
-            //ListPickerItem new_item1 = new ListPickerItem();
-            //list_duties.Items.Add(new_item1);
-            //if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") new_item1.Content = "Όλα";
-            //else new_item1.Content = "All";
 
-            //ListPickerItem new_item2 = new ListPickerItem();
-            //list_locations.Items.Add(new_item2);
-            //if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") new_item2.Content = "Όλα";
-            //else new_item2.Content = "All";
+            ListPickerItem new_item1 = new ListPickerItem();
+            list_duties.Items.Add(new_item1);
+            if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") new_item1.Content = "Όλα";
+            else new_item1.Content = "All";
 
-            //ListPickerItem new_item3 = new ListPickerItem();
-            //list_program_names.Items.Add(new_item3);
-            //if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") new_item3.Content = "Όλα";
-            //else new_item3.Content = "All";
+            ListPickerItem new_item2 = new ListPickerItem();
+            list_locations.Items.Add(new_item2);
+            if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") new_item2.Content = "Όλα";
+            else new_item2.Content = "All";
+
+            ListPickerItem new_item3 = new ListPickerItem();
+            list_program_names.Items.Add(new_item3);
+            if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") new_item3.Content = "Όλα";
+            else new_item3.Content = "All";
 
 
             if (Convert.ToBoolean(PhoneApplicationService.Current.State["hasInternet"]))
@@ -233,7 +221,35 @@ namespace HFPMApp
                 loadingProgressBar.IsVisible = false;
 
             }
+            // -- OnNavigatedTo() -- //
 
+        }
+
+
+        void any_date_Unchecked(object sender, RoutedEventArgs e)
+        {
+
+            pick_date.Visibility = Visibility.Visible;
+
+        }
+
+        void any_date_Checked(object sender, RoutedEventArgs e)
+        {
+
+            pick_date.Visibility = Visibility.Collapsed;
+
+        }
+
+
+
+
+
+        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+
+            
+            // code moved up into the constructor
 
 
         }
@@ -341,7 +357,7 @@ namespace HFPMApp
 
                     
 
-                    // delete all programs just to fetch the (possibly) updated ones
+                    // delete
                     IEnumerable<Declared_locations> query2 =
                                     from locations in db.Declared_locations
                                     select locations;
@@ -408,7 +424,7 @@ namespace HFPMApp
 
                     
 
-                    // delete all programs just to fetch the (possibly) updated ones
+                    // delete
                     IEnumerable<Program_names> query3 =
                                     from names in db.Program_names
                                     select names;

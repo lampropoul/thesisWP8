@@ -34,7 +34,7 @@
         <!--ContentPanel - place additional content here-->
 		<Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
 			<ScrollViewer Margin="-11,0,0,0" >
-				<StackPanel Orientation="Vertical" Height="607" Width="467">
+				<StackPanel x:Name="container" Orientation="Vertical" Height="607" Width="467">
 					<CheckBox x:Name="any_date" Content="Check for any date" HorizontalAlignment="Center" VerticalAlignment="Top" IsChecked="True"/>
 
 					<toolkit:DatePicker x:Name="pick_date" ValueStringFormat="{}{0:yyyy-MM-dd}" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Top" Height="82" Width="165" Visibility="Collapsed"/>

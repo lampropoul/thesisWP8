@@ -32,7 +32,8 @@ namespace HFPMApp
 
         public string downloadedText;
         WebClient client;
-        WebClient client2;
+        WebClient client2; //logout
+        WebClient client3;
         string url;
         string uri;
         string server_ip = String.Empty;
@@ -56,7 +57,9 @@ namespace HFPMApp
             edit_button.Content = "Edit\nPersonal\nInfo";
             camera_button.Content = "Take\nPhoto";
             background_button.Content = "Run\nin BG";
-            tile.Title = "No\nnotifs!";
+            tile.Message = "Nothing new!";
+            //tile.Title = "Notifi-\ncations";
+            //tile_next_duty.Title = "Next\nDuties";
 
 
             ApplicationBarMenuItem menuItem1 = new ApplicationBarMenuItem();
@@ -89,6 +92,9 @@ namespace HFPMApp
                 edit_button.Content = "Επεξεργασία\nΣτοιχείων";
                 camera_button.Content = "Τραβήξτε\nΦωτογραφία";
                 background_button.Content = "Στο\nπαρασκήνιο";
+                tile.Message = "Κανένα νέο!";
+                //tile.Title = "Ειδοποι-\nήσεις";
+                //tile_next_duty.Title = "Επόμενα\nΚαθήκοντα";
             }
 
 
@@ -114,6 +120,9 @@ namespace HFPMApp
 
             client2 = new WebClient();
             client2.DownloadStringCompleted += client2_DownloadStringCompleted;
+
+            client3 = new WebClient();
+            client3.DownloadStringCompleted += client3_DownloadStringCompleted;
             
         }
 
@@ -124,7 +133,7 @@ namespace HFPMApp
         {
             base.OnNavigatedTo(e);
 
-            loadingProgressBar.IsVisible = true;
+            
 
             string user_id = String.Empty;
             string given_username = PhoneApplicationService.Current.State["Username"].ToString();
@@ -155,10 +164,71 @@ namespace HFPMApp
             int rand = rnd.Next(1, 10000);
 
 
+            if (Convert.ToBoolean(PhoneApplicationService.Current.State["hasInternet"]))
+            {
 
-            // REST Call
-            url = "http://" + server_ip + "/HFPM_Server_CI/index.php/restful/api/notifications/id/" + user_id + "/randomnum/" + rand;
-            client.DownloadStringAsync(new Uri(url));
+
+                loadingProgressBar.IsVisible = true;
+
+                // REST Call
+                url = "http://" + server_ip + "/HFPM_Server_CI/index.php/restful/api/notifications/id/" + user_id + "/randomnum/" + rand;
+                client.DownloadStringAsync(new Uri(url));
+
+                // REST Call
+                url = "http://" + server_ip + "/HFPM_Server_CI/index.php/restful/api/populatedeclared/id/" + user_id + "/randomnum/" + rand;
+                client3.DownloadStringAsync(new Uri(url));
+
+            }
+
+            // ---- NEXT 2 DUTIES ---- //
+
+            using (HospitalContext db = new HospitalContext(HospitalContext.ConnectionString))
+            {
+
+                // -------------------------------------------------------------------//
+                // -------------------------- LOCAL DATABASE -------------------------//
+                // -------------------------------------------------------------------//
+
+                db.CreateIfNotExists();
+                db.LogDebug = true;
+
+
+                IEnumerable<Program> query =
+                        from prog in db.Program
+                        where prog.Userid == PhoneApplicationService.Current.State["UserId"].ToString()
+                        orderby prog.Date ascending
+                        select prog;
+
+
+                string[] date = new String[2];
+                int i = 0;
+
+                foreach (Program pr in query)
+                {
+                    date[i] = pr.Date;
+                    //MessageBox.Show(date[i]);
+
+                    i++;
+                    if (i == 2) break;
+                }
+
+
+                if (PhoneApplicationService.Current.State["Language"].ToString() == "GR")
+                {
+                    if (i == 0) tile_next_duty.Message = "Δεν υπάρχουν\nκαθήκοντα!";
+                    if (i == 1) tile_next_duty.Message = "Το επόμενο\nκαθήκον είναι\nτην " + date[0];
+                    if (i == 2) tile_next_duty.Message = "Επόμενα καθήκοντα:\n" + date[0] + "\nκαι\n" + date[1];
+                }
+                else
+                {
+                    if (i == 0) tile_next_duty.Message = "No duties\nin program!";
+                    if (i == 1) tile_next_duty.Message = "Next duty\nis on\n" + date[0];
+                    if (i == 2) tile_next_duty.Message = "Next duties\nare on\n" + date[0] + "\nand\n" + date[1];
+                }
+
+                VisualStateManager.GoToState(tile_next_duty, "Flipped", true);
+
+            }
 
         }
 
@@ -181,12 +251,12 @@ namespace HFPMApp
                 // decode JSON
                 RootObject jsonObject = JsonConvert.DeserializeObject<RootObject>(this.downloadedText);
 
-                
+
                 if (jsonObject.error == "")
                 {
 
                     int count = jsonObject.program_id.Count;
-                    
+
                     for (int i = 0; i < count; i++)
                     {
 
@@ -313,14 +383,20 @@ namespace HFPMApp
 
                         loadingProgressBar.IsVisible = false;
 
-                        tile.Title = jsonObject.description[i];
+                        tile.Message = jsonObject.description[i];
                         //MessageBox.Show(jsonObject.description[i]);
 
 
                     }// for
 
                 }// if
+                else
+                {
+                    if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") tile.Message = "Κανένα νέο!";
+                    else tile.Message = "Nothing new!";
+                }
 
+                VisualStateManager.GoToState( tile , "Flipped", true );
 
             }
             catch (TargetInvocationException ex)
@@ -361,8 +437,11 @@ namespace HFPMApp
             Random rnd = new Random();
             int rand = rnd.Next(1, 10000);
 
-            url = "http://" + server_ip + "/HFPM_Server_CI/index.php/restful/api/logout/id/" + user_id + "/randomnum/" + rand;
-            client2.DownloadStringAsync(new Uri(url));
+            if (Convert.ToBoolean(PhoneApplicationService.Current.State["hasInternet"]))
+            {
+                url = "http://" + server_ip + "/HFPM_Server_CI/index.php/restful/api/logout/id/" + user_id + "/randomnum/" + rand;
+                client2.DownloadStringAsync(new Uri(url));
+            }
 
             PhoneApplicationService.Current.State["Username"] = null;
 
@@ -454,7 +533,7 @@ namespace HFPMApp
                 try
                 {
                     db.SubmitChanges();
-                    if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") MessageBox.Show("Διαγράφηκαν.");
+                    if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") MessageBox.Show("Εκκαθάριση ΟΚ.");
                     else MessageBox.Show("Cleared.");
                 }
                 catch (Exception ex)
@@ -574,12 +653,115 @@ namespace HFPMApp
 
         }
 
+
+
+
+
+
+
+
         private void tile_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            tile.Title = "No\nnotifs!";
+
+            Random rnd = new Random();
+            int rand = rnd.Next(1, 10000);
+
+            string user_id = PhoneApplicationService.Current.State["UserId"].ToString();
+
+
+            if (Convert.ToBoolean(PhoneApplicationService.Current.State["hasInternet"]))
+            {
+
+                loadingProgressBar.IsVisible = true;
+
+                // REST Call
+                url = "http://" + server_ip + "/HFPM_Server_CI/index.php/restful/api/notifications/id/" + user_id + "/randomnum/" + rand;
+                client.DownloadStringAsync(new Uri(url));
+
+
+                // REST Call
+                url = "http://" + server_ip + "/HFPM_Server_CI/index.php/restful/api/populatedeclared/id/" + user_id + "/randomnum/" + rand;
+                client3.DownloadStringAsync(new Uri(url));
+
+            }
+
+            VisualStateManager.GoToState(tile, "Flipped", true);
         }
 
 
+
+
+
+
+        void client3_DownloadStringCompleted(object sender, DownloadStringCompletedEventArgs e)
+        {
+            try
+            {
+
+                this.downloadedText = e.Result;
+
+                // decode JSON
+                RootObject2 jsonObject = JsonConvert.DeserializeObject<RootObject2>(this.downloadedText);
+
+                int duties_count = jsonObject.duties.Count;
+
+                if (duties_count != 0)
+                {
+                    if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") tile.Message = "Υπάρχουν\nκαθήκοντα\nπρος ανταλλαγή.";
+                    else tile.Message = "There are\nexchangeable\nduties.";
+                }
+
+
+
+            }
+            catch (TargetInvocationException ex)
+            {
+
+                if (Convert.ToString(PhoneApplicationService.Current.State["Language"]) == "GR") MessageBox.Show("Ανεπιτυχής προσπάθεια σύνδεσης στον εξυπηρέτη ή δεν υπάρχουν αιτήματα από άλλους χρήστες.");
+                else MessageBox.Show("Could not connect to server or no declared duties from other users.");
+                System.Diagnostics.Debug.WriteLine("TargetInvocationException: " + ex.Message);
+            }
+            catch (WebException ex)
+            {
+                MessageBox.Show("WebException: " + ex.Message);
+                System.Diagnostics.Debug.WriteLine("WebException: " + ex.Message);
+            }
+
+            loadingProgressBar.IsVisible = false;
+        }
+
+
+
+        public class RootObject2
+        {
+            public List<Duties> duties { get; set; }
+        }
+
+
+
+        public class Duties
+        {
+            public int program_id { get; set; }
+            public string name { get; set; }
+            public string surname { get; set; }
+            public string type { get; set; }
+            public string department { get; set; }
+            public string date { get; set; }
+            public string start { get; set; }
+            public string end { get; set; }
+            public string req_date { get; set; }
+            public string req_time { get; set; }
+        }
+
+
+
+
+
+
+        private void tile_next_duty_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            VisualStateManager.GoToState(tile_next_duty, "Flipped", true);
+        }
 
 
 

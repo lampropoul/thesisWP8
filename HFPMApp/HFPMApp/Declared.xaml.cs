@@ -114,6 +114,7 @@ namespace HFPMApp
             }
 
 
+            // -- GET SETTINGS -- //
 
             string[] words = file_contents.Split(',');
             settings_type = words[2];
@@ -240,6 +241,8 @@ namespace HFPMApp
 
                     if (i != duties_count - 1) item += "\n    -----------------------------------";
 
+
+                    // check settings from file
                     if ( (settings_type == type || settings_type == "All types" )  &&  (settings_department == department || settings_department == "All departments") )
                     {
                         StringsList.Add(item);

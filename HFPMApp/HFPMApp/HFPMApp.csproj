@@ -237,6 +237,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\images\glyphicons-halflings-white.png" />
     <Content Include="Content\images\glyphicons-halflings.png" />
+    <Content Include="Content\images\main_menu.png" />
     <Content Include="Images\appbar.back.png" />
     <Content Include="Images\appbar.next.png" />
     <Content Include="previous_requests.txt" />
@@ -279,9 +280,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ScheduledTaskAgent1\ScheduledTaskAgent1.csproj">
-      <Project>{51AE574E-E477-4D8C-8A85-35ECB3125BD4}</Project>
-      <Name>ScheduledTaskAgent1</Name>
+    <ProjectReference Include="..\HFMPApp.Scheduler\HFPMApp.Scheduler.csproj">
+      <Project>{23FEFFA6-D508-458B-9360-26F8F40546E6}</Project>
+      <Name>HFPMApp.Scheduler</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />

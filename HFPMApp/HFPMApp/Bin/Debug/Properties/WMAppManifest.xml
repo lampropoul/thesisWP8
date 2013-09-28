@@ -6,7 +6,7 @@
     <Language code="en-US" />
     <Language code="en-GB" />
   </Languages>
-  <App xmlns="" ProductID="{f7e0e27c-2fab-447e-8ba7-4956cd4a50bd}" Title="HFPMApp" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="Vasileios Lampropoulos" Description="Sample description" Publisher="HFPMApp" PublisherID="{bd8cf2bd-fd01-4f12-b2fd-6a675ee96a81}">
+  <App xmlns="" ProductID="{f7e0e27c-2fab-447e-8ba7-4956cd4a50bd}" Title="HFPMApp" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="Vassilis Lampropoulos" Description="Sample description" Publisher="HFPMApp" PublisherID="{bd8cf2bd-fd01-4f12-b2fd-6a675ee96a81}">
     <IconPath IsRelative="true" IsResource="false">Assets\ApplicationIcon.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING" />
@@ -19,8 +19,13 @@
     <Tasks>
       <DefaultTask Name="_default" NavigationPage="MainPage.xaml" />
       <ExtendedTask Name="BackgroundTask">
-        <BackgroundServiceAgent Specifier="ScheduledTaskAgent" Name="ScheduledTaskAgent1" Source="ScheduledTaskAgent1" Type="ScheduledTaskAgent1.ScheduledAgent" />
+        <BackgroundServiceAgent Specifier="ScheduledTaskAgent" Name="HFMPApp.Scheduler" Source="HFMPApp.Scheduler" Type="HFMPApp.Scheduler.ScheduledAgent" />
       </ExtendedTask>
+      <!-- added from me!!
+      <ExtendedTask Name="AroundMeLockScreenChangerTask">
+        <BackgroundServiceAgent Specifier="ScheduledTaskAgent" Name="HFPMAppNotifications" Source="HFPMApp.Scheduler" Type="HFPMApp.Scheduler.ScheduledAgent" />
+      </ExtendedTask>
+      -->
     </Tasks>
     <Tokens>
       <PrimaryToken TokenID="HFPMAppToken" TaskName="_default">

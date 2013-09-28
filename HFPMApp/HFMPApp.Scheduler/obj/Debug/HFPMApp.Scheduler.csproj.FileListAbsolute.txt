@@ -1,0 +1,4 @@
+C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFMPApp.Scheduler\Bin\Debug\HFMPApp.Scheduler.dll
+C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFMPApp.Scheduler\Bin\Debug\HFMPApp.Scheduler.pdb
+C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFMPApp.Scheduler\obj\Debug\HFMPApp.Scheduler.dll
+C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFMPApp.Scheduler\obj\Debug\HFMPApp.Scheduler.pdb

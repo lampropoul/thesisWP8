@@ -1,4 +1,0 @@
-C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\ScheduledTaskAgent1\Bin\Debug\ScheduledTaskAgent1.dll
-C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\ScheduledTaskAgent1\Bin\Debug\ScheduledTaskAgent1.pdb
-C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\ScheduledTaskAgent1\obj\Debug\ScheduledTaskAgent1.dll
-C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\ScheduledTaskAgent1\obj\Debug\ScheduledTaskAgent1.pdb

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HFPMApp", "HFPMApp\HFPMApp.csproj", "{F7E0E27C-2FAB-447E-8BA7-4956CD4A50BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ScheduledTaskAgent1", "ScheduledTaskAgent1\ScheduledTaskAgent1.csproj", "{51AE574E-E477-4D8C-8A85-35ECB3125BD4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HFPMApp.Scheduler", "HFMPApp.Scheduler\HFPMApp.Scheduler.csproj", "{23FEFFA6-D508-458B-9360-26F8F40546E6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,18 +33,18 @@ Global
 		{F7E0E27C-2FAB-447E-8BA7-4956CD4A50BD}.Release|x86.ActiveCfg = Release|x86
 		{F7E0E27C-2FAB-447E-8BA7-4956CD4A50BD}.Release|x86.Build.0 = Release|x86
 		{F7E0E27C-2FAB-447E-8BA7-4956CD4A50BD}.Release|x86.Deploy.0 = Release|x86
-		{51AE574E-E477-4D8C-8A85-35ECB3125BD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{51AE574E-E477-4D8C-8A85-35ECB3125BD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{51AE574E-E477-4D8C-8A85-35ECB3125BD4}.Debug|ARM.ActiveCfg = Debug|ARM
-		{51AE574E-E477-4D8C-8A85-35ECB3125BD4}.Debug|ARM.Build.0 = Debug|ARM
-		{51AE574E-E477-4D8C-8A85-35ECB3125BD4}.Debug|x86.ActiveCfg = Debug|x86
-		{51AE574E-E477-4D8C-8A85-35ECB3125BD4}.Debug|x86.Build.0 = Debug|x86
-		{51AE574E-E477-4D8C-8A85-35ECB3125BD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{51AE574E-E477-4D8C-8A85-35ECB3125BD4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{51AE574E-E477-4D8C-8A85-35ECB3125BD4}.Release|ARM.ActiveCfg = Release|ARM
-		{51AE574E-E477-4D8C-8A85-35ECB3125BD4}.Release|ARM.Build.0 = Release|ARM
-		{51AE574E-E477-4D8C-8A85-35ECB3125BD4}.Release|x86.ActiveCfg = Release|x86
-		{51AE574E-E477-4D8C-8A85-35ECB3125BD4}.Release|x86.Build.0 = Release|x86
+		{23FEFFA6-D508-458B-9360-26F8F40546E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23FEFFA6-D508-458B-9360-26F8F40546E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23FEFFA6-D508-458B-9360-26F8F40546E6}.Debug|ARM.ActiveCfg = Debug|ARM
+		{23FEFFA6-D508-458B-9360-26F8F40546E6}.Debug|ARM.Build.0 = Debug|ARM
+		{23FEFFA6-D508-458B-9360-26F8F40546E6}.Debug|x86.ActiveCfg = Debug|x86
+		{23FEFFA6-D508-458B-9360-26F8F40546E6}.Debug|x86.Build.0 = Debug|x86
+		{23FEFFA6-D508-458B-9360-26F8F40546E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23FEFFA6-D508-458B-9360-26F8F40546E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23FEFFA6-D508-458B-9360-26F8F40546E6}.Release|ARM.ActiveCfg = Release|ARM
+		{23FEFFA6-D508-458B-9360-26F8F40546E6}.Release|ARM.Build.0 = Release|ARM
+		{23FEFFA6-D508-458B-9360-26F8F40546E6}.Release|x86.ActiveCfg = Release|x86
+		{23FEFFA6-D508-458B-9360-26F8F40546E6}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

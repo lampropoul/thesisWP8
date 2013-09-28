@@ -74,19 +74,35 @@ namespace HFPMApp
             ApplicationBar.IsVisible = true;
             ApplicationBar.IsMenuEnabled = true;
 
-            ApplicationBarIconButton button2 = new ApplicationBarIconButton();
-            button2.IconUri = new Uri("/Images/appbar.back.png", UriKind.Relative);
-            if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") button2.Text = "πίσω";
-            else button2.Text = "go back";
-            ApplicationBar.Buttons.Add(button2);
-            button2.Click += new EventHandler(back_Click);
+            //ApplicationBarIconButton button2 = new ApplicationBarIconButton();
+            //button2.IconUri = new Uri("/Images/appbar.back.png", UriKind.Relative);
+            //if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") button2.Text = "πίσω";
+            //else button2.Text = "go back";
+            //ApplicationBar.Buttons.Add(button2);
+            //button2.Click += new EventHandler(back_Click);
+
+            //ApplicationBarIconButton button1 = new ApplicationBarIconButton();
+            //button1.IconUri = new Uri("/Content/images/main_menu.png", UriKind.Relative);
+            //if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") button1.Text = "μενού";
+            //else button1.Text = "main menu";
+            //ApplicationBar.Buttons.Add(button1);
+            //button1.Click += new EventHandler(main_menu_Click);
+
+
 
             ApplicationBarIconButton button1 = new ApplicationBarIconButton();
-            button1.IconUri = new Uri("/Toolkit.Content/ApplicationBar.Select.png", UriKind.Relative);
-            if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") button1.Text = "κυρίως μενού";
-            else button1.Text = "main menu";
+            button1.IconUri = new Uri("/Toolkit.Content/ApplicationBar.Check.png", UriKind.Relative);
+            if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") button1.Text = "αποθ.";
+            else button1.Text = "save";
             ApplicationBar.Buttons.Add(button1);
-            button1.Click += new EventHandler(main_menu_Click);
+            button1.Click += new EventHandler(selectionSubmitted);
+
+            ApplicationBarIconButton button2 = new ApplicationBarIconButton();
+            button2.IconUri = new Uri("/Toolkit.Content/ApplicationBar.Cancel.png", UriKind.Relative);
+            if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") button2.Text = "ακύρωση";
+            else button2.Text = "cancel";
+            ApplicationBar.Buttons.Add(button2);
+            button2.Click += new EventHandler(back_Click);
 
             ApplicationBarMenuItem menuItem1 = new ApplicationBarMenuItem();
 
@@ -160,7 +176,7 @@ namespace HFPMApp
 
 
 
-        private void selectionSubmitted(object sender, RoutedEventArgs e)
+        private void selectionSubmitted(object sender, EventArgs e)
         {
 
             // pairnw ta indices apo tin lista kai pairnw to antistoixo onoma 

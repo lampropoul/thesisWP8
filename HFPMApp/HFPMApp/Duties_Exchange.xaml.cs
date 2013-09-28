@@ -61,8 +61,8 @@ namespace HFPMApp
             button2.Click += new EventHandler(back_Click);
 
             ApplicationBarIconButton button1 = new ApplicationBarIconButton();
-            button1.IconUri = new Uri("/Toolkit.Content/ApplicationBar.Select.png", UriKind.Relative);
-            if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") button1.Text = "κυρίως μενού";
+            button1.IconUri = new Uri("/Content/images/main_menu.png", UriKind.Relative);
+            if (PhoneApplicationService.Current.State["Language"].ToString() == "GR") button1.Text = "μενού";
             else button1.Text = "main menu";
             ApplicationBar.Buttons.Add(button1);
             button1.Click += new EventHandler(main_menu_Click);

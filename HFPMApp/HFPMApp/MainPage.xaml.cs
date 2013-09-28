@@ -116,7 +116,7 @@ namespace HFPMApp
             PhoneApplicationService.Current.State["hasInternet"] = NetworkInterface.GetIsNetworkAvailable();
             
             // test
-            PhoneApplicationService.Current.State["hasInternet"] = false;
+            //PhoneApplicationService.Current.State["hasInternet"] = false;
 
         }
 

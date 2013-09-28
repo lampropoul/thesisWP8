@@ -1,6 +1,7 @@
 ﻿using HFPMApp.Resources;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Notification;
+using Microsoft.Phone.Scheduler;
 using Microsoft.Phone.Shell;
 using Newtonsoft.Json;
 using System;
@@ -43,12 +44,6 @@ namespace HFPMApp
         {
             InitializeComponent();
 
-            // APP BAR
-            ApplicationBar = new ApplicationBar();
-            ApplicationBar.Mode = ApplicationBarMode.Default;
-            ApplicationBar.Opacity = 1.0;
-            ApplicationBar.IsVisible = true;
-            ApplicationBar.IsMenuEnabled = true;
 
 
             pers_prog_button.Content = "Personal\nProgram";
@@ -60,6 +55,14 @@ namespace HFPMApp
             tile.Message = "Nothing new!";
             //tile.Title = "Notifi-\ncations";
             //tile_next_duty.Title = "Next\nDuties";
+
+
+            // APP BAR
+            ApplicationBar = new ApplicationBar();
+            ApplicationBar.Mode = ApplicationBarMode.Default;
+            ApplicationBar.Opacity = 1.0;
+            ApplicationBar.IsVisible = true;
+            ApplicationBar.IsMenuEnabled = true;
 
 
             ApplicationBarMenuItem menuItem1 = new ApplicationBarMenuItem();

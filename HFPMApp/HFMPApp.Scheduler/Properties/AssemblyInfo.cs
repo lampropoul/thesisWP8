@@ -6,11 +6,11 @@ using System.Resources;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ScheduledTaskAgent1")]
+[assembly: AssemblyTitle("HFMPApp.Scheduler")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ScheduledTaskAgent1")]
+[assembly: AssemblyProduct("HFMPApp.Scheduler")]
 [assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -21,7 +21,7 @@ using System.Resources;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("51ae574e-e477-4d8c-8a85-35ecb3125bd4")]
+[assembly: Guid("23feffa6-d508-458b-9360-26f8f40546e6")]
 
 // Version information for an assembly consists of the following four values:
 //

@@ -36,7 +36,7 @@
         	<StackPanel Orientation="Vertical">
         		<toolkit:ListPicker x:Name="types" Header="Types" Margin="0"/>
         		<toolkit:ListPicker x:Name="departments" Header="Departments" Margin="0"/>
-        		<Button x:Name="submit_button" Content="Save" Click="selectionSubmitted" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="124,0,132,0" Width="200"/>
+        		<Button x:Name="submit_button" Content="Save" Click="selectionSubmitted" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="124,0,132,0" Width="200" Visibility="Collapsed"/>
         	</StackPanel>
         </Grid>
     </Grid>

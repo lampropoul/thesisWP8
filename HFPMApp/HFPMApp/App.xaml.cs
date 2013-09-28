@@ -1,4 +1,4 @@
-﻿ using System;
+﻿using System;
 using System.Diagnostics;
 using System.Resources;
 using System.Windows;
@@ -7,6 +7,7 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using HFPMApp.Resources;
+using Microsoft.Phone.Scheduler;
 
 namespace HFPMApp
 {
@@ -61,6 +62,24 @@ namespace HFPMApp
         // This code will not execute when the application is reactivated
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
+
+            string taskName = "A simple task";
+
+            PeriodicTask oldTask = ScheduledActionService.Find(taskName) as PeriodicTask;
+
+            if (oldTask != null)
+            {
+                ScheduledActionService.Remove(taskName);
+            }
+
+
+            PeriodicTask task = new PeriodicTask(taskName);
+            task.Description = "A simple task";
+
+            ScheduledActionService.Add(task);
+
+            ScheduledActionService.LaunchForTest(task.Name, TimeSpan.FromSeconds(10)); ;
+
         }
 
         // Code to execute when the application is activated (brought to foreground)

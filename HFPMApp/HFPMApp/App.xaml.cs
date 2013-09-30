@@ -63,7 +63,7 @@ namespace HFPMApp
         private void Application_Launching(object sender, LaunchingEventArgs e)
         {
 
-            string taskName = "A simple task";
+            string taskName = "backgroundTask";
 
             PeriodicTask oldTask = ScheduledActionService.Find(taskName) as PeriodicTask;
 
@@ -74,7 +74,7 @@ namespace HFPMApp
 
 
             PeriodicTask task = new PeriodicTask(taskName);
-            task.Description = "A simple task";
+            task.Description = "backgroundTask";
 
             ScheduledActionService.Add(task);
 

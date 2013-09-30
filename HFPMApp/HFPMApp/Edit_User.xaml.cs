@@ -327,7 +327,7 @@ namespace HFPMApp
                 string department = jsonObject.department;
 
 
-                // fill boxes with new (updated) data
+                // fill boxes with data
                 edit_amka.Text = amka;
                 edit_department.Text = department;
                 edit_email.Text = email;

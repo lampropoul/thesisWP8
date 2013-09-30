@@ -35,14 +35,28 @@
 		<Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
 			<ScrollViewer Margin="10,10,10,39">
 				<Grid>
-					<Button x:Name="pers_prog_button" Click="pers_prog_button_Click" Content="Personal\nProgram" HorizontalAlignment="Center" VerticalAlignment="Top" Height="190" Width="200" Margin="10,0,237,0" FontSize="16" Background="#FFAE0707" BorderThickness="0"/>
-					<Button x:Name="search_button" Click="search_button_Click" Content="Search" HorizontalAlignment="Center" Margin="230,0,6,0" VerticalAlignment="Top" Height="190" Width="200" FontSize="16" Background="#FFAE0707" BorderThickness="0"/>
-					<Button x:Name="declared_button" Click="declared_button_Click" Content="Declared\nDuties" HorizontalAlignment="Center" Margin="5,180,231,0" VerticalAlignment="Top" Height="190" Width="200" FontSize="16" Background="#FFAE0707" BorderThickness="0"/>
-					<Button x:Name="edit_button" Click="edit_button_Click" Content="Edit\nPersonal\nInfo" HorizontalAlignment="Center" Margin="224,180,0,0" VerticalAlignment="Top" Height="190" Width="200" FontSize="16" Background="#FFAE0707" BorderThickness="0"/>
-					<Button x:Name="camera_button" Click="camera_button_Click" Content="Take\nPhoto" HorizontalAlignment="Center" Margin="5,550,231,-129" VerticalAlignment="Top" Height="190" Width="200" FontSize="16" Background="#FFAE0707" BorderThickness="0" Visibility="Collapsed"/>
+					<Button x:Name="pers_prog_button" Click="pers_prog_button_Click" HorizontalAlignment="Center" VerticalAlignment="Top" Height="190" Width="200" Margin="10,0,237,0" FontSize="16" Background="#FFAE0707" BorderThickness="0">
+						<Image Height="140" Source="/Assets/calendar.png" Stretch="Fill" Width="142"/>
+					</Button>
+					<Button x:Name="search_button" Click="search_button_Click" HorizontalAlignment="Center" Margin="230,0,6,0" VerticalAlignment="Top" Height="190" Width="200" FontSize="16" Background="#FFAE0707" BorderThickness="0">
+						<Image Height="148" Source="/Assets/search.png" Stretch="Fill" Width="154"/>
+					</Button>
+					<Button x:Name="declared_button" Click="declared_button_Click" HorizontalAlignment="Center" Margin="5,180,231,0" VerticalAlignment="Top" Height="190" Width="200" FontSize="16" Background="#FFAE0707" BorderThickness="0">
+						<Image Height="145" Source="/Assets/declared.jpg" Stretch="Fill" Width="150"/>
+					</Button>
+					<Button x:Name="edit_button" Click="edit_button_Click" HorizontalAlignment="Center" Margin="224,180,0,0" VerticalAlignment="Top" Height="190" Width="200" FontSize="16" Background="#FFAE0707" BorderThickness="0">
+						<Image Height="146" Source="/Assets/edit.png" Stretch="Fill" Width="158"/>
+					</Button>
+					<Button x:Name="camera_button" Click="camera_button_Click" HorizontalAlignment="Center" Margin="5,550,231,-129" VerticalAlignment="Top" Height="190" Width="200" FontSize="16" Background="#FFAE0707" BorderThickness="0">
+						<Image Height="147" Source="/Assets/camera.png" Stretch="Fill" Width="141"/>
+					</Button>
 					<Button x:Name="background_button" Click="background_button_Click" Content="Run \n in BG" HorizontalAlignment="Center" Margin="230,550,6,-129" VerticalAlignment="Top" Height="190" Width="200" FontSize="16" Background="#FFAE0707" BorderThickness="0" Visibility="Collapsed"/>
-                    <toolkit:HubTile x:Name="tile" Tap="tile_Tap" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="230,360,0,0" Width="200" Height="190" Background="#FFAE0707" FontSize="16"/>
-                    <toolkit:HubTile x:Name="tile_next_duty" Tap="tile_next_duty_Tap" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,360,0,0" Width="200" Height="190" Background="#FFAE0707" FontSize="16"/>
+                    <toolkit:HubTile x:Name="tile"  Tap="tile_Tap" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="230,360,0,0" Width="200" Height="190" Background="#FFAE0707" FontSize="16"/>
+                    <toolkit:HubTile x:Name="tile_next_duty" Tap="tile_next_duty_Tap" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,360,0,0" Width="200" Height="190" Background="#FFAE0707" FontSize="16">
+                    	<toolkit:HubTile.Foreground>
+                    		<ImageBrush Stretch="Fill"/>
+                    	</toolkit:HubTile.Foreground>
+                    </toolkit:HubTile>
 				</Grid>
 			</ScrollViewer>
 		</Grid>

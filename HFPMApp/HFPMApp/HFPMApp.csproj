@@ -93,6 +93,12 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Camera.xaml.cs">
+      <DependentUpon>Camera.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CameraAndLibrary.xaml.cs">
+      <DependentUpon>CameraAndLibrary.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Change_Duty_Page.xaml.cs">
       <DependentUpon>Change_Duty_Page.xaml</DependentUpon>
     </Compile>
@@ -115,6 +121,9 @@
       <DependentUpon>Edit_User.xaml</DependentUpon>
     </Compile>
     <Compile Include="HospitalContext.cs" />
+    <Compile Include="Library.xaml.cs">
+      <DependentUpon>Library.xaml</DependentUpon>
+    </Compile>
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="MainMenuPage.xaml.cs">
       <DependentUpon>MainMenuPage.xaml</DependentUpon>
@@ -146,6 +155,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Page Include="Camera.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CameraAndLibrary.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Change_Duty_Page.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -171,6 +188,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Edit_User.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Library.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -212,6 +233,13 @@
     <Content Include="Assets\ApplicationIcon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\calendar.png" />
+    <Content Include="Assets\camera.png" />
+    <Content Include="Assets\declared.jpg" />
+    <Content Include="Assets\edit.png" />
+    <Content Include="Assets\next_duties.png" />
+    <Content Include="Assets\notifications.png" />
+    <Content Include="Assets\search.png" />
     <Content Include="Assets\Tiles\110x110.png" />
     <Content Include="Assets\Tiles\202x202.png" />
     <Content Include="Assets\Tiles\FlipCycleTileLarge.png">
@@ -284,6 +312,9 @@
       <Project>{23FEFFA6-D508-458B-9360-26F8F40546E6}</Project>
       <Name>HFPMApp.Scheduler</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="next_duties.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />

@@ -53,9 +53,7 @@
 					<Button x:Name="background_button" Click="background_button_Click" Content="Run \n in BG" HorizontalAlignment="Center" Margin="230,550,6,-129" VerticalAlignment="Top" Height="190" Width="200" FontSize="16" Background="#FFAE0707" BorderThickness="0" Visibility="Collapsed"/>
                     <toolkit:HubTile x:Name="tile"  Tap="tile_Tap" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="230,360,0,0" Width="200" Height="190" Background="#FFAE0707" FontSize="16"/>
                     <toolkit:HubTile x:Name="tile_next_duty" Tap="tile_next_duty_Tap" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,360,0,0" Width="200" Height="190" Background="#FFAE0707" FontSize="16">
-                    	<toolkit:HubTile.Foreground>
-                    		<ImageBrush Stretch="Fill"/>
-                    	</toolkit:HubTile.Foreground>
+                    	
                     </toolkit:HubTile>
 				</Grid>
 			</ScrollViewer>

@@ -88,12 +88,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\HFPMApp\already_logged.txt">
+    <Resource Include="..\HFPMApp\already_logged.txt">
       <Link>already_logged.txt</Link>
-    </Content>
-    <Content Include="..\HFPMApp\server_ip.txt">
+    </Resource>
+    <Resource Include="..\HFPMApp\server_ip.txt">
       <Link>server_ip.txt</Link>
-    </Content>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">

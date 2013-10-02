@@ -60,8 +60,9 @@ namespace HFMPApp.Scheduler
 
 
 
-
+            
             String server_ip = String.Empty;
+            /*
             try
             {
                 using (StreamReader sr = new StreamReader("server_ip.txt"))
@@ -76,6 +77,8 @@ namespace HFMPApp.Scheduler
                 MessageBox.Show(e.Message);
             }
 
+            MessageBox.Show(server_ip);
+
             String logged = String.Empty;
             try
             {
@@ -85,6 +88,14 @@ namespace HFMPApp.Scheduler
                     sr2.Close();
                 }
             }
+            catch (FileNotFoundException fnf)
+            {
+                MessageBox.Show(fnf.Message);
+            }
+            catch (UnauthorizedAccessException ua)
+            {
+                MessageBox.Show(ua.Message);
+            }
             catch (Exception e)
             {
                 MessageBox.Show("The file could not be read:");
@@ -92,12 +103,13 @@ namespace HFMPApp.Scheduler
             }
 
 
+            
             String[] words = logged.Split(',');
             PhoneApplicationService.Current.State["Username"] = words[0];
-            PhoneApplicationService.Current.State["Language"] = words[1];
-
-
-            String username = PhoneApplicationService.Current.State["Username"].ToString();
+            */
+            
+            String username = String.Empty;
+            //username = PhoneApplicationService.Current.State["Username"].ToString();
             Random rnd = new Random();
             int rand = rnd.Next(1, 10000);
 
@@ -106,7 +118,10 @@ namespace HFMPApp.Scheduler
             client.DownloadStringCompleted += client_DownloadStringCompleted;
 
             // REST Call
+            server_ip = "192.168.1.5";
+            username = "q";
             String url = "http://" + server_ip + "/HFPM_Server_CI/index.php/restful/api/notificationsnodelete/username/" + username + "/randomnum/" + rand;
+            MessageBox.Show(url);
             client.DownloadStringAsync(new Uri(url));
 
 
@@ -154,6 +169,7 @@ namespace HFMPApp.Scheduler
 
 
                 this.downloadedText = e.Result;
+                MessageBox.Show(downloadedText);
                 // decode JSON
                 RootObject jsonObject = JsonConvert.DeserializeObject<RootObject>(this.downloadedText);
 

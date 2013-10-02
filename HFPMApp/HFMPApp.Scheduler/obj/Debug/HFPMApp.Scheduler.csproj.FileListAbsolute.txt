@@ -5,3 +5,4 @@ C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFMPApp.Scheduler
 C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFMPApp.Scheduler\Bin\Debug\Newtonsoft.Json.dll
 C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFMPApp.Scheduler\Bin\Debug\Newtonsoft.Json.xml
 C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFMPApp.Scheduler\obj\Debug\HFPMApp.Scheduler.csprojResolveAssemblyReference.cache
+C:\Users\Basilis\documents\visual studio 2012\Projects\HFPMApp\HFMPApp.Scheduler\obj\Debug\HFMPApp.Scheduler.g.resources
